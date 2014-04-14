@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Sandbox | videofeed | videofeed</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="../JSON/Feeds.js"></script>
+
+<script>
+$j(document).ready(function(){
+	
+mmg_feed = new Feed('MMG Arts','http://mmg-arts.wnet.org/video/feed/','RSS');
+mmg_feed.pub_div = 'video_feed';
+mmg_feed.display = 'video-grid';
+mmg_feed.article_count = 12;
+mmg_feed.media_override.push(new Array('video','video.pbs.org','video.rmpbs.org'));
+
+mmg_feed.renderFeed();
+
+});
+</script>
+<style>
+.rss_video{
+	float:left;
+	width:calc(100%/3 - 6px);
+/*	width:250px;*/
+	padding:3px;
+	height:250px;
+	overflow: hidden;
+}
+
+
+</style>
+
+
+</head>
+<body>
+<div id="video_feed" style="width:579px;padding:15px;">
+</div>
+
+</body>
+</html>

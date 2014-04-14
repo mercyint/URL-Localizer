@@ -1,0 +1,220 @@
+
+<!doctype html>
+
+<html>
+
+<head>
+   <meta charset="utf-8">
+
+   <title>Video grid · Standalone demo · Flowplayer</title>
+
+   <!-- optimize mobile versions -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!-- The "minimalist" skin, "minimalist.css", "functional.css" and "playful.css" are available -->
+   <link rel="stylesheet" href="//releases.flowplayer.org/5.4.6/skin/minimalist.css">
+
+   <!-- Minimal styling for this standalone page (can be removed) -->
+   <style>
+   body {
+      font-family: "myriad pro", tahoma, verdana, arial, sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+   }
+   #content {
+      margin: 50px auto;
+      max-width: 982px;
+   }
+  
+
+#grid{/* wrapper element for all players */background:url("skin/img/play_black.png") 0 no-repeat;padding:0;height:434px;position:relative;}
+#grid .is-splash .fp-ui{background-position:0 -100em}
+#grid .flowplayer{/* hard-coded aspect ratio. (not working smoothly on smaller devices)  */width:239px;height:133px;position:absolute;-webkit-transition:all .5s;-moz-transition:all .5s;transition:all .5s;}
+#grid .flowplayer.is-mouseover.is-splash .fp-ui{background-position:center}
+#grid .flowplayer.is-ready,#grid .flowplayer.is-loading{background:#333 !important;top:15px !important;left:135px !important;width:700px;height:400px;z-index:10;-webkit-box-shadow:0 0 20px #000;-moz-box-shadow:0 0 20px #000;box-shadow:0 0 20px #000}
+#grid #player0{top:0;left:0}
+#grid #player1{top:0;left:249px}
+#grid #player2{top:0;left:498px}
+#grid #player3{top:0;left:747px}
+#grid #player4{top:143px;left:0}
+#grid #player5{top:143px;left:249px}
+#grid #player6{top:143px;left:498px}
+#grid #player7{top:143px;left:747px}
+#grid #player8{top:286px;left:0}
+#grid #player9{top:286px;left:249px}
+#grid #player10{top:286px;left:498px}
+#grid #player11{top:286px;left:747px}
+      </style>
+
+   <!-- CSS for this demo   -->
+
+   <link rel="stylesheet" href="//flowplayer.org/media/css/demos/playlist/grid.css"> 
+   <!-- Flowplayer depends on jquery -->
+   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+   <!-- Flowplayer-->
+   <script src="//releases.flowplayer.org/5.4.6/flowplayer.min.js"></script>
+
+   
+
+</head>
+
+<body>
+<div id="content">
+
+<!-- no need for playlist plugin -->
+<div id="grid" class="demo">
+
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player0" data-ratio="0.5625">
+         <video poster="skin/img/play_black.png">
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night1/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night1/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night1/640x360.ogv">
+   </video>
+   	<h2>Test Title</h2>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player1" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night2/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night2/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night2/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player2" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night3/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night3/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night3/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player3" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night4/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night4/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night4/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player4" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night5/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night5/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night5/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player5" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night6/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night6/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night6/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player6" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night7/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night7/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night7/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player7" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night2/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night2/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night2/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player8" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night3/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night3/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night3/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player9" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night4/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night4/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night4/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player10" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night5/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night5/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night5/640x360.ogv">
+   </video>
+      </div>
+         
+      <div class="flowplayer is-splash is-closeable"
+         id="player11" data-ratio="0.5625">
+         <video>
+   <source type="video/webm"
+           src="http://stream.flowplayer.org/night6/640x360.webm">
+   <source type="video/mp4"
+           src="http://stream.flowplayer.org/night6/640x360.mp4">
+   <source type="video/ogg"
+           src="http://stream.flowplayer.org/night6/640x360.ogv">
+   </video>
+      </div>
+   
+</div>
+
+</div><!--/end content -->
+</body>
+
+</html>

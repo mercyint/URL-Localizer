@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Sandbox | animation.html</title>
+<style>
+#miCanvas{
+	border:#ccc 1px solid;
+	height:230px;
+	width:300px
+}
+</style>
+<script>
+function draw(x,y){
+	var canvas = document.getElementById('miCanvas');
+	var ctx = canvas.getContext('2d');
+	ctx.save();
+	ctx.clearRect(0,0,300,250);
+	ctx.fillStyle = "rgba(0,200,0,1)";
+	ctx.fillRect(x,20,50,50);
+	ctx.restore();
+	x += 1;
+	var loopTimer = setTimeout('draw('+x+','+y+')',20);
+}
+</script>
+</head>
+<body>
+<button onclick="draw(0,100)">Draw</button><br>
+<canvas id="miCanvas"></canvas>
+</body>
+</html>

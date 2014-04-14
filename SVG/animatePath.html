@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Sandbox | /Volumes/Macintosh HD/Users/sdudley/Sites/sandbox/SVG | animatePath.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="raphael-min.js"></script>
+
+<script>
+//var e;raphael-min.js
+var myPath;
+var animation;  //make the variables global, so you can access them in the animation function
+var interval;  //make the variables global, so you can access them in the animation function
+var animated =  new Array();;
+
+window.onload = function() {
+
+/*    var r = Raphael("holder", 620, 420),
+        discattr = {
+            fill: "#666",
+            stroke: "none"
+        };
+
+    function curve(x, y, zx, zy, colour) {
+        var ax = Math.floor(Math.random() * 200) + x;
+        var ay = Math.floor(Math.random() * 200) + (y - 100);
+        var bx = Math.floor(Math.random() * 200) + (zx - 200);
+        var by = Math.floor(Math.random() * 200) + (zy - 100);
+        e = r.circle(x, y, 5, 5).attr({
+            stroke: "none",
+            fill: colour
+        });
+        var path = [["M", x, y], ["C", ax, ay, bx, by, zx, zy]];
+            myPath = r.path(path).attr({
+                stroke: colour,
+                "stroke-width": 2,
+                "stroke-linecap": "round",
+                "stroke-opacity": 0.2
+            });
+        controls = r.set(
+            r.circle(x, y, 5).attr(discattr), r.circle(zx, zy, 5).attr(discattr));
+    }
+    curve(100,100,200,300,"red");
+
+    animation = setInterval("animate()", 10);  //execute the animation function all 10ms (change the value for another speed)
+    
+/*    this_path = r2.path([["M",10,10],["l",200,0]]).attr({
+                stroke: 'blue',
+                "stroke-width": 2,
+                "stroke-linecap": "round",
+                "stroke-opacity": 0.2	    
+    });
+    this_circ = r2.circle(10,10,3).attr({
+                fill: 'blue',
+                "stroke-width": 2,
+                "stroke-linecap": "round",
+                "stroke-opacity": 0.2	    
+	    
+    });
+    animateAlong(this_circ,this_path);
+	interval = window.setInterval("animateAlong("+this_circ+","+this_path+")", 10);*/
+    var r2 = Raphael("my_map", 300,300);
+    
+    pl = new PowerLine("pl",r2,'[["M",10,10],["l",200,0]]');
+    animated.push(pl);
+    pl.render();
+    pl2 = new PowerLine("pl2",r2,'[["M",10,20],["l",200,0]]');
+    animated.push(pl2);
+    pl2.render();
+//    pl.animate();
+//    pl.interval = setInterval(pl.animate(), 10);
+    
+    
+};
+
+/*var counter = 0;    // a counter that counts animation steps
+function animate(){
+    if(myPath.getTotalLength() <= counter){   //break as soon as the total length is reached
+    	counter = 0;
+//        clearInterval(animation);
+//        return;
+    }
+    var pos = myPath.getPointAtLength(counter);   //get the position (see Raphael docs)
+    e.attr({cx: pos.x, cy: pos.y});  //set the circle position
+    
+    counter++; // count the step counter one up
+};
+
+var this_counter = 0;    // a counter that counts animation steps
+function animateAlong(object,guide){
+	console.log('animateAlong');
+	if(guide.getTotalLength() <= this_counter){ //stop or loop animation
+		this_counter = 0;
+	}
+	var pos = guide.getPointAtLength(this_counter);
+	object.attr({cx: pos.x, cy:pos.y});
+	
+	this_counter++;
+	
+}*/
+
+function PowerLine(id,canvas,path){
+	this.id = id;
+	this.path = path;
+	this.canvas = canvas;
+	this.counter = 0;
+	this.interval;
+	
+	this.render = function(){
+		
+    	eval(this.id+"power_line = this.canvas.path("+this.path+")");
+    	eval(this.id+"power_line").attr({
+                stroke: 'blue',
+                "stroke-width": 2,
+                "stroke-linecap": "round",
+                "stroke-opacity": 0.2	    
+				});
+	    eval(this.id+"power_circle = this.canvas.circle(10,10,3)");
+	    eval(this.id+"power_circle").attr({
+	                fill: 'blue',
+	                "stroke-width": 2,
+	                "stroke-linecap": "round",
+	                "stroke-opacity": 0.2	    
+		    
+	    });
+	}
+	
+	this.animate = function(){
+		if(eval(this.id+"power_line").getTotalLength() <= this.counter){ //stop or loop animation
+			this.counter = 0;
+		}
+		var pos = eval(this.id+"power_line").getPointAtLength(this.counter);
+		eval(this.id+"power_circle").attr({cx: pos.x, cy:pos.y});
+		
+		this.counter++;
+		this.counter++;
+		
+	}
+	
+}
+
+plAnimation = setInterval("animatePowerLines()",15);
+
+function animatePowerLines(){
+	for(var i = 0 ; i < animated.length; i++){
+		animated[i].animate();
+	}	
+}
+
+
+</script>
+
+
+</head>
+<body>
+<div id="holder"></div>
+
+<div id="my_map"></div>
+</body>
+</html>

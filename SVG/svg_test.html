@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="raphael-min.js"></script>
+<script src="waubs_5.js"></script>
+
+<title>svg test	</title>
+<style>
+#siteDiv {
+	height:480px;
+	width:640px;
+}
+#jqDiv {
+	height:480px;
+	width:640px;
+	background:#ccc
+}
+</style>
+
+<script>
+$(document).ready(function()
+{
+	  $.ajax({
+		type: "GET",
+		url: "svg_boxes.svg",
+		dataType: "xml",
+		success: parseXml
+	  }); 
+	  
+	  function parseXml(data){
+//		  $('#targetDiv').append(data);
+	  }
+
+
+	//drawSiteMap("siteDiv");
+	raphDrawMap();
+
+
+
+
+
+});
+
+var greenBox;
+var B11;
+var IS11;
+var B12;
+var IS12;
+function raphDrawMap(){
+	var rsr = Raphael('siteDiv', '640', '480'); 	
+	
+	var B11 = rsr.path(fixPoints("768.761,1015.75 768.761,1007.461 788.712,1007.461 788.712,989.352 808.357,989.352 808.357,978.915 928.99,978.915 928.99,954.666 909.038,954.666 909.038,919.673 928.99,919.673 928.99,900.335 948.635,900.335 948.635,891.434 969.507,891.434 969.507,882.532 1073.257,882.532 1073.257,892.048 1093.209,892.048 1093.209,918.446 1112.547,918.446 1112.547,954.666 1132.806,954.666 1132.806,981.371 1153.064,981.371 1153.064,1018.205 1171.481,1018.205 1171.481,1055.039 1192.047,1055.039 1192.047,1080.823 1173.323,1080.823 1173.323,1098.933 1048.701,1098.933 1048.701,1081.13 1027.828,1081.13 1027.828,1053.812 988.845,1053.812 988.845,1036.622 968.586,1036.622 968.586,1024.344 811.734,1024.344 811.734,1015.75")); 
+	var B12 = rsr.path(fixPoints("629.098,1106.607 648.743,1106.607 648.743,1087.576 669.615,1087.576 669.615,1069.159 708.598,1069.159 708.598,1043.375 729.778,1043.375 729.778,1034.167 748.502,1034.167 748.502,1024.344 768.761,1024.344 768.761,1015.749 811.735,1015.749 811.735,1024.344 893.383,1024.344 893.383,1034.167 912.414,1034.167 912.414,1051.356 933.287,1051.356 933.287,1087.576 913.335,1087.576 913.335,1105.993 893.997,1105.993 893.997,1115.509 873.125,1115.509 873.125,1133.312 853.479,1133.312 853.479,1150.501 835.369,1150.501 835.369,1160.631 813.883,1160.631 813.883,1169.532 709.826,1169.532 709.826,1160.324 650.277,1160.324 650.277,1151.729 629.098,1151.729")); 
+
+	B11.attr({id:'B11',
+			 fill: '#fff',
+			 stroke: '#000000',
+			 "stroke-width": '1.53',
+			 "stroke-dasharray": '3.0695,3.0695,6.139,3.0695'
+			 });
+	B11.node.onmouseover = function(){
+		B11.animate({fill: "#ccf"},200);
+	}
+	B11.node.onmouseout = function(){
+		B11.animate({fill: "#fff"},200);
+	}//	console.log(B11);
+	IS11 = rsr.rect(400, 52, 13, 5); 
+	IS11.attr({id: 'IS11',x: '400',y: '52',fill: '#7A7A7A',parent: ' siteGroup','stroke-width': '0','stroke-opacity': '1'}).data('id', 'IS11'); 
+
+
+	B12.attr({id:'B12',
+			 fill: '#fff',
+			 stroke: '#000000',
+			 "stroke-width": '1.53',
+			 "stroke-dasharray": '3.0695,3.0695,6.139,3.0695'
+			 });
+	B12.node.onmouseover = function(){
+		B12.animate({fill: "#ccf"},200);
+	}
+	B12.node.onmouseout = function(){
+		B12.animate({fill: "#fff"},200);
+	}//	console.log(B11);
+	B12.node.warning = function(){
+		B12.animate({fill: "orange"},200);	
+	};
+
+	IS12 = rsr.rect(160, 196, 13, 5); 
+	IS12.attr({id: 'IS12',x: '160',y: '196',fill: '#7A7A7A',parent: ' siteGroup','stroke-width': '0','stroke-opacity': '1'}).data('id', 'IS12'); 
+
+	
+	
+	var rsrGroups = [];
+	
+	/*var rsr = Raphael('siteDiv', '575.3', '297.015'); 
+	var siteGroup = rsr.set(); 
+	siteGroup.attr({'id': ' siteGroup','name': ' siteGroup'}); 
+	var B11_1_ = rsr.set(); 
+	var B11 = rsr.path("M 768.761,1015.75 768.761,1007.461 788.712,1007.461 788.712,989.352 808.357,989.352 808.357,978.915 928.99,978.915 928.99,954.666 909.038,954.666 909.038,919.673 928.99,919.673 928.99,900.335 948.635,900.335 948.635,891.434 969.507,891.434 969.507,882.532 1073.257,882.532 1073.257,892.048 1093.209,892.048 1093.209,918.446 1112.547,918.446 1112.547,954.666 1132.806,954.666 1132.806,981.371 1153.064,981.371 1153.064,1018.205 1171.481,1018.205 1171.481,1055.039 1192.047,1055.039 1192.047,1080.823 1173.323,1080.823 1173.323,1098.933 1048.701,1098.933 1048.701,1081.13 1027.828,1081.13 1027.828,1053.812 988.845,1053.812 988.845,1036.622 968.586,1036.622 968.586,1024.344 811.734,1024.344 811.734,1015.75 z"); 
+	B11.attr({id: 'B11',fill: 'none',stroke: '#000000',"stroke-width": '1.53',"stroke-dasharray": '3.0695,3.0695,6.139,3.0695',parent: ' siteGroup','stroke-opacity': '1'}).data('id', 'B11'); 
+	var IS11 = rsr.rect(1024.452, 946.992, 12.892, 4.604); 
+	IS11.attr({id: 'IS11',x: '1024.452',y: '946.992',fill: '#7A7A7A',parent: ' siteGroup','stroke-width': '0','stroke-opacity': '1'}).data('id', 'IS11'); 
+	B11_1_.attr({'id': 'B11_1_','parent': ' siteGroup','name': 'B11_1_'}); 
+	
+	var B12_1_ = rsr.set(); 
+	var B12 = rsr.path("M 629.098,1106.607 648.743,1106.607 648.743,1087.576 669.615,1087.576 669.615,1069.159 708.598,1069.159 708.598,1043.375 729.778,1043.375 729.778,1034.167 748.502,1034.167 748.502,1024.344 768.761,1024.344 768.761,1015.749 811.735,1015.749 811.735,1024.344 893.383,1024.344 893.383,1034.167 912.414,1034.167 912.414,1051.356 933.287,1051.356 933.287,1087.576 913.335,1087.576 913.335,1105.993 893.997,1105.993 893.997,1115.509 873.125,1115.509 873.125,1133.312 853.479,1133.312 853.479,1150.501 835.369,1150.501 835.369,1160.631 813.883,1160.631 813.883,1169.532 709.826,1169.532 709.826,1160.324 650.277,1160.324 650.277,1151.729 629.098,1151.729 z"); 
+	B12.attr({id: 'B12',fill: 'none',stroke: '#000000',"stroke-width": '1.53',"stroke-dasharray": '3.0695,3.0695,6.139,3.0695',parent: ' siteGroup','stroke-opacity': '1'}).data('id', 'B12'); 
+	var IS12 = rsr.rect(784.722, 1071.153, 12.892, 4.604); 
+	IS12.attr({id: 'IS12',x: '784.722',y: '1071.153',fill: '#7A7A7A',parent: ' siteGroup','stroke-width': '0','stroke-opacity': '1'}).data('id', 'IS12'); 
+	B12_1_.attr({'id': 'B12_1_','parent': ' siteGroup','name': 'B12_1_'}); 
+	var rsrGroups = [ siteGroup,B11_1_,B12_1_];
+	*/
+	
+}
+
+function fixPoints(pointArr){
+	var newPoints;
+	var returnString = '';
+	newPoints = pointArr.split(" ");
+	for(i=0;i < newPoints.length;i++){
+		if(newPoints[i] != 'M' && newPoints[i] != 'z'){
+			coords = newPoints[i].split(',');
+			newX = Math.round(coords[0]) - 625;
+			newY = Math.round(coords[1]) - 875;
+			writePoint = newX +" "+ newY;
+			if(i == 0){
+				returnString = "M ";
+			}else{
+				returnString = returnString + " L ";
+			}
+			returnString = returnString + writePoint;
+		}
+	}
+	returnString = returnString + " z";
+	return returnString;
+}
+
+
+function ohNoes(svgObj){
+	$('#'+svgObj).animate({fill:"#f00"},500);
+}
+
+</script>
+
+</head>
+
+<body>
+<a href="#" onclick="B12.node.warning()">B11 Alarm</a>
+<div id="siteDiv">
+</div>
+
+
+
+</body>
+</html>

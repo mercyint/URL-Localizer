@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>Sandbox | JSON | json_pull.html</title>
+ <link rel="stylesheet" href="./jqui/css/RMPBStheme/jquery-ui-1.10.3.custom.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="./Feeds.js"></script>
+<script src="./Stations.js"></script>
+<script src="../geolocation/GeoData.js"></script>
+<script src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+
+<script>
+
+
+$j(document).ready(function()
+{
+
+allStations = new StationGroup();
+KUVO = new Station();
+KUVO.name = 'KUVO';
+KUVO.description =  '<p class="description"> Every weekday morning, tune in for music and news with "First Take" with hosts Carlos Lando and Steve Chavis.NPR\'s Top of the Hour News can be heard throughout the day, Monday-Friday. Join the conversation: firsttake@kuvo.org or 720-254-1071 </p>';
+KUVO.title = 'jazz89 KUVO/KVJZ';
+KUVO.url = 'http://www.publicbroadcasting.net/kuvo/news.newsmain?action=section&amp;SECTION_ID=1';
+KUVO.logo = 'http://d3uly0oc2bnj1.cloudfront.net/hostedbento-prod/filer_public/2012/12/14/kuvo-100x30.jpg';
+
+KUVO.addLocation('Denver','KUVO','89.3',39.730278,-105.249722);
+KUVO.addLocation('Breckenridge','K209ED','89.7',39.273500,-105.584600);
+//KUVO.addLocation('Vail','KVJZ','88.5',lat,lng);
+KUVO.addFeed('FirstLook','http://www.publicbroadcasting.net/kuvo/news/rss/1.xml','RSS');
+console.log(KUVO);
+
+KUVO.feed.streaming_url = "http://www.kuvo.org/index.php?s=23804";
+KUVO.feed.streaming_icon = "audio_sm.png";
+
+
+KVNF = new Station();
+KVNF.name = 'KVNF';
+KVNF.description =  '';
+KVNF.title = 'KVNF';
+KVNF.url = 'http://www.kvnf.org/kvnf-news';
+KVNF.logo = '';
+
+KVNF.addLocation('Paonia','KVNF','90.9',38.5228,  -107.3940);
+KVNF.addLocation('Montrose','KVMT','89.1',38.1852, -108.1202);
+KVNF.addFeed('KVNF News','http://www.kvnf.org/feeds/term/11/rss.xml','RSS');
+
+
+allStations.addStation(KUVO);
+allStations.addStation(KVNF);
+
+
+
+
+
+
+miFeeds = new FeedGroup();
+//miFeeds.addFeed("INews","http://www.inewsnetwork.org/category/psj/",'JSON');
+miFeeds.addFeed("INews at RMPBS","http://www.inewsnetwork.org/category/psj/feed/",'RSS');
+miFeeds.feeds[0].source_name = "I-News";
+miFeeds.feeds[0].default_image = "audio_sm.png";
+
+artsNews = new FeedGroup();
+artsNews.title = "Art News";
+artsNews.addFeed("ARTNews","http://www.artnews.com/feed/",'RSS');
+artsNews.addFeed("MoMA","http://www.moma.org/feeds/events_films.rss",'RSS');
+artsNews.footer = 'I love art!';
+
+miFeeds.addFeed("Art News",artsNews,'group');
+
+localNews = allStations.getFeeds();
+localNews.title = "Local News";
+if(typeof GeoData !== 'undefined'){
+localNews.geoDataEnabled = true;
+}
+miFeeds.addFeed("Local News",localNews,'group');
+
+
+
+miFeeds.output = "tabs";
+miFeeds.article_count = 10;
+//miFeeds.footer = "miFeeds rock!"
+
+miFeeds.renderFeeds();
+
+excerptTest = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');
+excerptTest.source_name = 'INews';
+excerptTest.title = 'News from INews, the Newsy News Newsers';
+//excerptTest.title_url = "http://mysite.com";
+excerptTest.display = 'excerpt';
+excerptTest.pub_div = 'excerptsDiv';
+excerptTest.title_class="section-header";
+excerptTest.title_style="background: #40324C; color: white";
+excerptTest.box_class = "purple_border";
+excerptTest.item_class = "orange_border";
+excerptTest.default_image = "audio_sm.png";
+excerptTest.renderFeed();
+
+});
+
+</script>
+<style>
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+#feed-group {
+	width: 312px;
+}
+#feed-group div li,
+#feed-group div h2{
+	overflow: hidden;
+}
+
+#feed-group div h2,
+#feed-group div h2 a,
+#feed-group div li,
+#feed-group div div,
+#feed-group div li a,
+#feed-group div span,
+#feed-group div span a{
+	color:#666;
+	font-size:10px;
+	text-decoration: none;
+	font-weight:normal;
+	padding:2px 0px;
+	margin:0px;
+	max-width: 300px;
+	white-space: nowrap; 
+}
+
+a.streaming_image{
+	padding:0;
+	margin:0;
+	padding-right: 2px;
+}
+a.streaming_image img{
+	vertical-align: bottom;
+}
+
+#feed-group div h2 a,
+#feed-group div li a{
+	position: relative;
+	left: 0px;
+	-webkit-transition: left 1s ease;
+	-moz-transition: left 1s ease;
+	-o-transition: left 1s ease;
+	transition: left 1s ease;
+}
+
+
+
+#feed-group div h2 a:hover,
+#feed-group div li a:hover{
+	text-decoration: underline;
+}
+
+#feed-group form{
+	margin:3px;
+	border-bottom: 1px solid #ccc;
+	padding:3px;
+}
+
+#feed-group input[type=text]{
+	background: #efefef;
+	height: 20px;
+	font-size:14px;
+	font-style: italic;
+	color: #666;
+}
+
+#excerptsDiv div div {
+width:100%;
+}
+#excerptsDiv div div li{
+width:100%;
+overflow: hidden;
+padding-right: 5px;
+white-space: nowrap; 
+}
+
+
+#excerptsDiv div li,
+#excerptsDiv div li a,
+#excerptsDiv div span,
+#excerptsDiv div span a{
+	color:#666;
+	font-size:12px;
+	text-decoration: none;
+	font-weight:normal;
+	padding:2px 0px;
+	margin:0px;
+	white-space: nowrap; 
+}
+
+.purple_border {
+	border:1px solid purple;
+}
+
+.orange_border{
+	border:1px solid orange;	
+}
+
+/*	max-width: 200px; */
+
+
+</style>
+</head>
+<body>
+
+	<div id="feed-group"></div>
+	<div id="excerptsDiv"></div>
+</body>
+</html>

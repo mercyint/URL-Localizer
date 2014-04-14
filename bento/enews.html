@@ -1,0 +1,147 @@
+{% load cms_tags sekizai_tags filertags %}<!doctype html>
+
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+    <head>
+        <title>{% page_attribute page_title %}</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="{% page_attribute meta_description %}" />
+        <meta name="keywords" content="{% page_attribute meta_keywords %}" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="" />
+
+        <!--   open graph tags for each page -->
+        <meta property="og:title" content="{% page_attribute page_title %}" />
+        <meta property="og:type" content="" />
+        <meta property="og:image" content="" />
+        <meta property="og:url"  content="" />
+        <meta property="og:site_name" content="" />
+        <meta property="og:description" content="{% page_attribute meta_description %}" />
+        <meta property="fb:admins" content="" />
+        <meta property="og:video" content=""/>
+        <meta property="og:video:type" content="application/x-shockwave-flash" />
+        <meta property="og:video:width" content="512" />
+        <meta property="og:video:height" content="328" />
+
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <link rel="stylesheet" href="{{'media/station/css/nav-menu.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/nivo-slider.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/nivo-default2.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/station-themes.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/modules.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/tango/skin.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/ff.css'|filerfile}}">
+        <link rel="stylesheet" href="{{'media/station/css/station-blog-article.css'|filerfile}}">
+
+        <script src="http://www.pbs.org/modules/dtv/bootstraps/1.5/whatson.js"></script>
+        <link rel="stylesheet" href="{{'media/station/css/station-style.css'|filerfile}}">
+
+        <script src="{{'media/station/js/libs/modernizr-2.0.6.min.js'|filerfile}}"></script>
+
+        {% render_block "css" %}
+        <script type='text/javascript'>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' == document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+        </script>
+
+        {% placeholder extra_head inherit %}
+
+        <script type="text/javascript">
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-34208929-1'], ['_trackPageview']);
+        </script>
+    </head>
+    <body id="tpl-stations" class="{% placeholder theme inherit %}">
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+        {% cms_toolbar %}
+        <div class="body-pattern clearfix">
+            <div id="container">
+                <header>
+                    {% placeholder header inherit %}
+                </header>
+                <div id="main" class="clearfix" role="main">
+                    {% block content %}{% endblock content %}
+                </div>
+                <footer>
+                    {% placeholder footer inherit %}
+                </footer>
+            </div><!--! end of #container -->
+        </div><!-- // END Body Pattern -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{{'media/station/js/libs/jquery-1.6.2.min.js'|filerfile}}"><\/script>')</script>
+      <script type="text/javascript">
+          jQuery.ajaxSetup({
+              beforeSend: function(xhr, s) {
+                  s.url = s.url.replace(new RegExp("^"), "{{ PROXY_PREFIX }}");
+                  return true;
+              }
+          });
+      </script>
+        <script language="javascript" type="text/javascript">
+            $js162 = jQuery.noConflict();
+        </script>
+        <script src="{{'media/station/js/libs/jquery-ui-1.8.16.min.js'|filerfile}}"></script>
+        <script src="{{'media/station/js/mylibs/jquery.hoverIntent.minified.js'|filerfile}}"></script>
+        <script src="{{'media/station/js/mylibs/site-nav.js'|filerfile}}"></script>
+        <script defer="" src="{{'media/station/js/plugins.js'|filerfile}}"></script>
+        <script defer="" src="{{'media/station/js/script.js'|filerfile}}"></script>
+        <script type="text/javascript" src="{{'media/station/js/mylibs/jquery.nivo.slider.pack.js'|filerfile}}"></script>
+        <script src="{{'media/station/js/mylibs/jquery.jcarousel.min.js'|filerfile}}"></script>
+        <script src="{{'media/station/blog.js'|filerfile}}"></script>
+        <script src="{{ '/_bento_media/js/pbs-player-responsive.js'|filerfile }}"></script>
+        <script type="text/javascript">
+            $js162(document).ready(function() {
+                $js162('#slider').nivoSlider({directionNavHide:false, effect:'fade', animSpeed:300, pauseTime: 10000, captionOpacity: 100});
+            });
+        </script>
+        <script type="text/javascript">
+            $js162(document).ready(function() {
+                $js162('#feature-bucket-list').jcarousel({
+                    wrap: 'circular'
+                });
+            });
+        </script>
+
+        <!--[if lt IE 7 ]>
+        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+        <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+        <!--[if IE 6]>
+        <script type="text/javascript" src="{{'media/station/js/DD_belatedPNG_0.0.8a.js'|filerfile}}"></script>
+        <script type="text/javascript" src="{{'media/station/js/initDD_belatedPNG.js'|filerfile}}"></script>
+        <![endif]-->
+
+        {% render_block "js" %}
+
+        <script type='text/javascript'>
+             (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var arr = document.getElementsByTagName('script');
+                var found = false; for(var i=0; i<arr.length; i++){ if(arr[i].src === ga.src) { found = true; break; } }
+                if(found == false) { var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); }
+              })();
+        </script>
+    </body>
+</html>
+​

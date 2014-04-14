@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Sandbox |  | Untitled.html</title>
+
+<style>
+
+body {
+	color:#666;
+	font-family:"Helvetica Neue";
+	font-size: 14px;
+	padding: 0px;
+	margin: 0px;
+	background-image: url("http://sdudley.local/~sdudley/images/gradient.jpg");
+	background-repeat: repeat-x;
+}
+#header {
+	width:100%;
+	text-align: center;
+	background-color: pink;
+}
+#header #logo {
+	background: aqua;
+	float:left;
+	width:50%;
+	text-align: right;
+}
+#action_box{
+	position:absolute;
+	z-index:999;
+	float:right;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+button {
+	float:left;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<div id="action_box">Do this <br /> and this<br />and this</div>
+<div id="header" class="clearfix">
+	<div id="logo">
+		<img src="stupid" height="150" width="300" />
+	</div>
+</div>
+<div id="content" class="clearfix"></div>
+<button>Button 1</button>
+<button>Button 2</button>
+<button>Button 3</button>
+<button>Button 4</button>
+</body>
+</html>

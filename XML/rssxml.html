@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+
+<script>
+$(function() {
+   parseRSS('http://pw.myersinfosys.com/rmpbs/highlights.xml');
+});
+
+function parseRSS(url) {
+  $.ajax({
+    url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
+    dataType: 'json',
+    success: function(data) {
+		console.log(data);
+/*      $.each(data.responseData.feed.entries, function() {
+        $('#results').append(this.link + '<br />');
+      })*/
+    }
+  });
+}
+
+</script>
+
+</head>
+
+<body>
+<div id="results">
+</div>
+
+
+</body>
+</html>

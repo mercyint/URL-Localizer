@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<title>Untitled Document</title>
+</head>
+
+<script>
+
+
+$(document).ready(function()
+{
+	  $.ajax({
+		type: "GET",
+		url: "https://www.dropbox.com/s/i7pvub7fuzj4pib/highlights.xml",
+		dataType: "xml",
+		success: parseXml
+	  }); 
+	
+
+	function parseXml(new_xml)
+	{
+		//xmlDoc = $.parseXML('<airlist-list><airlist>   <air-date type="date">2013-05-13</air-date>   <air-format>HD</air-format>   <air-future>F</air-future>   <air-id type="integer">328522</air-id>   <air-lsecs type="integer">5206</air-lsecs>   <air-t-date type="datetime">2013-05-13T21:00:00-04:00</air-t-date>   <air-time type="datetime">2000-01-01T21:00:00-05:00</air-time>   <alt-sched> </alt-sched>   <channel>RMPBS - HD</channel>   <channel-no>6.1</channel-no>   <column-no type="integer">1</column-no>   <created-at type="datetime">2013-05-13T13:45:32-04:00</created-at>   <highlight>1</highlight>   <id type="integer">1643</id>   <image-name>http://www.rmpbs.org/resources/files/programs/145x100/abcdef.jpg </image-name>   <rits-notes>1 YEAR</rits-notes>   <ser-id type="integer">8645</ser-id>   <slug-data>[HD][CC]</slug-data>   <updated-at type="datetime">2013-05-13T13:46:53-04:00</updated-at>   <version-id type="integer">916</version-id>   <vsn-id type="integer">315595</vsn-id>   <version>     <created-at type="datetime">2013-05-13T13:45:13-04:00</created-at>     <id type="integer">916</id>     <pg-title>The Invisible War</pg-title>     <pg-topic></pg-topic>     <pg-topic-2></pg-topic-2>     <ser-id type="integer">8645</ser-id>     <ser-pgm-type>DOCUMENTARY</ser-pgm-type>     <ser-source>PBS</ser-source>     <ser-source-link></ser-source-link>     <series-id type="integer">114</series-id>     <updated-at type="datetime">2013-05-13T13:45:13-04:00</updated-at>     <vsn-ac3>None</vsn-ac3>     <vsn-ac4>None</vsn-ac4>     <vsn-caption>CC</vsn-caption>     <vsn-cc-lang>English</vsn-cc-lang>     <vsn-desc>This documentary investigates one of America\'s most shameful and best kept secrets: the epidemic of rape within the U.S. military. The film paints a startling picture of the extent of the problem -- today, a female soldier in combat zones is more likely to be raped by a fellow soldier than killed by enemy fire. The Department of Defense estimates there were a staggering 22,800 violent sex crimes in the military in 2011. Among all active-duty female soldiers, 20 percent are sexually assaulted. Female soldiers aged 18 to 21 accounted for more than half of the victims.</vsn-desc>     <vsn-dub-lang></vsn-dub-lang>     <vsn-dvs></vsn-dvs>     <vsn-hdtv>HDTV</vsn-hdtv>     <vsn-id type="integer">315595</vsn-id>     <vsn-language>English</vsn-language>     <vsn-len>01:26:46</vsn-len>     <vsn-letterbox>Widescreen</vsn-letterbox>     <vsn-num type="integer">1416</vsn-num>     <vsn-pledge>0 </vsn-pledge>     <vsn-rating>TV14</vsn-rating>     <vsn-stereo>STEREO</vsn-stereo>     <vsn-sub-lang></vsn-sub-lang>     <vsn-url></vsn-url>     <series>       <created-at type="datetime">2013-05-13T13:45:11-04:00</created-at>       <id type="integer">114</id>       <ser-desc>This acclaimed Emmy Award-winning anthology series features documentaries and a limited number of fiction films united by the creative freedom, artistic achievement and unflinching visions of their independent producers. INDEPENDENT LENS features unforgettable stories about a unique individual, community or moment in history. The series is supported by interactive companion Web sites and national publicity and community engagement campaigns. Actor Stanley Tucci hosts.</ser-desc>       <ser-id type="integer">8645</ser-id>       <ser-title>Independent Lens</ser-title>       <ser-url>http://www.pbs.org/independentlens </ser-url>       <updated-at type="datetime">2013-05-13T13:45:11-04:00</updated-at>     </series>     <credits type="array"/>   </version> </airlist></airlist-list>');
+		
+		xmlDoc = $.parseXML(new_xml);
+		$xml = $(xmlDoc);
+		console.log($xml);
+	  $xml.find("airlist").each(function()
+	  {
+		  alert('parse this');
+		var d = new Date($(this).find("air-t-date").text());
+		var date = stringifyDate(d,"DDDD MMMM DD - H:XX T");
+		//dateArr = d.split('T');//0=date, 1=timespan
+		//date = $.datepicker.parseDate("yyyy-mm-dd",dateArr[0]);
+		//time_span = dateArr[1];
+		
+		
+		
+		$("#content").append("<article id='air"+$(this).find("air-id").text() +"'></article>");
+		$("#air"+$(this).find("air-id").text()).append("<h3 class='title'>" + $(this).find("version").find("series").find("ser-title").text() + " - " + $(this).find("version").find("pg-title").text() + "</h3>");
+		$("#air"+$(this).find("air-id").text()).append("<h4 class='date'>" + date + "</h4>");
+		$("#air"+$(this).find("air-id").text()).append("<p class='desription'>"+ $(this).find("version").find("vsn-desc").text() +"</p>");
+	  });
+	
+	  // Output:
+	  // The Reddest
+	  // The Hairiest
+	  // The Tallest
+	  // The Fattest
+	}
+parseXml();
+
+
+var googleDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})([+-]\d{2}):(\d{2})$/;
+
+function parseGoogleDate(d) {
+	alert(d);
+    var m = googleDate.exec(d);
+    var year   = +m[1];
+    var month  = +m[2];
+    var day    = +m[3];
+    var hour   = +m[4];
+    var minute = +m[5];
+    var second = +m[6];
+    var msec   = +m[7];
+    var tzHour = +m[8];
+    var tzMin  = +m[9];
+    var tzOffset = new Date().getTimezoneOffset() + tzHour * 60 + tzMin;
+
+    return new Date(year, month - 1, day, hour, minute - tzOffset, second, msec);
+}
+
+
+function stringifyDate(d,mask){
+	months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December");
+	mnths = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
+	days = new Array("Sunday", "Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday");
+	dys = new Array("Sun", "Mon", "Tue","Wed", "Thu", "Fri", "Sat");
+	
+	date_string = mask.toUpperCase();
+	
+	//Long Day Names dddd
+	date_string = date_string.replace("DDDD", days[d.getDay()]);
+	//Short Day Names ddd
+	date_string = date_string.replace("DDD", dys[d.getDay()]);
+	
+	//Long Month Names MMMM
+	date_string = date_string.replace("MMMM", months[d.getMonth()]);
+	//Short Month Names MMM
+	date_string = date_string.replace("MMM", mnths[d.getMonth()]);
+	//Month Number MM with 0
+	if(d.getMonth() < 10){
+		date_string = date_string.replace("MM","0"+ mnths[d.getMonth()]);		
+	}else{
+		date_string = date_string.replace("MM",mnths[d.getMonth()]);		
+	}
+	//Month Number M with no 0
+	//date_string = date_string.replace("M",mnths[d.getMonth()]);		
+
+	//date DD with 0
+	if(d.getDate() < 10){
+		date_string = date_string.replace("DD","0"+ d.getDate());		
+	}else{
+		date_string = date_string.replace("DD",d.getDate());		
+	}
+	//date D with no 0
+	date_string = date_string.replace("D",d.getDate());		
+
+	//Full Year YYYY
+	date_string = date_string.replace("YYYY",d.getFullYear());		
+	//Full Year YY
+	date_string = date_string.replace("YY",d.getYear());	
+
+	/*var this_day = d.getDay();*/
+	var this_date = d.getDate();
+	
+	var sup = "";
+	if (this_date == 1 || this_date == 21 || this_date ==31)
+	   {
+	   sup = "st";
+	   }
+	else if (this_date == 2 || this_date == 22)
+	   {
+	   sup = "nd";
+	   }
+	else if (this_date == 3 || this_date == 23)
+	   {
+	   sup = "rd";
+	   }
+	else
+	   {
+	   sup = "th";
+	   }
+	
+		//Ordinal N
+	date_string = date_string.replace("N",sup);	
+	// HH 24 hour clock
+	date_string = date_string.replace("HH",d.getHours());	
+	// H standard clock
+	if(d.getHours() > 12){
+			date_string = date_string.replace("H",d.getHours()-12);
+			t = "pm";
+		} else {
+			date_string = date_string.replace("H",d.getHours());
+			t = "pm";
+		}   
+	// XX minutes
+	if(d.getMinutes() < 10){
+			date_string = date_string.replace("XX","0" + d.getMinutes());
+			date_string = date_string.replace("X","0" + d.getMinutes());
+		}else{
+			date_string = date_string.replace("XX",d.getMinutes());
+			date_string = date_string.replace("X",d.getMinutes());
+		}
+	//T for meridian
+	
+	date_string = date_string.replace("T",t);
+
+	return date_string;
+
+}
+
+
+
+
+
+});
+
+
+
+
+
+
+</script>
+
+
+<body>
+<div id="content">
+</div>
+
+</body>
+</html>

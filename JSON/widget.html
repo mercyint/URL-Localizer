@@ -1,0 +1,115 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://bento.cdn.pbs.org/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds.js"></script>
+<script>
+$j(document).ready(function(){
+	rssExcerpt = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+	rssExcerpt.display = 'excerpt';//OPTIONS: excerpt (default) | title 
+	rssExcerpt.pub_div = 'excerptDiv';
+
+/* The following options are available to further customize the display of the feed, just uncomment the line and make any changes to the value necessary  */
+
+//	rssExcerpt.streaming_url = "";/* for stations with a live stream */
+//	rssExcerpt.streaming_icon = "";/* Allows for an icon for streaming _urls */
+//	rssExcerpt.article_count = 5;/* Number of articles to display - default 5 */
+//	rssExcerpt.show_title = true;/* Display feed title default true */
+	rssExcerpt.title_class = "title";/* Assign a CSS class to feed title */
+//	rssExcerpt.title_style = "";/* Assign value to feed title's inline style attribute */
+	rssExcerpt.source_url = "http://rmpbs.org/news";/* Homepage for source (if included) */
+	rssExcerpt.source_name = "I-News Network at RMPBS";/* Feed source name */
+//	rssExcerpt.box_class = "";/* Assign a CSS class to the containing box */
+//	rssExcerpt.item_class = "";/* Assign a CSS class to the indivitual article boxes */
+//	rssExcerpt.read_more_text = "Read More";/* Text for link to additional content (excerpt display only) - default "Read More" */
+//	rssExcerpt.read_more_class = "read-more";/* CSS class for link to additional content (excerpt display only) - default "read-more" */
+//	rssExcerpt.default_image = "";/* URL ot placeholder image for articles with no image */
+
+
+	rssExcerpt.renderFeed();
+});
+</script>
+<style>
+#excerptDiv div div {
+width:100%;
+}
+#excerptDiv h2.title{
+	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-weight: 400;
+	background: -webkit-linear-gradient(#ffffff 0%, #dddddd 100% );	
+}
+
+#excerptDiv div div li{
+width:100%;
+overflow: hidden;
+padding-right: 5px;
+white-space: nowrap; 
+}
+#excerptDiv div li,
+#excerptDiv div li a,
+#excerptDiv div span,
+#excerptDiv div span a{
+	color:#666;
+	font-size:12px;
+	text-decoration: none;
+	font-weight:normal;
+	padding:2px 0px;
+	margin:0px;
+	white-space: nowrap; 
+}
+
+.rss_thmb img,
+.rss_thmb {
+	max-width: 275px;
+	float: left;
+}
+.rss_thmb {
+	margin:5px;
+}
+.rss_excerpt h3,
+.rss_excerpt h3 a{
+	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-size:13px;
+	font-weight:500;
+	color:#666666;
+	text-transform:uppercase;
+	text-decoration:none;
+	line-height:16.9px;
+}
+h2.rss_title,
+h2.rss_title a {
+	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-size:19px;
+	font-weight:400;
+	text-decoration:none;
+	line-height:24.7px;
+	background: none;
+}
+.rss_excerpt p{
+	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-size:13px;
+	font-weight;400;
+	color:#555555;
+	line-height:21px;
+}
+.rss_excerpt .read-more,
+.rss_excerpt .read-more a{
+	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-size:13px;
+	font-weight:400;
+	color:#555555;
+	line-height:21px;
+	margin-top:8px;
+	text-align: right;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+</style>
+<div id="excerptDiv"></div>

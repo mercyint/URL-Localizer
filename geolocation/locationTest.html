@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+<script src="../JSON/Feeds.js"></script>
+
+<script src="../JSON/Stations.js"></script>
+<script src="GeoData.js"></script>
+<title>Untitled Document</title>
+<script>
+
+
+	var allStations = new StationGroup();
+	var geo_info;
+$j('document').ready(function (){
+//	zipCoords();
+	geo_info = new GeoData();
+	geo_info.onchange = "updateStationFeeds()";
+	geo_info.setZip();
+	
+
+	
+	KUVO = new Station();
+	KUVO.name = 'KUVO';
+	KUVO.description =  '<p class="description"> Every weekday morning, tune in for music and news with "First Take" with hosts Carlos Lando and Steve Chavis.NPR\'s Top of the Hour News can be heard throughout the day, Monday-Friday. Join the conversation: firsttake@kuvo.org or 720-254-1071 </p>';
+	KUVO.title = 'jazz89 KUVO/KVJZ';
+	KUVO.url = 'http://www.publicbroadcasting.net/kuvo/news.newsmain?action=section&amp;SECTION_ID=1';
+	KUVO.logo = 'http://d3uly0oc2bnj1.cloudfront.net/hostedbento-prod/filer_public/2012/12/14/kuvo-100x30.jpg';
+	
+	KUVO.addLocation('Denver','KUVO','89.3',39.730278,-105.249722);
+	KUVO.addLocation('Breckenridge','K209ED','89.7',39.273500,-105.584600);
+	//KUVO.addLocation('Vail','KVJZ','88.5',lat,lng);
+	KUVO.addFeed('FirstLook','http://www.publicbroadcasting.net/kuvo/news/rss/1.xml','RSS');
+	
+	//KUVO.feed.publish("KUVO",1);
+	
+	KVNF = new Station();
+	KVNF.name = 'KVNF';
+	KVNF.description =  '';
+	KVNF.title = 'KVNF';
+	KVNF.url = 'http://www.kvnf.org/kvnf-news';
+	KVNF.logo = '';
+	
+	KVNF.addLocation('Paonia','KVNF','90.9',38.5228,  -107.3940);
+	KVNF.addLocation('Montrose','KVMT','89.1',38.1852, -108.1202);
+	KVNF.addFeed('KVNF News','http://www.kvnf.org/feeds/term/11/rss.xml','RSS');
+//	KVNF.setNearest(my_lat,my_lng);
+	
+	
+	allStations.addStation(KUVO);
+	allStations.addStation(KVNF);
+	
+	updateStationFeeds();
+	
+/*	stationFeeds = allStations.getFeeds();
+	stationFeeds.pub_div = "stations";
+	
+	
+	stationFeeds.renderFeeds();*/
+	
+
+
+
+
+});
+
+function updateStationFeeds(){
+	console.log("updating station feeds");
+	if(geo_info.coords){
+		allStations.geoSort(geo_info.coords.lat,geo_info.coords.lng);
+	}
+	stationFeeds = allStations.getFeeds();
+	stationFeeds.pub_div = "stations";
+	stationFeeds.geoDataEnabled = true;
+	stationFeeds.renderFeeds();
+	//console.log(newFeeds);
+	}
+	function updateZip(){
+		new_zip = document.getElementById("zip");
+		geo_info.setZip(new_zip.value);
+//		allStations.geoSort(geo_info.coords.lat,geo_info.coords.lng);
+//		newFeeds = allStations.getFeeds();
+//		console.log(newFeeds);
+	}
+
+</script>
+
+
+
+
+<style>
+#stations {
+	border:1px solid #ccc;
+	width:300px;
+}
+#stations div{
+	padding:5px;
+	border-bottom:groove 2px #C3C;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}	
+
+</style>
+</head>
+
+<body>
+<!--<form onsubmit="alert('submitted');"> 
+	<input type="text" name="zip" id="zip" value="" /><input type="submit" id="go" value="Go" onClick="updateZip();" />
+	<input type="text" name="coords" id="coords" value="" />
+</form>-->
+
+
+<div id="geoLoc">
+
+<div id="stations"></div>
+
+</div>
+</body>
+</html>
+

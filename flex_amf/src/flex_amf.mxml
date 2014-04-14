@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+	<mx:Script>
+     <![CDATA[
+           import mx.controls.dataGridClasses.DataGridColumn;
+           import mx.events.DataGridEvent;
+           import org.corlan.VOAuthor;
+           import mx.controls.Alert;
+           import mx.rpc.events.FaultEvent;
+           import mx.rpc.events.ResultEvent;
+           import mx.collections.ArrayCollection;
+           /**
+            * listener for the data grid's itemEditEnd event
+            */
+           private function save(event:DataGridEvent):void {
+                //we don't want to update the id of the item
+                if (event.dataField == "manufacturerID") {
+                     event.preventDefault();
+                     return;
+                }
+                //retrieve the new value from the item editor instance
+                var dataGrid:DataGrid = event.target as DataGrid;
+                var col:DataGridColumn = dataGrid.columns[event.columnIndex];
+                var newValue:String = dataGrid.itemEditorInstance[col.editorDataField];
+                //retrieve the data model that was edited
+                var author:VOAuthor = event.itemRenderer.data as VOAuthor;
+                // if the value wasn't change, exit
+                if (newValue == author[event.dataField])
+                     return;
+                //update the model with the new values     
+                author[event.dataField] = newValue;
+                //call the remote method passing the data we want to be saved
+                myRemote.saveData(author);
+           }
+           /**
+            * Result listener for get data operation
+            */
+           private function getDataListener(event:ResultEvent):void {
+                //set the result array as data provider for the data grid         
+				myGrid.dataProvider = event.result as Array;
+           }
+           /**
+            * Result listener for save data operation
+            */
+           private function saveDataListener(event:ResultEvent):void {
+                Alert.show("The data was saved!");
+           }
+           /**
+            * Fault listener for RemoteObject
+            */
+           private function faultListener(event:FaultEvent):void {
+                Alert.show(event.fault.message, "Error");
+           }
+]]>
+</mx:Script>
+	
+	
+	<mx:RemoteObject id="myRemote" destination="zend" source="MyService" showBusyCursor="true">
+	     <mx:method name="getData" result="getDataListener(event)"/>
+	     <mx:method name="saveData" result="saveDataListener(event)"/>
+	</mx:RemoteObject>
+	
+	<mx:VBox top="30" left="100">
+           <mx:Button label="Get data" click="{myRemote.getData()}" />
+           <mx:DataGrid id="myGrid" editable="true" itemEditEnd="save(event)"/>
+	</mx:VBox>
+	
+</mx:Application>

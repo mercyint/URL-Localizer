@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<airlist-list>
+  
+<airlist>
+  <air-date type="date">2013-05-06</air-date>
+  <air-format>HD</air-format>
+  <air-future>F</air-future>
+  <air-id type="integer">328524</air-id>
+  <air-lsecs type="integer">3406</air-lsecs>
+  <air-t-date type="datetime">2013-05-06T21:00:00-04:00</air-t-date>
+  <air-time type="datetime">2000-01-01T21:00:00-05:00</air-time>
+  <alt-sched></alt-sched>
+  <channel>RMPBS - HD</channel>
+  <channel-no>6.1</channel-no>
+  <column-no type="integer">1</column-no>
+  <created-at type="datetime">2013-05-02T15:36:01-04:00</created-at>
+  <highlight>1</highlight>
+  <id type="integer">1356</id>
+  <image-name></image-name>
+  <rits-notes>1 YEAR</rits-notes>
+  <ser-id type="integer">8645</ser-id>
+  <slug-data>[HD][CC]</slug-data>
+  <updated-at type="datetime">2013-05-02T15:36:51-04:00</updated-at>
+  <version-id type="integer">696</version-id>
+  <vsn-id type="integer">315593</vsn-id>
+  <version>
+    <created-at type="datetime">2013-05-02T15:35:47-04:00</created-at>
+    <id type="integer">696</id>
+    <pg-title>Seeking Asian Female</pg-title>
+    <pg-topic></pg-topic>
+    <pg-topic-2></pg-topic-2>
+    <ser-id type="integer">8645</ser-id>
+    <ser-pgm-type>DOCUMENTARY</ser-pgm-type>
+    <ser-source>PBS</ser-source>
+    <ser-source-link></ser-source-link>
+    <series-id type="integer">114</series-id>
+    <updated-at type="datetime">2013-05-02T15:35:47-04:00</updated-at>
+    <vsn-ac3>None</vsn-ac3>
+    <vsn-ac4>None</vsn-ac4>
+    <vsn-caption>CC</vsn-caption>
+    <vsn-cc-lang>English</vsn-cc-lang>
+    <vsn-desc>Two strangers -- an elderly American man and a young Chinese woman -- pursue a marriage brokered by the internet, but they get more than they bargained for when she moves across the Pacific to start a new life with him in America.</vsn-desc>
+    <vsn-dub-lang></vsn-dub-lang>
+    <vsn-dvs></vsn-dvs>
+    <vsn-hdtv>HDTV</vsn-hdtv>
+    <vsn-id type="integer">315593</vsn-id>
+    <vsn-language>English</vsn-language>
+    <vsn-len>00:56:46</vsn-len>
+    <vsn-letterbox>Widescreen</vsn-letterbox>
+    <vsn-num type="integer">1414</vsn-num>
+    <vsn-pledge>0</vsn-pledge>
+    <vsn-rating>TVPG</vsn-rating>
+    <vsn-stereo>STEREO</vsn-stereo>
+    <vsn-sub-lang>English</vsn-sub-lang>
+    <vsn-url></vsn-url>
+    <series>
+      <created-at type="datetime">2013-05-02T15:35:45-04:00</created-at>
+      <id type="integer">114</id>
+      <ser-desc>This acclaimed Emmy Award-winning anthology series features documentaries and a limited number of fiction films united by the creative freedom, artistic achievement and unflinching visions of their independent producers. INDEPENDENT LENS features unforgettable stories about a unique individual, community or moment in history. The series is supported by interactive companion Web sites and national publicity and community engagement campaigns. Actor Stanley Tucci hosts.</ser-desc>
+      <ser-id type="integer">8645</ser-id>
+      <ser-title>Independent Lens</ser-title>
+      <ser-url>http://www.pbs.org/independentlens
+</ser-url>
+      <updated-at type="datetime">2013-05-02T15:35:45-04:00</updated-at>
+    </series>
+    <credits type="array"/>
+  </version>
+</airlist>
+
+  
+</airlist-list>

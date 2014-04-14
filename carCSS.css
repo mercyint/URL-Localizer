@@ -1,0 +1,15 @@
+.maincontainer{
+	width:100%;
+}
+.popupContentcontainer{
+	width:auto;
+}
+.leftcolumn{
+	width:auto;
+}
+.rightcolumn{
+	clear:none;
+}
+.wizardbuttons {
+	width: 100%;
+}

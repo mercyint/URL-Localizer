@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+<!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAp3CiZoPo3nHNnWEOUS-t1DDTsxWrR1FU&sensor=false">
+</script>
+-->
+
+<script>
+
+function getCoords(){
+	zip = document.getElementById("zip").value;
+	
+	
+	$.getJSON("http://maps.googleapis.com/maps/api/geocode/json?address="+zip+"&sensor=false&country=us",function(response){
+				this_zip = response.results;
+				document.getElementById("coords").value = this_zip[0].geometry.location.lat;
+				$.cookie("zip" , zip,{expires: 180,  path: "/"});
+				});
+}
+
+function checkCookie(){
+	if($.cookie('zip') === "undefined" || $.cookie('zip') === null){
+		document.getElementById("zip").value = 'Enter Zip';
+	}else{
+		document.getElementById("zip").value = $.cookie('zip');
+		getCoords();
+	}
+}
+
+
+
+</script>
+
+</head>
+
+<body>
+<form>
+	<input type="text" name="zip" id="zip" value="" /><input type="button" id="go" value="Go" onclick="getCoords();" />
+	<input type="text" name="coords" id="coords" value="" />
+</form>
+<script>checkCookie();</script>
+
+
+
+
+</body>
+</html>
