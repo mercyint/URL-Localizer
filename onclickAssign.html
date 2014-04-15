@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+
+<script type="text/javascript">
+function init(){
+	assign_eloqua();
+}
+
+function assign_eloqua(){
+	for(i=0;i <= document.links.length;i++){
+		
+		var this_link = document.links[i];
+		alert(this_link.name);
+		if (this_link.addEventListener) {
+				alert("Adding event listener");
+				this_link.addEventListener("click", callEloqua(this), false);
+			} else {
+				alert("Attaching event");
+				this_link.attachEvent('onclick', callEloqua(this));
+			}  
+	}
+}
+
+function _elq.trackOutboundLink(this){
+	alert('Hello World');
+}
+
+function callEloqua(this){
+	_elq.trackOutboundLink(this);
+	return false;
+	
+}
+
+
+
+
+</script>
+
+
+
+</head>
+
+<body onload="init()">
+
+<a href="#" name="the_link">The link</a>
+
+
+<a name="the_anchor">The link</a>
+
+
+</body>
+</html>

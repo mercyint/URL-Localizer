@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<style>
+#stations {
+	border:1px solid #ccc;
+	width:300px;
+}
+#stations div{
+	padding:5px;
+	border-bottom:groove 2px #C3C;
+}
+</style>
+
+
+<script>
+var x=document.getElementById("demo");
+var KUNC = new Array('KUNC', 40.4048, -104.6967,'Northern Colorado');
+var KNUS = new Array('KNUS', 39.955278, -104.850278, 'Denver');
+var KVNF = new Array('KVNF', 38.8744448, -107.661111,'Montrose/Paonia');
+var KRLJ = new Array('KRLJ', 37.9850, -103.5433, 'La Junta');
+
+
+function toRad(Value) {
+    /** Converts numeric degrees to radians */
+    return Value * Math.PI / 180;
+}
+
+
+
+function getDistance(lat1,lon1,lat2,lon2) {
+    var R = 6371; // km
+    var dLat = toRad(lat2-lat1);
+    var dLon = toRad(lon2-lon1); 
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    return R * c;
+}
+
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(orderStations);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+
+function orderStations(position)
+  {
+	  KUNC_dist = getDistance(KUNC[1],KUNC[2],position.coords.latitude, position.coords.longitude);
+	  KNUS_dist = getDistance(KNUS[1],KNUS[2],position.coords.latitude, position.coords.longitude);
+	  KVNF_dist = getDistance(KVNF[1],KVNF[2],position.coords.latitude, position.coords.longitude);
+	  KRLJ_dist = getDistance(KRLJ[1],KRLJ[2],position.coords.latitude, position.coords.longitude);
+	  
+	  var dist_array = [KUNC_dist,KNUS_dist,KVNF_dist,KRLJ_dist];
+	  dist_array.sort(function(a,b){return a-b});
+	  
+	  stationDiv = document.getElementById("stations");
+	  newHTML = '';
+	  for(i=0;i <= dist_array.length; i++){
+		  box_inc = i + 1;
+		  if(dist_array[i] == KUNC_dist){
+			  newHTML = newHTML +"<div>"+KUNC[0]+" &mdash; "+KUNC[3]+"<\/div>";
+		  
+		  }else if (dist_array[i] == KNUS_dist){
+			  newHTML = newHTML +"<div>"+KNUS[0]+" &mdash; "+KNUS[3]+"<\/div>";
+		  
+		  }else if (dist_array[i] == KVNF_dist){
+			  newHTML = newHTML +"<div>"+KVNF[0]+" &mdash; "+KVNF[3]+"<\/div>";
+		  
+		  }else if (dist_array[i] == KRLJ_dist){
+			  newHTML = newHTML +"<div>"+KRLJ[0]+" &mdash; "+KRLJ[3]+"<\/div>";
+		  }
+		 }
+		 stationDiv.innerHTML = newHTML;
+}
+   
+
+
+</script>
+
+
+</head>
+
+<body>
+<div id="stations"></div>
+<script type="text/javascript">getLocation();</script>
+</body>
+</html>
