@@ -1,5 +1,5 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
+<script src="http://bento.cdn.pbs.org/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds.js"></script>
 <script>
 $j(document).ready(function(){
 	rssExcerpt = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
@@ -23,8 +23,8 @@ $j(document).ready(function(){
 //	rssExcerpt.default_image = "";/* URL ot placeholder image for articles with no image */
 
 
-	rssExcerpt.renderFeed();
 });
+
 </script>
 <style>
 #excerptDiv div div {
