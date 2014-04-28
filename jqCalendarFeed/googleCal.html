@@ -13,6 +13,7 @@ var list_count = 3;
 var today = new Date();
 var start_date;
 var end_date;
+var first_load = true;
 $j(document).ready(function(){
 var SelectedDates = {}
 	  
@@ -38,12 +39,11 @@ var SelectedDates = {}
 			start_date = googleDateFormat(date);
 			end_date = googleDateFormat(end);
 		}
- 
 		  $j.ajax({
 			url: 'https://www.googleapis.com/calendar/v3/calendars/5n320l5i4f88ufl1bg9o8d5hdk@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
 			dataType: 'json',
 			success: function(data) {
-			//console.log(data);
+			console.log(data);
 			  var today = new Date();
 			  var events = data.items;
 			  $j('#calendarDiv').html('');
@@ -56,7 +56,19 @@ var SelectedDates = {}
 			  		
 				  loadCalendar(next_month,next_month_end);
 			  }else if(events.length == 0){
-					 $j("#calendarDiv").append("<p class='description'>There are no event scheduled for the specified date.</p>");				  
+			  		if(first_load){
+							new_month = new Date(today.getFullYear(),today.getMonth()+1,1);
+							end_of_month = new Date(today.getFullYear(),today.getMonth()+2,0);
+							end_of_month.setMonth(end_of_month.getMonth()+1);
+							end_of_month.setDate(0);
+							
+					      first_load = false;
+							
+					      loadCalendar(new_month,end_of_month);
+
+			  		}else{
+					 $j("#calendarDiv").append("<p class='description'>There are no event scheduled for the specified date.</p>");				  				  		
+			  		}
 			  }else{
 			  	  if(list_count == -1 || options['show-all']){
 					list_count = events.length;  		
