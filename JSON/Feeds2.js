@@ -253,7 +253,7 @@ function Feed(title,url,type,parent){
 		var feed = this;
 		this.loadFeed().done(function (result){
 			feed.data = result;
-			//console.log(feed);
+			console.log(feed);
 			if(feed.parent){
 				var pub_div = feed.parent.pub_div;				
 //				var count = feed.parent.article_count;

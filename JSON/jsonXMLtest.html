@@ -1,0 +1,83 @@
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>	
+	<script src="xml2json.js"></script>	
+	
+	<script>
+	
+	//sample site that returns xml
+/*site = '//nhptv.org/sandbox/xml_schedule/prime.xml';
+console.log(encodeURIComponent(site));
+
+var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('http://roxie.montanapbs.org/programs/test.json');
+
+// Request that YSQL string, and run a callback function.
+// Pass a defined function to prevent cache-busting.
+$.getJSON(yql, function(data){
+    console.log(data);
+});
+	
+
+
+
+// Changes XML to JSON
+function xmlToJson(xml) {
+	
+	// Create the return object
+	var obj = {};
+
+	if (xml.nodeType == 1) { // element
+		// do attributes
+		if (xml.attributes.length > 0) {
+		obj["@attributes"] = {};
+			for (var j = 0; j < xml.attributes.length; j++) {
+				var attribute = xml.attributes.item(j);
+				obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+			}
+		}
+	} else if (xml.nodeType == 3) { // text
+		obj = xml.nodeValue;
+	}
+
+	// do children
+	if (xml.hasChildNodes()) {
+		for(var i = 0; i < xml.childNodes.length; i++) {
+			var item = xml.childNodes.item(i);
+			var nodeName = item.nodeName;
+			if (typeof(obj[nodeName]) == "undefined") {
+				obj[nodeName] = xmlToJson(item);
+			} else {
+				if (typeof(obj[nodeName].push) == "undefined") {
+					var old = obj[nodeName];
+					obj[nodeName] = [];
+					obj[nodeName].push(old);
+				}
+				obj[nodeName].push(xmlToJson(item));
+			}
+		}
+	}
+	return obj;
+};
+
+*/
+	
+	
+			$.ajax({
+			type: "GET",
+			url: 'http://jsonpwrapper.com/?urls%5B%5D=http%3A%2F%2Fpw.myersinfosys.com%2Frmpbs%2Fwhats-on-now.xml%3Fcol_no%3D1',
+			dataType: "jsonp",
+			cache: false,
+			success: function(data){
+				console.log(data[0].body);
+				test = $.parseXML(data[0].body);
+				console.log(xml2json(test));
+			}
+		  });
+
+	</script>
+	
+</head>
+<body>
+	
+</body>
+</html>
