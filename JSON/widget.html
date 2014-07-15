@@ -2,7 +2,7 @@
 <script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
 <script>
 $j(document).ready(function(){
-	rssExcerpt = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+	rssExcerpt = new Feed("Rocky Mountain PBS I-News","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
 	rssExcerpt.display = 'excerpt';//OPTIONS: excerpt (default) | title 
 	rssExcerpt.pub_div = 'excerptDiv';
 
@@ -15,7 +15,7 @@ $j(document).ready(function(){
 	rssExcerpt.title_class = "title";/* Assign a CSS class to feed title */
 //	rssExcerpt.title_style = "";/* Assign value to feed title's inline style attribute */
 	rssExcerpt.source_url = "http://rmpbs.org/news";/* Homepage for source (if included) */
-	rssExcerpt.source_name = "I-News Network at RMPBS";/* Feed source name */
+	rssExcerpt.source_name = "Rocky Mountain PBS I-News";/* Feed source name */
 //	rssExcerpt.box_class = "";/* Assign a CSS class to the containing box */
 //	rssExcerpt.item_class = "";/* Assign a CSS class to the indivitual article boxes */
 //	rssExcerpt.read_more_text = "Read More";/* Text for link to additional content (excerpt display only) - default "Read More" */
@@ -31,9 +31,12 @@ $j(document).ready(function(){
 width:100%;
 }
 #excerptDiv h2.title{
-	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
-	font-weight: 400;
-	background: -webkit-linear-gradient(#ffffff 0%, #dddddd 100% );	
+	font-family:"Helvetica Neue",​"Helvetica","Arial",​sans-serif;
+	font-weight: bold;
+	background: #999;
+	color:#fff;
+	font-size:14px;
+	padding:10px;	
 }
 
 #excerptDiv div div li{
@@ -58,14 +61,16 @@ white-space: nowrap;
 .rss_thmb img,
 .rss_thmb {
 	max-width: 275px;
-	float: left;
+	float: right;
 }
 .rss_thmb {
 	margin:5px;
 }
 .rss_excerpt h3,
-.rss_excerpt h3 a{
-	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+.rss_excerpt h3 a,
+.rss_excerpt_last h3,
+.rss_excerpt_last h3 a{
+	font-family:"Helvetica Neue",​"Helvetica","Arial",​sans-serif;
 	font-size:13px;
 	font-weight:500;
 	color:#666666;
@@ -75,29 +80,32 @@ white-space: nowrap;
 }
 h2.rss_title,
 h2.rss_title a {
-	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+	font-family:"Helvetica Neue",​"Helvetica","Arial",​sans-serif;
 	font-size:19px;
 	font-weight:400;
 	text-decoration:none;
 	line-height:24.7px;
 	background: none;
 }
-.rss_excerpt p{
-	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+.rss_excerpt p,
+.rss_excerpt_last p{
+	font-family:"Helvetica Neue",​"Helvetica","Arial",​sans-serif;
 	font-size:13px;
 	font-weight;400;
 	color:#555555;
 	line-height:21px;
 }
 .rss_excerpt .read-more,
-.rss_excerpt .read-more a{
-	font-family:"Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+.rss_excerpt .read-more a,
+.rss_excerpt_last .read-more,
+.rss_excerpt_last .read-more a{
+	font-family:"Helvetica Neue",​"Helvetica","Arial",​sans-serif;
 	font-size:13px;
 	font-weight:400;
 	color:#555555;
 	line-height:21px;
 	margin-top:8px;
-	text-align: right;
+	text-align: left;
 }
 .clearfix:after {
 	content: ".";
@@ -106,6 +114,10 @@ h2.rss_title a {
 	visibility: hidden;
 	line-height: 0;
 	height: 0;
+}
+a {
+	color:#0c4ca2;
+	text-decoration:none;
 }
  
 .clearfix {
