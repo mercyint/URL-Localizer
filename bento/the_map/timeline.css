@@ -1,0 +1,65 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#timelinecontainer{
+width: 1082px;
+height: 250px;
+float:left;
+margin-right:0px;
+}
+
+div#timeline{
+ width:100%;
+ height: 100%;
+ font-size: 13px;
+ background: #FFC;
+}
+
+div#mapcontainer {
+ width: 1082px;
+ height: 550px;
+ float: left;
+ margin-right:0px;
+}
+
+div#map {
+ width: 100%;
+ height: 100%;
+ background: #EEEEEE;
+/* border:thin #0f0 solid;  */
+}
+
+div#instructions{
+/*	width: 402px;
+	float: right;
+	background-color: #EEE;
+	border-left: #666 2px dashed;
+	
+ border:thin #00F solid; */
+    
+}
+div#media{
+/*	width: 402px;
+	float: right;
+	height: 365px;
+    overflow:auto;
+	border-top: #666 2px dashed;
+	padding-left: 0px;
+	border:thin #F00 solid; */
+}
+
+.timeline-ether-marker-bottom {
+	color: #FFF;
+	font-size:12px;
+	font-weight:700;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align:center;
+	background-color:#000;
+}
+
+.timeline-band {
+    position:   absolute;
+    background: #000;
+    z-index:    10;
+	width: 100%;
+}

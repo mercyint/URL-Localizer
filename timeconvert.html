@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Sandbox |  | Untitled.html</title>
+<script>
+            function toSeconds(time){
+                time = time.replace(/\./g,":");
+                timeArr = time.split(":");
+                if(timeArr.length > 3){
+	                seconds = false;
+                }else{
+	                
+	                while(timeArr.length != 3){
+		                timeArr.unshift(0);
+	                }
+	                console.log(timeArr);
+                	hours = timeArr[0].replace(/[^0-9]/g, "");
+                	if(hours.length == 0){
+	                	hours = 0;
+                	}
+                	minutes = timeArr[1].replace(/[^0-9]/g, "");
+                	if(minutes.length == 0){
+	                	minutes = 0;
+                	}
+                	seconds = timeArr[2].replace(/[^0-9]/g, "");
+                	if(seconds.length == 0){
+	                	seconds = 0;
+                	}
+		            
+		            seconds = (hours * 60 * 60) + (minutes * 60) + seconds;
+		            
+                }
+                return seconds;
+            }
+
+</script>
+</head>
+<body>
+<input type="text" onblur="toSeconds(this.value)">
+</body>
+</html>

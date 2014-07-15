@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>RMPBS-Window_Overlay | myoverlay.html</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
+<script src="jquery.cookie.js"></script>
+
+<script>
+function setCookie(name,value){
+	$j.cookie(name , value,{ path: "/"});
+}
+
+function getCookie(cookie){
+	if($j.cookie(cookie) === "undefined" || $j.cookie(cookie) === null){//no cookie
+		return false;
+	}else{
+		return $j.cookie(cookie);
+	}
+	
+}
+
+$j('document').ready(function(){
+	cookie_exists = getCookie('pop-up');
+	if(!cookie_exists){
+	var image = new Image();
+	var imgHeight;
+	var imgWidth;
+	if($j(window).width() > 640){
+		image.src = "RTTF-Pop-Up.jpg"		
+	}else{
+		image.src = "RTTF-mobilePop-Up.jpg"
+	}
+	image.onload = setSlide;
+	var overlay = $j('<div/>').attr({
+		'id':'overlay',
+		'onclick':'document.getElementById("overlay").style.display = "none"',
+	});
+	var closer = $j('<img/>').attr({
+		'src':'close-button.png',
+		'id':'closer',
+		'onclick':'document.getElementById("overlay").style.display = "none"',
+	});
+	var image_slide = $j('<div/>').attr({
+		'id':'image_slide',
+	})
+	
+	var link = $j('<a/>').attr({
+		'href':'/',
+	});
+	
+	var image_el = $j('<img/>').attr({
+		'src':image.src,
+		'id':'image'
+	});
+	
+	
+	link.append(image_el);
+	image_slide.append(closer);
+	image_slide.append(link);
+	overlay.append(image_slide);
+	
+	$j('body').append(overlay);
+	
+	setCookie('pop-up',1);
+
+
+	function setSlide(){
+		imgHeight = this.height;
+		$j('#image_slide').height(this.height + 10);
+		imgWidth = this.width;
+		$j('#image_slide').width(this.width + 10);
+		return true;
+	}
+		
+	}
+
+});
+</script>
+<style>
+	#overlay {
+		position:fixed;
+		width:100%;
+		height:100%;
+		background-color:rgba(0,0,0,.5);
+		text-align: center;
+	  	cursor: pointer;
+	}
+	#image_slide{
+		width:50%;
+		height:50%;
+		background-color:#333;
+		margin: auto;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		border:1px #999 solid;
+		border-radius: 5px;
+		padding:10px;
+  	}
+  	#closer{
+	  	float:right;
+	  	margin-right:-25px;
+	  	margin-top:-35px;
+	  	cursor: pointer;
+  	}
+</style>
+
+</head>
+<body>
+</body>
+</html>

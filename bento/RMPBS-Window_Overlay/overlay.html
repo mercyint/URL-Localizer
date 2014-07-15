@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>RMPBS-Window_Overlay | /Volumes/Macintosh HD/Users/sdudley/Sites/sandbox/bento/RMPBS-Window_Overlay | overlay.html</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
+
+<style type="text/css">
+#closeOverlay {
+font-size: 14px;
+float: right;
+font-weight: bold;
+padding-top: 1px;
+color: #fc4f00;
+padding-right: 5px;
+}
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; overflow:hidden;}
+#cboxOverlay{position:fixed; width:100%; height:100%;}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:auto;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block; max-width:none;}
+.cboxIframe{width:100%; height:100%; display:block; border:0;}
+#colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
+#cboxOverlay{background:#000;}
+#colorbox{}
+#cboxTopLeft{width:14px; height:14px; background:url(controls.png) no-repeat 0 0;}
+#cboxTopCenter{height:14px; background:url(border.png) repeat-x top left;}
+#cboxTopRight{width:14px; height:14px; background:url(controls.png) no-repeat -36px 0;}
+#cboxBottomLeft{width:14px; height:43px; background:url(controls.png) no-repeat 0 -32px;}
+#cboxBottomCenter{height:43px; background:url(border.png) repeat-x bottom left;}
+#cboxBottomRight{width:14px; height:43px; background:url(controls.png) no-repeat -36px -32px;}
+#cboxMiddleLeft{width:14px; background:url(controls.png) repeat-y -175px 0;}
+#cboxMiddleRight{width:14px; background:url(controls.png) repeat-y -211px 0;}
+#cboxContent{background:#fff; overflow:visible;}
+.cboxIframe{background:#fff;}
+#cboxError{padding:50px; border:1px solid #ccc;}
+#cboxLoadedContent{margin-bottom:5px;}
+#cboxLoadingOverlay{background:url(loading_background.png) no-repeat center center;}
+#cboxLoadingGraphic{background:url(loading.gif) no-repeat center center;}
+#cboxTitle{position:absolute; bottom:-25px; left:0; text-align:center; width:100%; font-weight:bold; color:#7C7C7C;}
+#cboxCurrent{position:absolute; bottom:-25px; left:58px; font-weight:bold; color:#7C7C7C;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{position:absolute; bottom:-29px; background:url(controls.png) no-repeat 0px 0px; width:23px; height:23px; text-indent:-9999px;}
+#cboxPrevious{left:0px; background-position: -51px -25px;}
+#cboxPrevious:hover{background-position:-51px 0px;}
+#cboxNext{left:27px; background-position:-75px -25px;}
+#cboxNext:hover{background-position:-75px 0px;}
+#cboxClose{right:0; background-position:-100px -25px;}
+#cboxClose:hover{background-position:-100px 0px;}
+.cboxSlideshow_on #cboxSlideshow{background-position:-125px 0px; right:27px;}
+.cboxSlideshow_on #cboxSlideshow:hover{background-position:-150px 0px;}
+.cboxSlideshow_off #cboxSlideshow{background-position:-150px -25px; right:27px;}
+.cboxSlideshow_off #cboxSlideshow:hover{background-position:-125px 0px;}
+</style>
+
+<script type="text/javascript" src="jquery.colorbox-min.js"></script>
+
+<script type="text/javascript">
+
+$j(document).ready(function(){
+	console.log('document ready');
+
+    /*	if($.browser.version == '8.0'){ */
+   
+		if (document.documentElement.clientWidth > 640) {
+			console.log('larger than 640');
+			$j(document).ready(function(){
+     			setTimeout(function() {
+        			$j.fn.colorbox({html:'<div style="width:800px;height:525px;"><a href="/"><img src="RTTF-Pop-Up.jpg" style="width:800px;height:500spx;" alt="Thank you for supporting Rocky Mountain PBS." /></a><br><div id="closeOverlay"><a onclick="parent.$.fn.colorbox.close();" target="_top"><strong>Close window.</strong></a> </div> </div>', open:true});
+    			}, 0);
+			});
+
+        }else{
+			console.log('smaller than 640');
+			$j(document).ready(function(){
+     			setTimeout(function() {
+        			$j.fn.colorbox({html:'<div style="width:800px;height:525px;"><a href="/"><img src="RTTF-mobilePop-Up.jpg" alt="Thank you for supporting Rocky Mountain PBS." /></a><br><div id="closeOverlay"><a onclick="parent.$.fn.colorbox.close();" target="_top"><strong>Close window.</strong></a> </div> </div>', open:true});
+    			}, 0);
+			});
+            
+        }
+    /*}*/
+});
+</script>
+
+<script type="text/javascript"> 
+    
+    // Make ColorBox responsive
+	$j.colorbox.settings.maxWidth  = '95%';
+	$j.colorbox.settings.maxHeight = '95%';
+
+	// ColorBox resize function
+	var resizeTimer;
+	function resizeColorBox(){
+		if (resizeTimer) clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(function() {
+			if (jQuery('#cboxOverlay').is(':visible')) {
+				jQuery.colorbox.load(true);
+			}
+		}, 300);
+	}
+
+	// Resize ColorBox when resizing window or changing mobile device orientation
+	$j(window).resize(resizeColorBox);
+	window.addEventListener("orientationchange", resizeColorBox, false);
+    
+	if (document.documentElement.clientWidth > 640) {
+        $j(document).ready(function(){
+             setTimeout(function() {
+                $j.fn.colorbox({html:'<div style="width:800px;height:525px;"><a href="{{2_popup_url}}"><img src="RTTF-Pop-Up.jpg" style="width:800px;height:500spx;" alt="Thank you for supporting Rocky Mountain PBS." /></a><br><div id="closeVPBS"><a onclick="parent.$j.fn.colorbox.close();" target="_top"><strong>Close window.</strong></a> </div> </div>', open:true});
+            }, 0);
+        });
+
+    }else{
+        $j(document).ready(function(){
+            setTimeout(function() {
+                $j.fn.colorbox({html:'<div style="width:800px;height:525px;"><a href="{{2_popup_url}}"><img src="RTTF-mobilePop-Up.jpg" alt="Thank you for supporting Rocky Mountain PBS." /></a><br><div id="closeOverlay"><a onclick="parent.$j.fn.colorbox.close();" target="_top"><strong>Close window.</strong></a> </div> </div>', open:true});
+            }, 0);
+        });
+        
+    }
+
+</script>
+
+</head>
+<body>
+</body>
+</html>    
