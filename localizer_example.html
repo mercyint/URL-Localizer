@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>URL Localizer | localizer.html</title>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+$('document').ready(function(){
+	$('a').each(function(){
+		if(this.href && this.href.indexOf("test.com")){
+			this.href = this.href.replace("test.com", "mercy.test.com");
+			if(this.href.indexOf("//www.")){
+				this.href = this.href.replace("//www.", "//");
+			}
+		}
+	});
+});
+</script>
+
+
+</head>
+<body>
+
+<a href="http://www.test.com">Sample Link</a>
+
+
+</body>
+</html>

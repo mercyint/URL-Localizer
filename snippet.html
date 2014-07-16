@@ -1,0 +1,18 @@
+<!-- SmartSnippets Variables
+national_url = TextField
+local_prefix = TextField
+-->
+
+
+<script>
+$('document').ready(function(){
+	$('a').each(function(){
+		if(this.href && this.href.indexOf("{{ national_url }}")){
+			this.href = this.href.replace("{{ national_url }}", "{{ local_prefix }}.{{ national_url }}");
+			if(this.href.indexOf("www.")){
+				this.href = this.href.replace("www.", "");
+			}
+		}
+	});
+});
+</script>
