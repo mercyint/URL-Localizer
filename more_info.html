@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+	$j = jQuery.noConflict();
+	
+	
+	    showMore = function(obj){
+		$j('.more').removeClass('show');
+		$j('.more_link').removeClass('show');
+        $j(obj).parent().children().addClass('show');
+        $j(obj).parent().parent().children().addClass('show');
+    }
+
+
+	
+	
+</script>
+
+<style>
+	.more{
+        visibility:hidden;
+		display:none;
+		overflow:hidden;
+    }
+    .more.show {
+        visibility:visible;
+        width:auto;
+		height:auto;
+		display:inline-block;
+		overflow:visible;        
+    }
+    .more_link.show{
+        visibility:visible;
+		display:inline-block;
+		overflow:visible;	    
+	}
+    .more_link.show{
+        visibility:hidden;
+		display:none;
+		overflow:hidden;	    
+    }
+</style>
+
+</head>
+<body>
+
+<div id="calendarDiv">
+	<div id="event_undefined" class="event"><h1>Testing Region</h1><h2>Monday, January 12<sup>th</sup>, 2015</h2><h2>location</h2><div class="cal_desc">
+		<div class="KRMA">
+<p class="admission">Admission: free</p>
+<p class="description">Just a test for the new region option. And now testing the sentence option. <a href="#" class="more_link" onclick="showMore(this)">More</a>
+<span class="more">Let's see how it all pans out. Shall we? </span></p>
+<p class="more_info more"><span class="info_title">More Information</span><br>
+Web: <a href=""></a><br>
+Email: <a href="mailto:sdudley@mercy-interactive.com">Sarah</a>
+<br>Phone: <a href="tel:%28720%29%20977-9047">(720) 977-9047</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="event_undefined" class="event"><h1>Testing Region</h1><h2>Monday, January 12<sup>th</sup>, 2015</h2><h2>location</h2><div class="cal_desc">
+		<div class="KRMA">
+<p class="admission">Admission: free</p>
+<p class="description">Just a test for the new region option. And now testing the sentence option. <a href="#" class="more_link" onclick="showMore(this)">More</a>
+<span class="more">Let's see how it all pans out. Shall we? </span></p>
+<p class="more_info more"><span class="info_title">More Information</span><br>
+Web: <a href=""></a><br>
+Email: <a href="mailto:sdudley@mercy-interactive.com">Sarah</a>
+<br>Phone: <a href="tel:%28720%29%20977-9047">(720) 977-9047</a>
+</p>
+</div>
+</div>
+</div>
+
+
+</div>
+
+
+
+</body>
+</html>
+
+

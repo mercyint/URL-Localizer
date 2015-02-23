@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+ <link rel="stylesheet" href="../JSON/jqui/css/RMPBStheme/jquery-ui-1.10.3.custom.css" />
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script>
+$j = jQuery.noConflict();
+var list_count = 3;
+var today = new Date();
+var start_date;
+var end_date;
+var first_load = true;
+var cal_list = [];
+cal_list.push(new Array('Arts & Entertainment','t4n4tlh0p78ooqrm7f02n3fjo0'));
+cal_list.push(new Array('Green Living','6pvhqa2hoeutr699ctrbksc5ng'));
+
+var selected_cal = -1;
+
+
+
+$j(document).ready(function(){
+var SelectedDates = {}
+	function loadSelectedCalendar(){
+		if(selected_cal != -1){
+			loadCalendar(cal_list[selected_cal][1]);
+		}else{
+			for(var i = 0 ; i < cal_list.length; i++){
+				loadCalendar(cal_list[i][1]);				
+			}
+			
+		}
+	}
+	  
+	  function loadCalendar(id,date,end,options){
+	  	this.id = id;
+	  	if(!options){
+		  	options = {};
+	  	}
+	  	if(!options['showPastEvents']){
+		  options['showPastEvents'] = false;
+	  	}
+	  	if(!options['show-all']){
+		  options['show-all'] = false;
+	  	}
+	  	this.options = options;
+	  	
+		if(!date){
+			var month_end = new Date();
+			month_end.setMonth(month_end.getMonth() + 1);
+			month_end.setDate(0);
+			if(!start_date){
+				start_date = googleDateFormat(today);
+			}
+			if(!end_date){
+				end_date = googleDateFormat(month_end);
+			}
+		}else{
+		this.date = date;
+		this.end = end;
+			if(!start_date){
+				start_date = googleDateFormat(date);
+			}
+			if(!end_date){
+				end_date = googleDateFormat(end);
+			}
+		}
+		  $j.ajax({
+			url: 'https://www.googleapis.com/calendar/v3/calendars/'+this.id+'@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
+			dataType: 'json',
+			success: function(data){
+				console.log(this.date);
+				displayCalendar(this.id,data);
+			}
+		  });
+
+
+	  }
+	  
+	  function displayCalendar(id,data,date,end,options) {
+	    this.cal = id;
+	  	if(!options){
+		  	options = {};
+	  	}
+	  	if(!options['showPastEvents']){
+		  options['showPastEvents'] = false;
+	  	}
+	  	if(!options['show-all']){
+		  options['show-all'] = false;
+	  	}
+	  	
+	  	
+		if(!date){
+			var month_end = new Date();
+			month_end.setMonth(month_end.getMonth() + 1);
+			month_end.setDate(0);
+			if(!start_date){
+				start_date = googleDateFormat(today);
+			}
+			if(!end_date){
+				end_date = googleDateFormat(month_end);
+			}
+		}else{
+			if(!start_date){
+				start_date = googleDateFormat(date);
+			}
+			if(!end_date){
+				end_date = googleDateFormat(end);
+			}
+		}
+			console.log(data);
+			  var today = new Date();
+			  var events = data.items;
+			  $j('#calendarDiv').html('');
+			  if(events.length == 0 && !date){
+			  		next_month = new Date();
+			  		next_month_end = new Date();
+			  		next_month.setMonth(next_month.getMonth()+1);
+			  		next_month_end.setMonth(next_month_end.getMonth()+2);
+			  		next_month_end.setDate(0);
+			  		
+				  loadCalendar(this.cal,next_month,next_month_end);
+			  }else if(events.length == 0){
+			  		if(first_load){
+							new_month = new Date(today.getFullYear(),today.getMonth()+1,1);
+							end_of_month = new Date(today.getFullYear(),today.getMonth()+2,0);
+							end_of_month.setMonth(end_of_month.getMonth()+1);
+							end_of_month.setDate(0);
+							
+					      first_load = false;
+							
+					      loadCalendar(this.cal,new_month,end_of_month);
+
+			  		}else{
+					 $j("#calendarDiv").append("<p class='description'>There are no event scheduled for the specified date.</p>");				  				  		
+			  		}
+			  }else{
+			  	  if(list_count == -1 || options['show-all']){
+					list_count = events.length;  		
+				  }
+				  current_count = 0;
+				  for(i=0; i < events.length; i++){
+				  	if(typeof events[i].start.dateTime != 'undefined'){
+				  		console.log('dateTime');
+					  	 this_date = parseGoogleDate(events[i].start.dateTime);					  	
+					  	 SelectedDates[this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear()] = this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear();
+					  	 this_date_str = stringifyDate(this_date);
+				  	}else{
+				  		console.log('date');
+				  		 var date_array = events[i].start.date.split("-");
+					  	 var this_start_date = new Date(date_array[0],Number(date_array[1])-1,date_array[2]);
+				  		 var date_array = events[i].end.date.split("-");
+					  	 var this_end_date = new Date(date_array[0],Number(date_array[1])-1,Number(date_array[2])-1);
+
+						 var t2 = this_end_date.getTime();
+						 var t1 = this_start_date.getTime();
+
+						 date_diff =  parseInt((t2-t1)/(24*3600*1000));
+						 var this_date = new Date(this_start_date);
+						 console.log(this_date);
+						 if(date_diff >= 1){
+							 for(var j = 0 ; j <= date_diff; j++){
+							 	SelectedDates[this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear()] = this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear();
+							 	this_date.setDate(this_date.getDate() +1); 
+							 }
+						  	 var this_date_str = stringifyDate(this_start_date,this_end_date);
+						 }else{
+							SelectedDates[this_start_date.getMonth()+1+'/'+this_start_date.getDate()+'/'+this_start_date.getFullYear()] = this_start_date.getMonth()+1+'/'+this_start_date.getDate()+'/'+this_start_date.getFullYear();
+						  	var this_date_str = stringifyDate(this_start_date);							 
+						 }
+						 
+				  	}
+				  	
+				  	date_diff = today.getTime() - this_date.getTime();
+				  	if(date_diff <= 0 && current_count < list_count){
+						 $j("#calendarDiv").append("<article id='event"+i+"'></article>");
+						 $j("#event"+i).append("<h2 class='title'>" + events[i].summary +"</h2>");
+						 $j("#event"+i).append("<h3 class='date'>" + this_date_str +"</h3>");
+						 if(events[i].location && events[i].location.length > 0){
+							 $j("#event"+i).append("<h3 class='location'>" + events[i].location +"</h3>");
+						 }
+						 if(typeof events[i].description != 'undefined'){
+							 $j("#event"+i).append("<p class='description'>" + events[i].description +"</p>");
+						 }
+						 current_count++;
+					 }else if(date_diff <= 0 && current_count == list_count && list_count != events.length){
+					 	$j("#calendarDiv").append("<div id='more-events'></div>");
+					 	$j("#more-events").hide();
+						 $j("#calendarDiv").append("<article id='see_all'><a href='#' id='view-all'>View all this month's events</a></article>");
+						 $j("#view-all").click(function(){
+							$j("#more-events").slideDown();
+							$j("#see_all").hide(); 
+						 });
+						 $j("#more-events").append("<article id='event"+i+"'></article>");
+						 $j("#event"+i).append("<h2 class='title'>" + events[i].summary +"</h2>");
+						 $j("#event"+i).append("<h3 class='date'>" + this_date_str +"</h3>");
+						 if(events[i].location && events[i].location.length > 0){
+							 $j("#event"+i).append("<h3 class='location'>" + events[i].location +"</h3>");
+							 
+						 }
+						 if(typeof events[i].description != 'undefined'){
+							 $j("#event"+i).append("<p class='description'>" + events[i].description +"</p>");
+						 }
+						 current_count++;
+						 
+					 }else{
+						 $j("#more-events").append("<article id='event"+i+"'></article>");
+						 $j("#event"+i).append("<h2 class='title'>" + events[i].summary +"</h2>");
+						 $j("#event"+i).append("<h3 class='date'>" + this_date_str +"</h3>");
+						 if(events[i].location && events[i].location.length > 0){
+							 $j("#event"+i).append("<h3 class='location'>" + events[i].location +"</h3>");
+							 
+						 }
+						 if(typeof events[i].description != 'undefined'){
+							 $j("#event"+i).append("<p class='description'>" + events[i].description +"</p>");
+						 }
+						 current_count++;						 
+					 }
+
+				  }
+				  $j('#calDatepicker').datepicker({
+					  	beforeShowDay: function(date){
+						  	var Highlight = SelectedDates[date.getMonth()+1+'/'+date.getDate()+'/'+date.getFullYear()];
+						  	if (Highlight) {
+							  	return [true, "Highlighted", Highlight];
+							}else {
+								return [true, '', ''];
+							}
+						},
+						onSelect: function(dateText, inst) {
+							day_start = new Date(inst.currentYear,inst.currentMonth,inst.currentDay,0,0,0);
+							day_end = new Date(inst.currentYear,inst.currentMonth,inst.currentDay,23,59,59);
+					      loadCalendar(this.cal,day_start,day_end);
+					   },
+					   onChangeMonthYear: function(year,month,widget){
+							
+							new_month = new Date(year,month-1,1);
+							end_of_month = new Date(year,month,0);
+							end_of_month.setMonth(end_of_month.getMonth()+1);
+							end_of_month.setDate(0);
+							
+					      loadCalendar(this.cal,new_month,end_of_month);
+					   },
+					});
+					 $j('#calDatepicker').datepicker('refresh');
+					
+			  }
+			}
+var googleDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})-(\d{2}):(\d{2})$/;
+
+function parseGoogleDate(d) {
+    var m = googleDate.exec(d);
+    var year   = +m[1];
+    var month  = +m[2];
+    var day    = +m[3];
+    var hour   = +m[4];
+    var minute = +m[5];
+    var second = +m[6];
+    var tzHour = +m[7];
+    var tzMin  = +m[8];
+    var tzOffset = new Date().getTimezoneOffset() + tzHour * 60 + tzMin;
+
+    this_date =  new Date(year, month - 1, day, hour, minute, second);
+    return this_date;
+}
+
+function googleDateFormat(d){
+	if(d.getDate() < 10){day = "0"+d.getDate()}else{day = d.getDate()}
+	month = d.getMonth()+1;
+	if(month < 10){month = "0"+month}
+	return d.getFullYear()+"-"+month+"-"+day+"T"+d.getHours()+":"+d.getMinutes()+":00-07:00";
+}
+
+function stringifyDate(d,d2){
+	months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December");
+	days = new Array("Sunday", "Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday");
+
+	var this_day = d.getDay();
+	var this_date = d.getDate();
+	var sup = "";
+	if (this_date == 1 || this_date == 21 || this_date ==31)
+	   {
+	   sup = "st";
+	   }
+	else if (this_date == 2 || this_date == 22)
+	   {
+	   sup = "nd";
+	   }
+	else if (this_date == 3 || this_date == 23)
+	   {
+	   sup = "rd";
+	   }
+	else
+	   {
+	   sup = "th";
+	   }
+	var this_month = d.getMonth();
+	var this_year = d.getFullYear();
+	
+	if(d2){
+		var end_day = d2.getDay();
+		var end_date = d2.getDate();
+		var end_sup = "";
+		if (end_date == 1 || end_date == 21 || end_date ==31)
+		   {
+		   end_sup = "st";
+		   }
+		else if (end_date == 2 || end_date == 22)
+		   {
+		   end_sup = "nd";
+		   }
+		else if (end_date == 3 || end_date == 23)
+		   {
+		   end_sup = "rd";
+		   }
+		else
+		   {
+		   end_sup = "th";
+		   }
+		var end_month = d2.getMonth();
+		var end_year = d2.getFullYear();
+		
+		date_string = days[this_day] + ", " + months[this_month] + " "+ this_date + "<SUP>"+ sup + "</SUP>, " + this_year +" to "+days[end_day] + ", " + months[end_month] + " "+ end_date + "<SUP>"+ end_sup + "</SUP>, " + end_year;
+		
+		
+	}else{
+		date_string = days[this_day] + ", " + months[this_month] + " "+ this_date + "<SUP>"+ sup + "</SUP>, " + this_year;		
+	}
+	
+	
+	return date_string;
+
+}
+
+loadSelectedCalendar();
+
+});
+
+</script>
+<style>
+.Highlighted a{
+   background-color : #4C054C !important;
+   background-image :none !important;
+   color: White !important;
+   font-weight:bold !important;
+   font-size: 12pt;
+}
+</style>
+
+</head>
+
+<body>
+<div>
+	<div id="calDatepicker"></div>
+	<div id="calendarDiv">
+	</div>
+</div>
+</body>
+</html>

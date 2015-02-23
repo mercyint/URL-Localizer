@@ -1,0 +1,312 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+ <link rel="stylesheet" href="../JSON/jqui/css/RMPBStheme/jquery-ui-1.10.3.custom.css" />
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script>
+$j = jQuery.noConflict();
+var cal_list = [];
+cal_list.push(new Array('Arts & Entertainment','t4n4tlh0p78ooqrm7f02n3fjo0'));
+cal_list.push(new Array('Green Living','6pvhqa2hoeutr699ctrbksc5ng'));
+cal_list.push(new Array('Science & Nature','7c4noitj13jlj87mcrehtc3iks'));
+cal_list.push(new Array('History & Documentaries','2sqljqoq0qkpnbgql8nj5qqcek'));
+cal_list.push(new Array('Kids & Family','og1vvb3t9bnbdh6patk9f69lhk'));
+cal_list.push(new Array('Lifestyle','elu81op91a5eqk6ara8ggedm5s'));
+cal_list.push(new Array('News & Current Affairs','mr6smoidps2o2l7e470ug35d80'));
+var agg_cal = [];
+var today = new Date();
+var start_date;
+var end_date;
+var SelectedDates = {};
+
+
+var selected_cals = '';
+
+	function displayCalendars(cals,date,end){
+		if(!cals){
+			selected_cals = cal_list;
+		}else{
+			selected_cals = cals;
+		}
+		when_list = [];
+		agg_cal = [];
+		for(var i = 0 ; i < selected_cals.length; i++){
+			if(date){
+				if(!end){end = date;}
+				when_list.push(fetchCalendar(selected_cals[i][1],date,end));				
+			}else{
+				when_list.push(fetchCalendar(selected_cals[i][1]));				
+			}
+
+		}
+		
+		$j.when.apply($,when_list).done(function(){
+			calendar = agg_cal.sort(function(a, b) {
+			    a = new Date(a.date);
+			    b = new Date(b.date);
+			    return a<b ? -1 : a>b ? 1 : 0;
+			});
+
+		highlightDates(calendar);
+		try{
+			$j('#calDatepicker').datepicker('refresh');	
+		}catch(err){}
+
+		consolidated_cals = consolidateRecurringEvents(calendar);
+		console.log(consolidated_cals);
+		$j('#calendarDiv').html('');
+
+		for(var i = 0 ; i < consolidated_cals.length; i++){
+			event_div = $j('<div />').attr({
+				'id':'event_'+consolidated_cals[i].id,
+				'class':'event',
+			});
+			event_title = $j('<h1 />').text(consolidated_cals[i].data.summary);
+			date_diff = Math.floor((parseGoogleDate(consolidated_cals[i].end.dateTime) - parseGoogleDate(consolidated_cals[i].start.dateTime)) / (1000*60*60*24));
+			if (date_diff > 0){
+				event_date = $j('<h2 />').html(stringifyDate(parseGoogleDate(consolidated_cals[i].start.dateTime))+' - '+stringifyDate(parseGoogleDate(consolidated_cals[i].end.dateTime)));				
+			}else{
+				event_date = $j('<h2 />').html(stringifyDate(parseGoogleDate(consolidated_cals[i].start.dateTime)));				
+			}
+			event_description = $j('<div />').html(consolidated_cals[i].data.description);
+			
+			
+			event_div.append(event_title);
+			event_div.append(event_date);
+			event_div.append(event_description);
+			
+			
+			$j('#calendarDiv').append(event_div);
+		}
+		
+		});
+		
+	}
+	
+	function highlightDates(calendar){
+		for(var i = 0 ; i < calendar.length; i++){
+			this_date = calendar[i].date;
+			SelectedDates[this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear()] = this_date.getMonth()+1+'/'+this_date.getDate()+'/'+this_date.getFullYear();			
+		}
+		
+
+	}
+	
+	function consolidateRecurringEvents(calendar){
+		consolidated_cals = [];
+		for(var i = 0 ; i < calendar.length; i++){
+			if(calendar[i].data.recurringEventId){
+				var found = false;
+				for(var j = 0 ; j < consolidated_cals.length; j++){
+					if(consolidated_cals[j].id == calendar[i].data.recurringEventId){
+						/* if recurring event has been recorded, overwrite end date*/
+						consolidated_cals[j].end = calendar[i].data.end;
+						found = true;
+					}
+				}
+				
+				if(!found){
+					consolidated_cals.push({
+						'id': calendar[i].data.recurringEventId,
+						'start': calendar[i].data.start,
+						'end':calendar[i].data.end,
+						'data':calendar[i].data});
+						
+				}
+				
+			}else{
+					consolidated_cals.push({
+						'id': calendar[i].data.eventId,
+						'start': calendar[i].data.start,
+						'end':calendar[i].data.end,
+						'data':calendar[i].data});
+			}
+		}
+		
+		return consolidated_cals;
+		
+	}
+	
+	
+	
+	function fetchCalendar(cal,date,end){
+		console.log("fetching: "+cal);
+		if(!date){
+			var month_end = new Date();
+			month_end.setMonth(month_end.getMonth() + 1);
+			month_end.setDate(0);
+			start_date = googleDateFormat(today);
+			end_date = googleDateFormat(month_end);
+		}else{
+			this.date = date;
+			this.end = end;
+			start_date = googleDateFormat(date);
+			end_date = googleDateFormat(end);
+		}
+		console.log(cal);		
+		return	$j.ajax({
+			url: 'https://www.googleapis.com/calendar/v3/calendars/'+cal+'@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
+			dataType: 'json',
+			success: function(data){
+				events = data.items;
+				for(var j = 0 ; j < events.length ; j++){
+					agg_cal.push({
+						'date': new Date(events[j].start.dateTime),
+						'data': events[j] });
+				}
+				
+			}
+	  	});
+	}
+$j(document).ready(function(){
+
+	$j('#calDatepicker').datepicker({
+  		beforeShowDay: function(date){
+	  		var Highlight = SelectedDates[date.getMonth()+1+'/'+date.getDate()+'/'+date.getFullYear()];
+		  	if (Highlight) {
+			  	return [true, "Highlighted", Highlight];
+			}else {
+				return [true, '', ''];
+			}
+		},
+		onSelect: function(dateText, inst) {
+			day_start = new Date(inst.currentYear,inst.currentMonth,inst.currentDay,0,0,0);
+			day_end = new Date(inst.currentYear,inst.currentMonth,inst.currentDay,23,59,59);
+	      displayCalendars(cal_list,day_start,day_end);
+	    },
+		onChangeMonthYear: function(year,month,widget){
+			new_month = new Date(year,month-1,1);
+			end_of_month = new Date(year,month,0);
+			end_of_month.setMonth(end_of_month.getMonth()+1);
+			end_of_month.setDate(0);
+			displayCalendars(cal_list,new_month,end_of_month);
+   		},
+	});
+	$j('#calDatepicker').datepicker('refresh');
+	
+	for(var i = 0 ; i < cal_list.length; i++){
+		this_link = $j('<a />').attr({
+			'href':'#',
+			'onclick':'displayCalendars(new Array(cal_list['+i+']))'
+		}).text(cal_list[i][0]);
+		$j('#calChooser').append(this_link);
+		$j('#calChooser').append('<br />');
+		
+	}
+	
+
+	
+	displayCalendars();
+});
+
+	var googleDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})-(\d{2}):(\d{2})$/;
+
+function parseGoogleDate(d) {
+    var m = googleDate.exec(d);
+    var year   = +m[1];
+    var month  = +m[2];
+    var day    = +m[3];
+    var hour   = +m[4];
+    var minute = +m[5];
+    var second = +m[6];
+    var tzHour = +m[7];
+    var tzMin  = +m[8];
+    var tzOffset = new Date().getTimezoneOffset() + tzHour * 60 + tzMin;
+
+    this_date =  new Date(year, month - 1, day, hour, minute, second);
+    return this_date;
+}
+
+function googleDateFormat(d){
+	if(d.getDate() < 10){day = "0"+d.getDate()}else{day = d.getDate()}
+	month = d.getMonth()+1;
+	if(month < 10){month = "0"+month}
+	return d.getFullYear()+"-"+month+"-"+day+"T"+d.getHours()+":"+d.getMinutes()+":00-07:00";
+}
+
+function stringifyDate(d,d2){
+	months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September","October", "November", "December");
+	days = new Array("Sunday", "Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday");
+
+	var this_day = d.getDay();
+	var this_date = d.getDate();
+	var sup = "";
+	if (this_date == 1 || this_date == 21 || this_date ==31)
+	   {
+	   sup = "st";
+	   }
+	else if (this_date == 2 || this_date == 22)
+	   {
+	   sup = "nd";
+	   }
+	else if (this_date == 3 || this_date == 23)
+	   {
+	   sup = "rd";
+	   }
+	else
+	   {
+	   sup = "th";
+	   }
+	var this_month = d.getMonth();
+	var this_year = d.getFullYear();
+	
+	if(d2){
+		var end_day = d2.getDay();
+		var end_date = d2.getDate();
+		var end_sup = "";
+		if (end_date == 1 || end_date == 21 || end_date ==31)
+		   {
+		   end_sup = "st";
+		   }
+		else if (end_date == 2 || end_date == 22)
+		   {
+		   end_sup = "nd";
+		   }
+		else if (end_date == 3 || end_date == 23)
+		   {
+		   end_sup = "rd";
+		   }
+		else
+		   {
+		   end_sup = "th";
+		   }
+		var end_month = d2.getMonth();
+		var end_year = d2.getFullYear();
+		
+		date_string = days[this_day] + ", " + months[this_month] + " "+ this_date + "<SUP>"+ sup + "</SUP>, " + this_year +" to "+days[end_day] + ", " + months[end_month] + " "+ end_date + "<SUP>"+ end_sup + "</SUP>, " + end_year;
+		
+		
+	}else{
+		date_string = days[this_day] + ", " + months[this_month] + " "+ this_date + "<SUP>"+ sup + "</SUP>, " + this_year;		
+	}
+	
+	
+	return date_string;
+
+}
+
+</script>
+<style>
+.Highlighted a{
+   background-color : #4C054C !important;
+   background-image :none !important;
+   color: White !important;
+   font-weight:bold !important;
+   font-size: 12pt;
+}
+</style>
+</head>
+
+<body>
+<div>
+	<div id="calDatepicker"></div>
+	<div id="calChooser"><a onclick="displayCalendars()" href="#">All Events</a><br /></div>
+	<div id="calendarDiv">
+	</div>
+</div>
+
+
+</body>
+</html>
