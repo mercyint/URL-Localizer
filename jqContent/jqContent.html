@@ -1,21 +1,115 @@
 <html>
 <head>
 <title>Sandbox | jqContent.html</title>
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 
 
 <script>
- var textVar = "snot";
+ var miArray = [];
+ miArray.push(new Array('textVar','','booger'));
+     miArray.push(new Array('station_name','WQED', 'this station'));
+    miArray.push(new Array('station_service_area','{% if station_service_area %}{{station_service_area}}{% endif %}','your area'));
+    miArray.push(new Array('station_tax_id','{% if station_tax_id %}{{station_tax_id}}{% endif %}','XX-XXXXXXXX'));
+	var years_count = '60';
+    miArray.push(new Array('station_years',years_count,'many'));
+    miArray.push(new Array('contact_name','{% if contact_name %}{{contact_name}}{% endif %}','Planned Giving'));
+    miArray.push(new Array('contact_email','{% if contact_email %}{{contact_email}}{% endif %}','plannedgiving@pbs.org'));
+    miArray.push(new Array('contact_phone','{% if contact_phone %}{{contact_phone}}{% endif %}','000-555-1234'));
+    miArray.push(new Array('file','{% if contact_phone %}{{contact_phone}}{% endif %}','bequest-language'));
+
+ 
+ 
  
  $('document').ready(function(){
- 	console.log('we ready');
- 	$('#changer').text(textVar);
-	 
+
+ 	for(var i = 0 ; i < miArray.length; i++){
+ 		if(miArray[i][0] == 'file'){
+	 		$("input[data='"+miArray[i][2]+"']").each(function(){
+		 		console.log(this);
+		 		$(this).attr('value',miArray[i][1]);
+	 		});
+	 		$("button[data='"+miArray[i][2]+"']").each(function(){
+		 		console.log(this);
+		 		$(this).attr('onclick','viewFile("'+miArray[i][1]+'")');
+	 		});
+ 		}else{
+	 		$('body *:contains('+miArray[i][0]+')').each(function(idx,elem){
+	 			content = $(elem).html();
+	            findStr = '\\[\\['+miArray[i][0]+'\\]\\]';
+	            findRE = new RegExp(findStr, 'g');
+	            
+	 			if(miArray[i][1].length > 0){
+	                $(elem).html(content.replace(findRE,miArray[i][1])); 			
+	 			}else{
+	                $(elem).html(content.replace(findRE,miArray[i][2]));
+		 			
+	 			}
+	 		});
+ 		}
+ 		
+ 	}
+
  });
 </script>
 
 </head>
 <body>
-This is my <span id="changer">text</span>.
+<div id="MIFV-div" class="box clearfix">
+    <h3>Bequest Language</h3>
+<div id="icons">
+<div id="MIFV-img"><img src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/Planned%20Giving%20PBS%20SoCaL/wills.png" height="75"></div>
+<!--<button onclick="viewFile('http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/Planned%20Giving/Forms/SAMPLE-BequestLanguage.pdf')">View</button><br />-->
+    <button data="bequest-language" onclick="viewFile('http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/Planned%20Giving/Forms/SAMPLE-BequestLanguage.pdf')">Print/View</button><br>
+<button onclick="showForm('MIFV-form-bequest-language');">Email</button><br>
+    </div>
+	<div id="MIFV-form-bequest-language" class="MIFV-form" style="max-width:500px;max-height:250px;">
+	<form method="post" novalidate="" enctype="multipart/form-data" action="https://www.formstack.com/forms/index.php" class="" id="fsForm1805376">
+	<input type="hidden" name="form" value="1806715">
+	<input type="hidden" name="viewkey" value="K4wC61oYQY">
+	<input type="hidden" name="hidden_fields" id="hidden_fields1806715" value="">
+	<input type="hidden" name="_submit" value="1">
+	<input type="hidden" name="incomplete" id="incomplete1806715" value="">
+	<input type="hidden" name="style_version" value="3">
+	<div role="alert" id="requiredFieldsError" style="display:none;">Please fill in a valid value for all required fields</div>
+	<div role="alert" id="invalidFormatError" style="display:none;">Please ensure all values are in a proper format.</div>
+	<div role="alert" id="resumeConfirm" style="display:none;">Are you sure you want to leave this form and resume later?</div>
+	<div role="alert" id="fileTypeAlert" style="display:none;">You must upload one of the following file types for the selected field:</div>
+	<div role="alert" id="embedError" style="display:none;">There was an error displaying the form. Please copy and paste the embed code again.</div>
+	<div role="alert" id="applyDiscountButton" style="display:none;">Apply Discount</div>
+	<div role="alert" id="dcmYouSaved" style="display:none;">You saved</div>
+	<div role="alert" id="dcmWithCode" style="display:none;">with code</div>
+	<div role="alert" id="submitButtonText" style="display:none;">Submit Form</div>
+	<div role="alert" id="submittingText" style="display:none;">Submitting</div>
+	
+	<div id="error"></div>
+	
+	<input type="text" id="field27081976-first" name="field27081976-first" size="20" value="First" onfocus="checkDefault(this)" onblur="checkBlank(this);" onclick="checkDefault(this)">
+	<input type="text" id="field27081976-last" name="field27081976-last" size="20" value="Last" onfocus="checkDefault(this)" onblur="checkBlank(this);" onclick="checkDefault(this)"><br>
+	<input type="email" id="field27082073" name="field27082073" size="46" value="Sender E-mail" class="fsFormatEmail" onfocus="checkDefault(this)" onblur="checkBlank(this);" onclick="checkDefault(this)"><br>
+	<input type="email" id="field27082065" name="field27082065" size="46" value="Recipient E-mail" class="fsFormatEmail" onfocus="checkDefault(this)" onblur="checkBlank(this);" onclick="checkDefault(this)"><br>
+	
+	<input type="hidden" id="field27082167" data="bequest-language" name="field27082167" value="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/Planned%20Giving/Forms/SAMPLE-BequestLanguage.pdf" class="fsField">
+	<input type="hidden" id="field27082178" name="field27082178" value="Bequest Language" class="fsField">
+	<input type="hidden" id="field27082195" name="field27082195" value="To name WQED as a beneficiary in a will or trust, a provision must be included that clearly expresses one's charitable intentions.  To make the process easier, we are pleased to share some suggested language for you and your advisor to consider." class="fsField">
+	<input id="cancel" class="fsSubmitButton" type="button" value="Cancel" onclick="hideForm('MIFV-form-bequest-language')">
+	<input id="fsSubmitButton1806715" class="fsSubmitButton" type="submit" value="Send E-mail">
+	
+	</form>
+	
+	<link href="https://www.formstack.com/forms/css/3/jquery-ui.css?20140508" rel="stylesheet" type="text/css">
+	
+	
+	
+	
+	</div>
+</div>
+	
+	<p>This is my <span id="changer">[[textVar]]</span>.</p>
+
+
+
+
+
 </body>
 </html>

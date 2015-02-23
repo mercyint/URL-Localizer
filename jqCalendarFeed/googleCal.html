@@ -40,31 +40,31 @@ var SelectedDates = {}
 			end_date = googleDateFormat(end);
 		}
 		  $j.ajax({
-			url: 'https://www.googleapis.com/calendar/v3/calendars/5n320l5i4f88ufl1bg9o8d5hdk@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
+			url: 'https://www.googleapis.com/calendar/v3/calendars/t4n4tlh0p78ooqrm7f02n3fjo0@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
 			dataType: 'json',
 			success: function(data) {
-			console.log(data);
-			  var today = new Date();
-			  var events = data.items;
-			  $j('#calendarDiv').html('');
-			  if(events.length == 0 && !date){
-			  		next_month = new Date();
-			  		next_month_end = new Date();
-			  		next_month.setMonth(next_month.getMonth()+1);
-			  		next_month_end.setMonth(next_month_end.getMonth()+2);
-			  		next_month_end.setDate(0);
-			  		
-				  loadCalendar(next_month,next_month_end);
-			  }else if(events.length == 0){
+				console.log(data);
+				var today = new Date();
+				var events = data.items;
+				$j('#calendarDiv').html('');
+				if(events.length == 0 && !date){
+				  		next_month = new Date();
+				  		next_month_end = new Date();
+				  		next_month.setMonth(next_month.getMonth()+1);
+				  		next_month_end.setMonth(next_month_end.getMonth()+2);
+				  		next_month_end.setDate(0);
+				  		
+					  loadCalendar(next_month,next_month_end);
+				}else if(events.length == 0){
 			  		if(first_load){
-							new_month = new Date(today.getFullYear(),today.getMonth()+1,1);
-							end_of_month = new Date(today.getFullYear(),today.getMonth()+2,0);
-							end_of_month.setMonth(end_of_month.getMonth()+1);
-							end_of_month.setDate(0);
-							
-					      first_load = false;
-							
-					      loadCalendar(new_month,end_of_month);
+						new_month = new Date(today.getFullYear(),today.getMonth()+1,1);
+						end_of_month = new Date(today.getFullYear(),today.getMonth()+2,0);
+						end_of_month.setMonth(end_of_month.getMonth()+1);
+						end_of_month.setDate(0);
+						
+						first_load = false;
+						
+						loadCalendar(new_month,end_of_month);
 
 			  		}else{
 					 $j("#calendarDiv").append("<p class='description'>There are no event scheduled for the specified date.</p>");				  				  		
