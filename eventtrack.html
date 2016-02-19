@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$('document').ready(function(){
+	$('.track').each(function(){
+		var label = $(this).text();
+		$(this).attr({
+			'onclick':"ga('send', 'event', { eventCategory: 'File', eventAction: 'Download', eventLabel: '"+label+"'});"
+		});
+	});
+});
+</script>
+</head>
+<body>
+	<a href="whatever" class="track">Trackable Text</a>
+	
+	
+</body>
+</html>

@@ -22,7 +22,10 @@ function FeedGroup(){
 	this.item_class = "";
 	
 	this.addFeed = function(title,url,type){
-		if(type == "group"){
+		if(title.type && (title.type == 'RSS' || title.type == 'JSON')){
+			this.feeds.push(title);
+			this.feeds[this.feeds.length -1].parent = this;						
+		}else if(type == "group"){
 			this.feeds.push(url);
 			this.feeds[this.feeds.length -1].parent = this;						
 		}else{
@@ -41,7 +44,7 @@ function FeedGroup(){
 		
 		//clear the publication div
 		$j("#"+pub_div).empty();
-		console.log(this);
+		//console.log(this);
 		
 		if (count == -1 || count == ""){
 			article_count = articles.length;
@@ -53,11 +56,10 @@ function FeedGroup(){
 		if(this.output == "tabs"){//append ul for tabs if enabled
 			this_ul = $j('<ul>',{'id':pub_div+'_ul'});
 			$j("#"+pub_div).append(this_ul);
-			//$j("#"+pub_div).append('<ul id="'+pub_div+'_ul"></ul>');
 		}
 
 	  	if(this.geoDataEnabled){
-	  		console.log("geoDataEnabled");
+	  		//console.log("geoDataEnabled");
 	  		zipCookie = getCookie('GeoDataZip');
 	  		if(zipCookie){
 		  		val=zipCookie;
@@ -76,7 +78,6 @@ function FeedGroup(){
 				  		'value':'Go'
 			  		})); 
 					$j("#"+this.feeds[i].pub_div+"").append(gd_form);			  	
-			//$j("#"+pub_div+"").append('<form onsubmit='+this.geoDataOnSubmit+'><input type="text" name="zip" id="zip" value="'+val+'" /><input type="submit" id="go" value="Go" /></form>');
 	  	}
 	
 
@@ -87,11 +88,13 @@ function FeedGroup(){
 				this_tab_link.text(this.feeds[i].title);
 				this_tab.append(this_tab_link);
 				$j("#"+pub_div+"_ul").append(this_tab);
-				//$j("#"+pub_div+"_ul").append('<li><a href="#'+pub_div+'_'+slugify(this.feeds[i].title)+'">'+this.feeds[i].title+'</a></li>');
 			}
-			this_div = $j('<div/>').attr('id',pub_div+'_'+slugify(this.feeds[i].title));
-			$j("#"+pub_div+"").append(this_div);
-			//$j("#"+pub_div+"").append('<div id="'+pub_div+'_'+slugify(this.feeds[i].title)+'"></div>');
+			if(this.output != "aggregate"){
+  				this_div = $j('<div/>').attr('id',pub_div+'_'+slugify(this.feeds[i].title));
+  				$j("#"+pub_div+"").append(this_div);	
+			}else{
+				this.feeds[i].show_title = false;		  	
+			}
 
 		  	if(this.feeds[i].type == 'group'){
 		  		//console.log(this.feeds[i].title);
@@ -117,7 +120,6 @@ function FeedGroup(){
 				  		'value':'Go'
 			  		})); 
 					$j("#"+this.feeds[i].pub_div+"").append(gd_form);			  	
-					//$j("#"+this.feeds[i].pub_div+"").append('<form onsubmit='+this.feeds[i].geoDataOnSubmit+'><input type="text" name="zip" id="zip" value="'+val+'" /><input type="submit" id="go" value="Go" /></form>');			  	
 			  	}
 
 			  	
@@ -130,17 +132,14 @@ function FeedGroup(){
 				  		'class':this.feeds[i].feeds[j].box_class
 			  		});
 			  		$j("#"+pub_div+'_'+slugify(this.feeds[i].title)).append(this_div);
-//				  	$j("#"+pub_div+'_'+slugify(this.feeds[i].title)).append('<div id="'+pub_div+'_'+slugify(this.feeds[i].title)+'_'+slugify(this.feeds[i].feeds[j].title)+'" style="white-space:normal" class="'+this.feeds[i].feeds[j].box_class+'"></div>');
+
 				  	this.feeds[i].feeds[j].show_title = false;
 				  	if(this.feeds[i].geoDataEnabled){
 				  		if(j==0){
-				  		console.log(3);
 					  		this.feeds[i].feeds[j].article_count = 3;
 				  		}else if (j==1){
-				  		console.log(2);
 					  		this.feeds[i].feeds[j].article_count = 2;
 				  		}else{
-				  		console.log(1);
 					  		this.feeds[i].feeds[j].article_count = 1;
 				  		}
 					  	
@@ -157,18 +156,12 @@ function FeedGroup(){
 				  		});
 				  		this_div.text(this.feeds[i].footer);
 				  		$j("#"+pub_div+'_'+slugify(this.feeds[i].title)).append(this_div);
-//						$j("#"+pub_div+'_'+slugify(this.feeds[i].title)).append('<div id="'+pub_div+'_foot" class="feed_footer">'+this.feeds[i].footer+'</div>');			  	
 				  	}
 			  	
 		  	}else{
 			  	this.feeds[i].article_count = this.article_count;		  	
 			  	this.feeds[i].renderFeed();		  	
 		  	}
-/*		  	console.log(this);
-		  	console.log(this.footer);
-		  	if(this.footer){
-				$j("#"+pub_div).append('<div id="'+pub_div+'_foot" class="feed_footer">'+this.feeds[i].footer+'</div>');			  	
-		  	}*/
 		  	
 		}
 	  	if(this.footer && this.parent.length == 0){
@@ -178,13 +171,18 @@ function FeedGroup(){
 	  	});
 	  	this_div.text(this.footer);
 	  	$j("#"+pub_div+"").append(this_div);
-		//$j("#"+pub_div+"").append('<div id="'+pub_div+'_foot" class="feed_footer">'+this.footer+'</div>');			  	
 	  	}
 	  
 	  
 		if(this.output == "tabs"){
 	  		$j("#"+pub_div+"").tabs();
 		}
+	  	if(this.output == "aggregate"){
+		  	$j("#"+pub_div+" > div").sort(sort_date).appendTo("#"+pub_div);
+		  	function sort_date(a, b){
+		  	return ($j(b).data('pubDate')) < ($j(a).data('pubDate')) ? 1 : -1;    
+			}
+	  	}
 	}
 		
 }
@@ -204,6 +202,7 @@ function Feed(title,url,type,parent){
 	this.output = "text/image";
 	this.title_class = "";
 	this.title_style = "";
+	this.show_archive = false;
 	this.show_title = true;
 	this.source_url = "";
 	this.source_name = "";
@@ -214,9 +213,19 @@ function Feed(title,url,type,parent){
 	this.read_more_class = "read-more";
 	this.default_image = "";
 	this.media_override = new Array(); //Array of overrides one override is added as new Array(media(image|video),find_string,replace_string)
+	this.cachebuster = true;//Forces a fresh feed load. Set to false to allow server to dictate caching
 	
 	this.loadFeed = function(){
 		console.log("Loading feed: "+ this.title);
+		var cache_hash = '';
+		if(this.cachebuster){
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+			for( var i=0; i < 20; i++ ){
+				cache_hash += possible.charAt(Math.floor(Math.random() * possible.length));
+			}
+			console.log(cache_hash);
+		}
 		if(this.type == "JSON"){
 		 return $j.ajax({
 			type: "GET",
@@ -227,7 +236,7 @@ function Feed(title,url,type,parent){
 	  }else{
 		 return $j.ajax({
 			type: "GET",
-			url: '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num='+this.article_count+'&callback=?&q=' + encodeURIComponent(this.url),
+			url: '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num='+this.article_count+'&callback=?&q=' + encodeURIComponent(this.url)+'&'+cache_hash,
 			dataType: "jsonp",
 			cache: false
 		  });
@@ -253,7 +262,7 @@ function Feed(title,url,type,parent){
 		var feed = this;
 		this.loadFeed().done(function (result){
 			feed.data = result;
-			console.log(feed);
+//			console.log(feed);
 			if(feed.parent){
 				var pub_div = feed.parent.pub_div;				
 //				var count = feed.parent.article_count;
@@ -265,14 +274,19 @@ function Feed(title,url,type,parent){
 				var display = feed.display;
 			}
 	
-			var output_div = pub_div+"_"+slugify(feed.title);
-			if($j('#'+output_div).length <= 0){
-				this_div = $j('<div/>').attr({
-					'id':output_div,
-					'class':feed.box_class
-				});
-				$j('#'+pub_div).append(this_div);
-//				$j('#'+pub_div).append('<div id="'+output_div+'" class="'+feed.box_class+'" ></div>')
+			if(feed.parent && feed.parent.output == "aggregate"){
+				var output_div = pub_div;
+			}else{
+				var output_div = pub_div+"_"+slugify(feed.title);
+				if($j('#'+output_div).length <= 0){
+					this_div = $j('<div/>').attr({
+						'id':output_div,
+						'class':feed.box_class
+					});
+					if(feed.display != 'feature'){
+						$j('#'+pub_div).append(this_div);
+					}
+				}
 			}
 			
 			if(feed.type == 'JSON'){
@@ -308,7 +322,6 @@ function Feed(title,url,type,parent){
 				  			'class':'clearfix rss_excerpt'+last+' '+feed.item_class,
 				  		});
 				  		$j("#"+output_div).append(this_div);
-//				  		$j("#"+output_div).append('<div id="'+output_div+'_'+i+'" class="clearfix rss_excerpt'+last+' '+feed.item_class+'"></div>');
 
 				  		
 				  		if(this_feed[i].custom_fields.bento_image && this_feed[i].custom_fields.bento_image.length){
@@ -317,7 +330,6 @@ function Feed(title,url,type,parent){
 				  			});
 				  			this_div.append($j('img').attr('src',this_feed[i].custom_fields.bento_image));
 				  			$j('#'+output_div+'_'+i).append(this_div);
-//					  		$j('#'+output_div+'_'+i).append('<div class="json_thmb"><img src="'+this_feed[i].custom_fields.bento_image+'"/></div>');
 				  		}else if(this_feed[i].attachments && this_feed[i].attachments.length > 0){
 							  img_src = this_feed[i].attachments[0].url.split('.');
 							  img_src_path = "";
@@ -335,7 +347,6 @@ function Feed(title,url,type,parent){
 				  			});
 				  			this_div.append($j('<img/>').attr('src',img_src_path));
 				  			$j('#'+output_div+'_'+i).append(this_div);
-//					  		$j('#'+output_div+'_'+i).append('<div class="json_thmb"><img src="'+img_src_path+'" /></div>');
 						}else{
 								//attempt to find image in content
 								var temp = $j('<div/>');
@@ -347,14 +358,12 @@ function Feed(title,url,type,parent){
 						  			});
 						  			this_div.append($j('<img/>').attr('src',img));
 						  			$j('#'+output_div+'_'+i).append(this_div);
-								//$j("#"+output_div+'_'+i).append('<div class="json_thmb"><img src="'+img+'"/></div>');									
 								}else if(feed.default_image){
 						  			this_div = $j('<div/>').attr({
 						  				'class':'json_thmb',
 						  			});
 						  			this_div.append($j('<img/>').attr('src',feed.default_image));
 						  			$j('#'+output_div+'_'+i).append(this_div);
-								//$j("#"+output_div+'_'+i).append('<div class="json_thmb"><img src="'+feed.default_image+'"/></div>');
 								}
 				  		}
 				  		
@@ -371,16 +380,11 @@ function Feed(title,url,type,parent){
 				  				'target':_blank
 				  			}));
 				  			$j('#'+output_div+'_'+i).append(source);
-					  		//source = '<h3><a href="'+feed.source_url+'" target="_blank">'+feed.source_name+'</a></h3>';
 				  		}else if (feed.source_name){
 				  			source = $j('<h3/>');
 				  			source.text(feed.source_name);
 				  			$j('#'+output_div+'_'+i).append(source);
-					  		//source = '<h3>'+feed.source_name+'</h3>';
-				  		}else{
-					  		//source = '';
 				  		}
-				  		
 				  		title = $j('<div/>').attr({
 				  			'id':output_div+'_'+i+'_title',
 				  			'class':'rss_title',
@@ -396,7 +400,6 @@ function Feed(title,url,type,parent){
 				  		
 				  		
 				  		$j('#'+output_div+'_'+i).append(title,excerpt);
-				  		//$j('#'+output_div+'_'+i).append(source+'<h2 id="'+output_div+'_'+i+'_title" class="rss_title"><a href="'+this_feed[i].url+'">'+this_feed[i].title+'</a></h2><p id="'+output_div+'_'+i+'_excerpt">'+this_excerpt+'</p>');
 				  		
 				  		if(feed.read_more_text != ""){
 				  			this_div = $j('<div/>').attr({
@@ -405,7 +408,6 @@ function Feed(title,url,type,parent){
 				  				'href':this_feed[i].url
 				  			}).text(feed.read_more_text));
 				  			$j('#'+output_div+'_'+i).append(this_div);
-					  		//$j('#'+output_div+'_'+i).append('<div class="'+feed.read_more_class+'"><a href="'+this_feed[i].url+'">'+feed.read_more_text+'</a></div>');
 				  		}
 				  		
 				  		
@@ -423,7 +425,7 @@ function Feed(title,url,type,parent){
 
 			}else{
 				articles = feed.data.responseData.feed.entries;
-				console.log(articles);
+				//console.log(articles);
 				if(count == -1 || count > articles.length){count = articles.length;}
 					if(display == "video-grid"){
 						if(feed.show_title == true){
@@ -443,13 +445,13 @@ function Feed(title,url,type,parent){
 									if(articles[j].mediaGroups[0].contents[k].medium == 'video' && found == 0){
 										this_vid = articles[j].mediaGroups[0].contents[k].url;
 										if(feed.media_override.length > 0){
-											console.log('override present');
+											//console.log('override present');
 											for(var m = 0 ; m < feed.media_override.length; m++){
-												console.log(m);
+												//console.log(m);
 												if(feed.media_override[m][0] == 'video' && this_vid.indexOf(feed.media_override[m][1]) >= 0 ){
-													console.log('string found');
+													//console.log('string found');
 													this_vid = this_vid.replace(feed.media_override[m][1],feed.media_override[m][2]);
-													console.log(this_vid);
+													//console.log(this_vid);
 												}
 											}
 											
@@ -467,6 +469,7 @@ function Feed(title,url,type,parent){
 
 
 						
+
 					}else if(display == "excerpt"){
 						//console.log('RSS Excerpt');
 						if(feed.show_title == true){
@@ -484,7 +487,8 @@ function Feed(title,url,type,parent){
 							}else{
 								last = "";
 							}
-							$j("#"+output_div).append('<div id="'+output_div+'_'+j+'" class="clearfix rss_excerpt'+last+' '+feed.item_class+'"></div>');
+							var child_count = $j("#"+output_div).children().length;
+							$j("#"+output_div).append('<div id="'+output_div+'_'+child_count+'" class="clearfix rss_excerpt'+last+' '+feed.item_class+'"></div>');
 							if(articles[j].mediaGroups && articles[j].mediaGroups.length > 0){
 								for(var k = 0 ; k < articles[j].mediaGroups[0].contents.length; k++){
 									if(articles[j].mediaGroups[0].contents[k].medium != 'video'){
@@ -522,6 +526,256 @@ function Feed(title,url,type,parent){
 						  		$j('#'+output_div+'_'+j).append('<div class="'+feed.read_more_class+'"><a href="'+articles[j].link+'">'+feed.read_more_text+'</a></div>');
 						  	}
 						}
+					}else if(display == "kuvo-excerpt"){
+												//console.log('RSS Excerpt');
+						if(feed.show_title == true){
+							if(feed.title_url.length > 0){
+								this_title = '<a href="'+feed.title_url+'" target="_blank">'+feed.title+'</a>';
+							}else{
+								this_title = feed.title;
+							}
+							$j("#"+output_div).parent().prepend('<h2 class="'+feed.title_class+'" style="'+feed.title_style+'">'+this_title+'</h2>');
+						}
+
+						for(var j = 0;j < count; j++){
+							if(j == (count - 1)){
+								last = "_last";
+							}else{
+								last = "";
+							}
+
+					  		if(feed.source_name && feed.source_url){
+						  		source = '<h3><span style="text-transform:none">From </span><a href="'+feed.source_url+'" target="_blank">'+feed.source_name+'</a></h3>';
+					  		}else if (feed.source_name){
+						  		source = '<h3><span style="text-transform:none">From </span>'+feed.source_name+'</h3>';
+					  		}else{
+						  		source = '';
+					  		}
+					  		var child_count = $j("#"+output_div).children().length;
+							$j("#"+output_div).append('<div id="'+output_div+'_'+child_count+'" class="clearfix rss_excerpt'+last+' '+feed.item_class+'"></div>');
+							var pub_date = new Date(articles[j].publishedDate);
+							$j("#"+output_div+"_"+child_count).attr('data-pubdate',pub_date);
+							$j("#"+output_div+'_'+child_count).append('<h2 class="rss_title"><a href="'+articles[j].link+'" target="_blank">'+articles[j].title+'</a></h2>'+source);
+							if(articles[j].mediaGroups && articles[j].mediaGroups.length > 0){
+								for(var k = 0 ; k < articles[j].mediaGroups[0].contents.length; k++){
+									if(articles[j].mediaGroups[0].contents[k].medium != 'video'){
+										this_thmb = articles[j].mediaGroups[0].contents[k].url;
+										$j("#"+output_div+'_'+child_count).append('<div class="rss_thmb"><img src="'+this_thmb+'"/></div>');										
+									}
+								}
+								
+							}else{
+								//attempt to find image in content
+								var temp = $j('<div/>');
+								temp.innerHTML = articles[j].content;
+								var img = $j(temp).find('img').first().attr('src');
+								if(img){
+								$j("#"+output_div+'_'+child_count).append('<div class="rss_thmb"><img src="'+img+'"/></div>');									
+								}else if(feed.default_image){
+								$j("#"+output_div+'_'+child_count).append('<div class="rss_thmb"><img src="'+feed.default_image+'"/></div>');																		
+									
+								}
+							}
+							
+							$j("#"+output_div+'_'+child_count).append('<p>'+getExcerpt(articles[j].content,4)+'</p>');
+							
+							
+
+							
+							
+					  		if(feed.read_more_text != ""){
+						  		$j('#'+output_div+'_'+child_count).append('<div class="'+feed.read_more_class+'"><a href="'+articles[j].link+'">'+feed.read_more_text+'</a></div>');
+						  	}
+						}
+
+					}else if(display == "feature"){
+						//console.log('RSS Excerpt');
+						//limit display to one article only...
+						count=1;
+
+						
+						$j("#"+pub_div).addClass('carousel slide');
+						var inner_pub = $j('<div />').attr({
+							'class':'carousel-inner'
+						});
+						
+						for(var j = 0;j < count; j++){
+							var item_div = $j('<div />').attr({
+								'class': 'item active',
+								'style':'background-color: #272727; width: 611px; height: 343px'
+							});
+							
+							if(j == (count - 1)){
+								last = "_last";
+							}else{
+								last = "";
+							}
+					  		
+					  		var img_link = $j('<a />').attr({
+						  		'href':articles[j].link,
+						  		'style':'display: block; margin:auto auto;'
+					  		});
+					  		
+					  		
+					  		
+							var img_src = feed.default_image;																		
+							if(articles[j].mediaGroups && articles[j].mediaGroups.length > 0){
+								for(var k = 0 ; k < articles[j].mediaGroups[0].contents.length; k++){
+									if(articles[j].mediaGroups[0].contents[k].medium != 'video'){
+										var img_src = this_thmb = articles[j].mediaGroups[0].contents[k].url;
+									}
+								}
+								
+							}else{
+								//attempt to find image in content
+								var temp = $j('<div/>');
+								temp.innerHTML = articles[j].content;
+								var img = $j(temp).find('img').first().attr('src');
+								if(img){
+								var img_src = img;
+								}else if(feed.default_image){
+								var img_src = feed.default_image;																		
+									
+								}
+							}
+							
+					  		var image = $j('<img />').attr({
+						  		'src': img_src,
+						  		'alt': articles[j].title,
+						  		'style': 'display:block; margin:auto auto; padding: 0px 0px'
+					  		});
+					  		
+					  		$j(img_link).append(image);
+					  		$j(item_div).append(img_link);
+					  		
+					  		var caption_div = $j('<div />').attr({
+						  		'class': 'carousel-caption'
+					  		});
+					  		
+					  		var cap_title_link = $j('<a />').attr({
+						  		'src':articles[j].link,
+						  		'alt': articles[j].title,
+					  		});
+					  		$j(cap_title_link).append('<h2><b>'+articles[j].title+'</b></h2>')
+					  		
+					  		$j(caption_div).append(cap_title_link);
+					  		
+					  		var caption = $j('<p />').text(getExcerpt(articles[j].content,2));
+					  		
+					  		$j(caption_div).append(caption);
+					  		
+					  		$j(item_div).append(caption_div);
+					  								  	
+						  	$j(inner_pub).append(item_div);
+						  	
+						  	
+						}
+						
+						$j('#'+pub_div).append(inner_pub);
+						
+						
+						if(feed.show_archive){
+							//console.log("showing archive");
+							if(articles.length < 4){
+								archive_count=articles.length - count;
+							}else{
+								archive_count=3;
+							}
+
+							
+							var archive_div = $j('<div />').addClass('row-fluid');
+							var story_wrapper = $j('<div />').addClass('span12 box promo-container clearfix one-promo horizontal with-image');
+							
+							for(var k = 0 ; k < archive_count; k++){
+								var item_div = $j('<div />').attr({
+									'class':'promo span4 clearfix',
+									'style':'height: 100%;'
+								});
+								
+								var img_link = $j('<a />').attr({
+									'href':articles[k+count].link,
+									'class':'promo-link'
+								});
+								
+								
+								var img_src = feed.default_image;																		
+								if(articles[k+count].mediaGroups && articles[k+count].mediaGroups.length > 0){
+									for(var m = 0 ; m < articles[k+count].mediaGroups[0].contents.length; m++){
+										if(articles[k+count].mediaGroups[0].contents[m].medium != 'video'){
+											var img_src = this_thmb = articles[k+count].mediaGroups[0].contents[m].url;
+										}
+									}
+									
+								}else{
+									//attempt to find image in content
+									var temp = $j('<div/>');
+									temp.innerHTML = articles[j].content;
+									var img = $j(temp).find('img').first().attr('src');
+									if(img){
+									var img_src = img;
+									}else if(feed.default_image){
+									var img_src = feed.default_image;																		
+										
+									}
+								}
+																
+								var img = $j('<img />').attr({
+									'src':img_src,
+									'alt':articles[k+count].title,
+									'width':'300',
+									'height':'127',
+									'style':'max-height:106.0625px'
+								});
+								
+								$j(img_link).append(img);
+								$j(item_div).append(img_link);
+								
+								var source = $j('<h3/>');
+								
+								if(feed.source_name && feed.source_url){
+									var source_link = $j('<a/>').attr({
+										'href':feed.source_url
+									}).text(feed.source_name);
+									$j(source).append(source_link);
+								}else if(feed.source_name){
+									$j(source).text(feed.source_name);
+								}
+								
+								$j(item_div).append(source);
+								
+								var title = $j('<h2/>');
+								var title_link = $j('<a />').attr({
+									'href':articles[k+count].link,
+								}).text(articles[k+count].title);
+								
+								$j(title).append(title_link);
+								$j(item_div).append(title);
+								
+								var read_more = $j('<div/>').attr({
+									'class':'read-more'
+								});
+								var rm_link = $j('<a />').attr({
+									'href':articles[k+count].link,
+								}).text('Read More');
+								$j(read_more).append(rm_link);
+								$j(item_div).append(read_more)
+								
+								$j(story_wrapper).append(item_div);
+								$j(archive_div).append(story_wrapper);
+								
+							}
+							
+							$j('#'+pub_div).after(archive_div);
+							 
+						}
+						
+						
+						
+						
+						
+						
+						
+						
 					}else{
 					//console.log('RSS Titles ');
 //						if((!feed.parent || (feed.parent && feed.parent.output != "tabs")) && feed.show_title == true){//if not part of tabular group output, generate a title
@@ -552,7 +806,16 @@ function Feed(title,url,type,parent){
 					}
 				
 			}
-			
+			if(feed.parent && feed.parent.output == "aggregate"){
+//		  		$j("#"+pub_div).children().sort(sort_date).appendTo("#"+pub_div);
+		  		$j("#"+pub_div+" > div").sort(function(a,b) {
+			  		//console.log('sorting:'+a.dataset.pubdate);
+		  			return a.dataset.pubdate < b.dataset.pubdate;
+		  			}).appendTo("#"+pub_div);
+		  		function sort_date(a, b){
+		  			return a.dataset.pubDate < b.dataset.pubDate ? 1 : -1;    
+		  		}
+			}
 			
 			if(feed.parent && feed.parent.output == "tabs"){
 			  $j("#"+pub_div+"").tabs("refresh");
@@ -608,7 +871,7 @@ function getExcerpt(content, count){
 	if(sentences.length < count){count = sentences.length}
 	
 	for(var i = 0 ; i < count; i++){
-		return_content = return_content + sentences[i];
+		return_content = return_content + sentences[i] + ' ';
 	}
 	
 	
@@ -622,4 +885,5 @@ function getExcerpt(content, count){
 function wellCrap(){
   console.log("An error occurred while retrieving JSON.");
 }
+
 

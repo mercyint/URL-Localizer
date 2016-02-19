@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>Sandbox | flip-grid.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="flip-grid.js"></script>
+<link rel="stylesheet" href="flip-grid.css">
+<link rel="stylesheet" href="http://raceincolorado.lunchbox.pbs.org/s/libs/ace/css/ace.min.css">
+<link rel="stylesheet" href="../../../../mercy-interactive.com/Demos/Template-parallax/parallax.css">
+</head>
+<body>
+<script>
+$('document').ready(function(){
+	grid_fieldName = new FlipGrid('grid_fieldName');
+	grid_fieldName.buildGrid('{"cards":{"card100":{"pub_div":"single-card-admin","id":"card100","settings":{"q_source":"Sarah","quote":"Awesomeness is awesome","image":"http://cdn.someecards.com/someecards/usercards/MjAxMy00YTk5MjY4ZmExY2NhMzU4.png"},"parent":"grid_fieldName"},"card101":{"pub_div":"single-card-admin","id":"card101","settings":{"q_source":"Saramerica","quote":"Awesomness is still awesome","image":"http://cdn.someecards.com/someecards/usercards/MjAxMy00YTk5MjY4ZmExY2NhMzU4.png"},"parent":"grid_fieldName"}},"id":"grid_fieldName","settings":{"pub_div":"flip-grid-admin","display":"grid"}}');
+
+
+
+
+
+//	grid_fieldName.renderAdmin();
+	console.log(grid_fieldName);
+	
+//	singleVid = new Video('singleVid');
+//	singleVid.renderAdmin();
+
+
+	grid_fieldName.renderGrid("flip-target");
+	
+});
+
+</script>
+
+
+
+<tr>
+	<input type="hidden" value="" id="var_grid_fieldName">
+<!--    <input type="hidden" value="" id="var_grid_fieldName"/> -->
+	<div id="flip-grid-admin">
+	</div>
+</tr>
+<tr>
+	<input type="hidden" value="" id="var_singleVid">
+<!--    <input type="hidden" value="" id="var_grid_fieldName"/> -->
+	<div id="single-video-admin">
+	</div>
+</tr>
+
+
+
+<div id="flip-target">
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Sandbox | tv-schedules.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$('document').ready(function(){
+/*	$.ajax({
+		type: "GET",
+		url:"http://services.pbs.org/tvss/krma/today/?format=jsonp",
+		dataType: "jsonp",
+		success: function(data){
+			console.log(data);
+		},
+		beforeSend: function(xhr){xhr.setRequestHeader('X-PBSAUTH', 'krma-debe4e17a8cd681c216f4160e817ec0c656059a32c19687d37cc5dd4');},
+	});*/
+	
+	$.ajax({
+         url: "http://services.pbs.org/tvss/krma/today/?apikey=krma-debe4e17a8cd681c216f4160e817ec0c656059a32c19687d37cc5dd4",
+         type: "POST",
+         dataType: "jsonp",
+         headers:{'X-PBSAUTH':"krma-debe4e17a8cd681c216f4160e817ec0c656059a32c19687d37cc5dd4"},
+         beforeSend: function(xhr){
+	         alert("Adding some crap");
+	         xhr.setRequestHeader('X-PBSAUTH', 'krma-debe4e17a8cd681c216f4160e817ec0c656059a32c19687d37cc5dd4');
+	     },
+         success: function(data) { 
+	         console.log(data);;
+	     }
+      });
+	
+});
+</script>
+</head>
+<body>
+</body>
+</html>

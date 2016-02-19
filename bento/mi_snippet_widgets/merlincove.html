@@ -1,0 +1,107 @@
+{% load url from future %}
+{% load smartsnippets_tags merlin_tags filertags %}
+{% url 'admin:filer_folder_changelist' as filer_url %}
+{% url 'image_resize.views.image_resize_handler' as image_resize_url %}
+{% if service == 'COVE' %}
+    {% settings_value 'cmsplugin_merlin.cove_fields' as cmsplugin_merlin_fields %}
+{% else %}
+    {% settings_value 'cmsplugin_merlin.merlin_fields' as cmsplugin_merlin_fields %}
+{% endif %}
+{% settings_value 'cmsplugin_merlin.resize_args' as resize_args %}
+{% site_for_merlin as merlin_site_id %}
+{% site_for_pmp as pmp_site_id %}
+{% current_site as site_id %}
+{% spaceless %}
+<tr style="display:none"><td colspan="2">
+    <!-- styles and scripts should still be inside <td> otherwise the markup is invalid -->
+    <script type="text/javascript">
+        var cmsplugin_merlin_fields = {{ cmsplugin_merlin_fields|safe }};
+        var _resize_args = '{{ resize_args }}';
+        var _image_resize_url = '{{ image_resize_url }}';
+        SnippetWidgetRegistry.registerVariable('merlin', 'var_{{ field.name }}');
+    </script>
+</td></tr>
+
+<tr class="help-text">
+    <td colspan="2">
+        <p> This smart snippet allows you to use {{ service }} objects as items. To rearrange the order of the items in the snippet, click the textured area next to the item number and drag the item above or below another item. To make rearranging items easier, minimize the items’ displays by clicking the triangle in the upper-right corner of an item.</p>
+    </td>
+</tr>
+{% comment %}merlin-field.js depends on this class name of this section. Don't change it.{% endcomment %}
+<tr class="section_{{ field.name }}">
+    <td colspan="2" class="section-delimiter">
+        <div class="grouped widget-box">
+            <div class="widget-header" id="{{ field.name }}">
+                <span class="widget-drag ui-sortable-handle"></span>
+                <h5 class="widget-title">{{ field.name }}<span class="merlin-{{ field.name }}-title"></span></h5>
+                <div class="widget-toolbar">
+                    <a href="{{ field.name }}" class="widget-anchor ">
+                        <i class="1 ace-icon glyphicon glyphicon-chevron-down bigger-125 middle"></i>
+                    </a>
+                </div>
+                <input class="merlinfield_hidden" id="var_{{ field.name }}" type="hidden" name="_{{ field.name }}_" value="{{ field.value }}" size="100"/>
+            </div>
+            <div class="widget-body collapse-item">
+                <table width="100%">
+                    <tr class="field">
+                        {% if merlin_site_id or service == 'COVE' %}
+                            <td class="col-sm-3 control-label">
+                                <label for="{{ field.name }}_{{ service }}" class="form-group no-margin-right no-margin-left text-right">Search the {{ service }} {% if pmp_site_id %}<span class="visible-custom-promo" style="display:none"> / PMP</span>{% endif %} library</label>
+                            </td>
+                            <td class="col-sm-9">
+                                <div class="form-group no-margin-right no-margin-left">
+                                {% if merlin_site_id and service == 'Merlin' %}
+                                    <a href="{% url 'cmsplugin_merlin.views.merlin_browse' field.name merlin_site_id %}{{ get_param }}" class="merlin-lookup btn btn-info btn-sm" id="{{ field.name }}_{{ service }}" target="_blank">Choose</a>
+                                    {% if pmp_site_id %}
+                                        <!-- this launcher should be visible only for Custom promo -->
+                                        <div class="pmp_launcher" style="display:none;"> 
+                                            <a class='pmp-lookup' href="{% url 'cmsplugin_merlin.views.pmp_browse' field.name pmp_site_id %}">
+                                                <img class="merlin" src="{{'/media/snippet-widgets/images/pmp.png'|filerfile }}" width="20" height="20" alt="Public Media Platform" />
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% elif service == 'COVE' %}
+                                    <a href="{% url 'cmsplugin_merlin.views.merlin_browse' field.name site_id %}?cove=true" class="merlin-lookup btn btn-info btn-sm" id="{{ field.name }}_{{ service }}">Choose</a>
+                                {% endif %}
+                                </div>
+                            </td>
+                        {% else %}
+                            {{ service }} integration not enabled for this site.
+                        {% endif %}
+                    </tr>
+                    
+                    {% for key in cmsplugin_merlin_fields|sortlist %}
+                        {% with val=field.formatted_value|get_item:key %}
+                        <tr class="field field_{{key}}">
+                            {% if key == "image" %}
+                                    <td colspan="2"><table class="no-label no-border"><tr><td>
+                                    {% as_dict name=key value=val prefix=field.name|add:'_' as image_field %}
+                                    {% include 'snippet-widgets/fileroptionalimage.html' with field=image_field %}</td></tr></table></td>
+                            {% else %}       
+                            <td class="col-sm-3 control-label"><label for="{{ field.name }}_{{ key }}" class="text-right form-group no-margin-right no-margin-left">{{ key }}</label></td>
+                            <td class="col-sm-9">
+                                <div class="input-icon input-icon-left">
+                                    {% with optional_fields='details_text,url,expires'|split:',' %}
+                                    {% if key == "description" or key == "short_description" %}
+                                        <textarea class="object_{{ key }} form-group no-margin-right no-margin-left"  {% if key in optional_fields %}data-allow-empty="true"{% endif %} name="_{{ field.name }}_{{ key }}_" id="{{ field.name }}_{{ key }}" size="104" maxlength="200" novalidate>{{ val }}</textarea>
+                                    {% else %}
+                                        <input class="object_{{ key }} form-group no-margin-right no-margin-left" {% if key in optional_fields %}data-allow-empty="true"{% endif %} name="_{{ field.name }}_{{ key }}_" id="{{ field.name }}_{{ key }}" type="text" value="{{ val }}" size="100" novalidate/>
+                                    {% endif %}
+                                    <i class="ace-icon red glyphicon glyphicon-exclamation-sign"></i>
+                                        <span class="error_{{ key }} help-block help-error-message col-sm-reset">This field is mandatory!</span>
+                                    {% endwith %}
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    <tr class="deletelink-box text-right"><td colspan="2"><a href="" class="deletelink btn no-radius">Remove Item</a></td></tr>
+                </table>
+            </div>
+        </div>
+    </td>
+</tr>
+{% endspaceless %}
+
+​

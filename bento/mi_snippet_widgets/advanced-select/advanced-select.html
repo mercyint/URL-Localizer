@@ -1,0 +1,273 @@
+<html>
+<head>
+<title>Sandbox | advanced-select.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<script>
+$ = jQuery.noConflict();
+var id_seed = 100;
+
+	var AdvSelect = function(id){
+		if(!id){
+			return console.log('ERROR: VideoGrid(id) requires a valid string for argument "id"');
+		}else{
+			this.id = id;
+		}
+		this.label = "";
+		this.options = {};
+		this.pub_div = this.id+"_adv-select-admin";
+		
+		this.taxonomy = {};
+		this.taxonomy['title'] = "Title";
+		this.taxonomy['value'] = "Value";
+		
+		this.addOption = function(){
+			var new_opt = new AdvOption();
+			this.options[new_opt.id] = new_opt;
+			this.options[new_opt.id].parent = this.id;
+			this.options[new_opt.id].renderAdmin();
+		}
+		this.removeOption = function(id){
+			$('#advsel-'+id).remove();
+			delete this.options[id];
+			this.updateFormField();
+		}
+		this.renderAdmin = function(){
+			target = $('#'+this.pub_div);
+			
+			target.append('<h2>Advanced Select:'+this.label+'</h2>');
+	
+			for(var option in this.options){
+				this.options[option].renderAdmin();
+			}
+					
+			target.after('<a class="add_button" id="add_button" onclick="'+this.id+'.addOption()">Add Option</a>');
+		}
+
+		this.updateFormField = function(){
+			this_select = eval(this.id);
+			var select_obj = {};
+			var opt_str = JSON.stringify(this.options);
+			select_obj['options'] = this.options;
+			select_obj['id'] = this.id;
+			
+			var select_dict_string = JSON.stringify(select_obj);
+			if(select_dict_string){
+	  		  $('#var_'+this.id).val(JSON.stringify(select_obj));
+			}
+			
+		}
+		
+		this.buildSelect = function(json){
+			var obj = JSON.parse(json);
+	
+			for(var option in obj.options){
+				var new_option = new AdvOption(option.id);
+				new_option.parent = this.id;
+				new_option.title = obj.options[option].type;
+				new_option.val = obj.options[option].settings;
+				new_option.selected = obj.options[option].selected;
+				
+				this.options[new_option.id] = new_option;
+				
+			}
+		}
+
+		
+		
+		
+		
+		this.reorderOptions = function (){
+			/*  IN DEVELOPMENT  */
+			var new_options ={}
+			
+			var opt_ids = new Array();
+			console.log('child order');
+			$('#'+this.id+'_adv-select-admin').children().each(function(){
+				var opt_id = this.dataset.optionId;
+				console.log(opt_id);
+				opt_ids.push(opt_id);
+			});
+			console.log('array order');
+			for(var i = 0 ; i < opt_ids.length; i++){
+				console.log(opt_ids[i]);
+				new_options[opt_ids[i]] = this.options[opt_ids[i]];
+			}
+			
+			console.log(new_options);
+			
+			this.options = new_options;
+			
+			
+			console.log(this.options);
+			this.updateFormField();
+			
+		}
+		
+
+	}
+	
+	var AdvOption = function(id){
+		if(!id){
+			this.id = id_seed++;
+		}else{
+			this.id = id;
+		}
+		this.parent;
+		this.title="";
+		this.val = "";
+		this.selected="";
+		
+		this.renderAdmin = function (){
+			if(this.parent){
+				var pub_div = $('#'+eval(this.parent).pub_div);
+			}else{
+				return console.log('Object AdvOption() is designed to be a child object to object AdvSelect().');
+			}
+			
+			var opt_div = $('<div />')
+				.attr({
+					'id':this.id+'-option',
+					'data-option-id': this.id,
+					'data-select-id': this.parent
+				})
+				.addClass('adv-option');
+			var opt_title_div = $('<div />');
+			var opt_title_label = $('<label />').text(eval(this.parent).taxonomy['title']+':');
+			var opt_title = $('<input />').attr({
+				'id':'opt_'+this.id+'_title',
+				'data-option-id': this.id,
+				'data-select-id': this.parent
+				}).unbind('change').bind('change',function(e){
+					var this_title = eval(e.currentTarget.id);
+					var this_select = eval(e.currentTarget.dataset.selectId);
+					
+					var this_opt = this_select.options[e.currentTarget.dataset.optionId];
+					this_opt.title = $(this_title).val();
+					
+					this_select.updateFormField();
+					
+				});
+			
+			if(this.title){
+				opt_title.val(this.title);
+			}
+			opt_title_div.append(opt_title_label);
+			opt_title_div.append(opt_title);
+			
+			opt_div.append(opt_title_div);
+
+			var opt_value_div = $('<div />');
+			var opt_value_label = $('<label />').text(eval(this.parent).taxonomy['value']+':');
+			var opt_value = $('<input />').attr({
+				'id':'opt_'+this.id+'_value',
+				'data-option-id': this.id,
+				'data-select-id': this.parent
+				}).unbind('change').bind('change',function(e){
+					var this_value = eval(e.currentTarget.id);
+					var this_select = eval(e.currentTarget.dataset.selectId);
+					
+					var this_opt = this_select.options[e.currentTarget.dataset.optionId];
+					this_opt.value = $(this_value).val();
+					
+					this_select.updateFormField();
+					
+				});
+			
+			if(this.value){
+				opt_value.val(this.value);
+			}
+			opt_value_div.append(opt_value_label);
+			opt_value_div.append(opt_value);
+			
+			var opt_delete = $('<i />').attr({
+				'id':'opt_'+this.id+'_remove',
+				'data-option-id': this.id,
+				'data-select-id': this.parent
+				})
+				.addClass('fa fa-trash-o')
+				.unbind('click').bind('click',function(e){
+					var this_del = eval(e.currentTarget.id);
+					var this_select = eval(e.currentTarget.dataset.selectId);
+										
+					this_select.removeOption(e.currentTarget.dataset.optionId);
+					$('#'+e.currentTarget.dataset.optionId+'-option').remove();
+					this_select.updateFormField();
+				});
+			
+			opt_div.append(opt_delete);
+			
+			opt_div.append(opt_value_div);
+			
+			pub_div.append(opt_div);			
+			
+		}
+		
+		
+		
+	}
+	
+</script>
+
+
+
+
+<script>
+$('document').ready(function(){
+	select_fieldName = new AdvSelect('select_fieldName');
+	select_fieldName.label = "Kimbia Forms";
+	select_fieldName.taxonomy['title'] = "Gift Category";
+	select_fieldName.taxonomy['value'] = "Form Chooser ID";
+	select_fieldName.renderAdmin();
+	console.log(select_fieldName);	
+	
+/*	$('#select_fieldName_adv-select-admin').sortable({
+		stop: function(e){
+			console.log(e.target.dataset.selectId);
+			eval(e.target.dataset.selectId).reorderOptions();
+		},
+	});*/
+	
+	
+});
+
+</script>
+<style>
+	.adv-select-admin{
+		
+	}
+	.adv-select-admin h2{
+		font-size:1.5em;
+		background:#eee;
+		border:#ccc 1px solid;
+		padding:.25em;
+	}
+	.adv-option {
+		display:block;
+		height:2em;
+		margin-left: 10em;
+	}
+	.adv-option > div {
+		float:left;
+	}
+	
+</style>
+
+
+<tr>
+	<input type="hidden" value="" id="var_select_fieldName">
+	<div id="select_fieldName_adv-select-admin" class="adv-select-admin" data-select-id="select_fieldName">
+	</div>
+</tr>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Sandbox | webapp_pull.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+	$('document').ready(function(){
+		var loadFeed = function(){
+		 var url = "http://kuvo.org/feeds/term/53/rss.xml";
+		 $.ajax({
+			type: "GET",
+			url: 'https://script.google.com/macros/s/AKfycbzwFXPLAs4ghI-1N0lyQpu26RlY-WY5C_XfwZNEuSjI9xzMrFay/exec?url='+url,
+			dataType: "jsonp",
+			cache: false,
+			jsonp:false,
+			jsonpCallback:"jsonCallback",
+			success:function(data){
+				console.log(data);
+			},
+			error:function(e){
+				console.log(e);
+			}
+		  });
+		  
+		}
+	  	
+	  	loadFeed();
+	});
+	
+	
+</script>
+
+</head>
+<body>
+	<div id="webapp"></div>
+</body>
+</html>

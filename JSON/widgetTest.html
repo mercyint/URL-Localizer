@@ -1,8 +1,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
+<script src="Feeds2.js"></script>
 <script>
 $j(document).ready(function(){
-	rssExcerpt = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+	rssExcerpt = new Feed("INews at RMPBS","http://inewsnetwork.org/?feed=centerpiece",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
 	rssExcerpt.display = 'excerpt';//OPTIONS: excerpt (default) | title 
 	rssExcerpt.pub_div = 'excerptDiv';
 
@@ -22,6 +22,7 @@ $j(document).ready(function(){
 //	rssExcerpt.read_more_class = "read-more";/* CSS class for link to additional content (excerpt display only) - default "read-more" */
 //	rssExcerpt.default_image = "";/* URL ot placeholder image for articles with no image */
 
+rssExcerpt.renderFeed();
 
 });
 
@@ -113,3 +114,40 @@ h2.rss_title a {
 }
 </style>
 <div id="excerptDiv"></div>
+
+
+
+
+
+
+
+<div id="myCarousel-S" class="carousel slide">
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+        
+            <div class="item active" style="background-color: #272727; width: 611px; height: 343px">
+                <a href="http://inewsnetwork.org/2015/06/12/surviving-without-outside-help-a-struggle-for-many-colorado-families/" style="display: block; margin:auto auto;">
+                    <img src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20Blog%20Images/News%20imgs/Data%20interactive_645x363.png" alt="Featured Story: Self Sustainability in Colorado " title="Featured Story: Self Sustainability in Colorado " style="display:block; margin:auto auto; padding: 0px 0px">
+                </a>
+                <div class="carousel-caption">
+                    <a href="http://inewsnetwork.org/2015/06/12/surviving-without-outside-help-a-struggle-for-many-colorado-families/"><h2><b>Featured Story: Self Sustainability in Colorado </b></h2></a>
+
+                    <p>Use our calculator to find out how much you really need to earn to get by in Colorado. </p>
+                </div>
+
+            </div>
+        
+        
+        
+        
+        
+        
+        
+
+    </div>
+    <!-- Carousel nav -->
+    
+    
+    </div>
+
+

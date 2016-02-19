@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>Sandbox | containedparallax.html</title>
+<style>
+	.parallax{
+		position:relative;
+	}
+	.parallax_slide{
+		overflow-y: scroll;
+		overflow-x: hidden;
+		perspective: 300px;
+		-webkit-perspective: 300px;
+		width:100vw;
+		height: 100vh;
+		 border:1px solid red;
+	}
+   .parallax_layer {
+ 	   position: absolute;
+ 	   top: 0;
+ 	   left: 0;
+ 	   right: 0;
+ 	   bottom: 0;
+  	}
+  	
+  	.pl_fore{
+	  	-webkit-transform: translateZ(90px) scale(.7);
+	  	transform: translateZ(90px) scale(.7);
+	  	z-index: 3;
+	  	background:rgba(255,0,0,.25);
+	  	height:150%;
+  	}
+  	.pl_base{
+	  	-webkit-transform: translateZ(0);
+	  	transform: translateZ(0);
+	  	z-index: 2;
+	  	background:rgba(0,255,0,.25);
+	  	height: 125%;
+  	}
+  	.pl_back{
+	  	-webkit-transform: translateZ(-300px) scale(2);
+	  	transform: translateZ(-300px) scale(2);
+	  	z-index: 2;
+	  	background:rgba(0,0,255,.25);
+	  	height:110%;
+  	}
+  	
+  	.pl_content{
+	    text-align: center;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+
+  	}
+</style>
+
+</head>
+<body>
+	<div class="parallax parallax_slide">
+			<div class="parallax_layer pl_back">
+				<div class="pl_content">Background</div>
+			</div>
+			<div class="parallax_layer pl_base">
+				<div class="pl_content">BASE</div>
+			</div>
+			<div class="parallax_layer pl_fore">
+				<div class="pl_content">Foreground</div>
+			</div>
+	</div>
+	
+	<div class="parallax">
+		<div class="parallax_slide">
+			<div class="parallax_layer pl_back">
+				<div class="pl_content">Background</div>
+			</div>
+			<div class="parallax_layer pl_base">
+				<div class="pl_content">BASE</div>
+			</div>
+			<div class="parallax_layer pl_fore">
+				<div class="pl_content">Foreground</div>
+			</div>
+		</div>
+		<div class="parallax_slide">
+			<div class="parallax_layer pl_fore">
+				<div class="pl_content">Foreground</div>
+			</div>
+			<div class="parallax_layer pl_base">
+				<div class="pl_content">BASE</div>
+			</div>
+			<div class="parallax_layer pl_back">
+				<div class="pl_content">Background</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>

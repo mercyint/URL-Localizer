@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>I-News Widget</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+		<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Feeds2.js"></script>
+		<!--<script src="http://sdudley.local/sandbox/JSON/Feeds2.js"></script>-->
+
+
+<script>
+$j(document).ready(function(){
+
+//	rssExcerpts = new FeedGroup();
+
+	rssExcerpt = new Feed("Rocky Mountain PBS I-News","http://inewsnetwork.org/?feed=bento&zzz",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+	rssExcerpt.display = 'kuvo-excerpt';//OPTIONS: excerpt (default) | title 
+	rssExcerpt.pub_div = 'excerptDiv';
+//	ieFeed = new Feed("Inside Energy","http://insideenergy.org/feed",'RSS');/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+//    ieFeed.display = 'kuvo-excerpt';//OPTIONS: excerpt (default) | title 
+//	ieFeed.pub_div = 'excerptDiv';
+//	ieFeed.source_name = "Inside Energy";
+//	ieFeed.source_url = "http://insideenergy.org";
+//	
+//	console.log(kuvoFeed instanceof Feed);*/
+
+
+
+
+
+//	rssExcerpts.addFeed(kuvoFeed);/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+//	rssExcerpts.addFeed(ieFeed);/*  Feed(title,url,type['RSS','JSON']) - Use JSON type only for Wordpress with JSON plugin */
+	
+
+
+
+/* The following options are available to further customize the display of the feed, just uncomment the line and make any changes to the value necessary  */
+
+//	rssExcerpt.streaming_url = "";/* for stations with a live stream */
+//	rssExcerpt.streaming_icon = "";/* Allows for an icon for streaming _urls */
+//	rssExcerpt.article_count = 5;/* Number of articles to display - default 5 */
+	rssExcerpt.show_title = false;/* Display feed title default true */
+	rssExcerpt.title_class = "title";/* Assign a CSS class to feed title */
+//	rssExcerpt.title_style = "";/* Assign value to feed title's inline style attribute */
+	rssExcerpt.source_url = "http://rmpbs.org/news";/* Homepage for source (if included) */
+	rssExcerpt.source_name = "Rocky Mountain PBS I-News";/* Feed source name */
+//	rssExcerpt.box_class = "";/* Assign a CSS class to the containing box */
+//	rssExcerpt.item_class = "";/* Assign a CSS class to the indivitual article boxes */
+//	rssExcerpt.read_more_text = "Read More";/* Text for link to additional content (excerpt display only) - default "Read More" */
+//	rssExcerpt.read_more_class = "read-more";/* CSS class for link to additional content (excerpt display only) - default "read-more" */
+//	rssExcerpt.default_image = "";/* URL ot placeholder image for articles with no image */
+
+
+	rssExcerpt.renderFeed();
+});
+</script>
+<style>
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(http://fonts.gstatic.com/s/lato/v11/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v11/1EqTbJWOZQBfhZ0e3RL9uvesZW2xOQ-xsNqO47m55DA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(http://fonts.gstatic.com/s/lato/v11/MZ1aViPqjfvZwVD_tzjjkwLUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Lato Black'), local('Lato-Black'), url(http://fonts.gstatic.com/s/lato/v11/jZjuDZSb58pQtWhOr6q-6ALUuEpTyoUstqEm5AMlJo4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Lato Italic'), local('Lato-Italic'), url(http://fonts.gstatic.com/s/lato/v11/61V2bQZoWB5DkWAUJStypevvDin1pK8aKteLpeZ5c0A.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(http://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYECZ2oysoEQEeKwjgmXLRnTc.ttf) format('truetype');
+}
+
+body{
+		letter-spacing: 0.005em;
+		word-spacing: .025em;
+		font-family: "Lato","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+		font-size:100%;
+		color: #3d3d3d;
+		background: #f8f8f8;
+	}
+	
+#excerptDiv div div {
+width:100%;
+}
+#excerptDiv h2.title{
+	font-family:Lato, 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;;
+	font-weight: bold;
+	background: #999;
+	color:#fff;
+	font-size:14px;
+	padding:10px;	
+}
+
+#excerptDiv div div li{
+width:100%;
+overflow: hidden;
+padding-right: 5px;
+white-space: nowrap; 
+}
+#excerptDiv div li,
+#excerptDiv div li a,
+#excerptDiv div span,
+#excerptDiv div span a{
+	color:#666;
+	font-size:12px;
+	text-decoration: none;
+	font-weight:normal;
+	padding:2px 0px;
+	margin:0px;
+	white-space: nowrap; 
+}
+
+.rss_thmb img,
+.rss_thmb {
+	max-width: 154px;
+	float: left;
+}
+.rss_thmb {
+	margin:5px;
+	padding-right: 0.9375rem;
+	margin-right: 0.9375rem;
+	padding-bottom: 0.5rem;
+	right: auto;
+}
+.rss_excerpt{
+	border-bottom-color: rgb(236, 238, 237);
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	margin-bottom:1.5625rem;
+	padding-bottom: 1.5%;
+}
+
+.rss_excerpt h3,
+.rss_excerpt h3 a,
+.rss_excerpt_last h3,
+.rss_excerpt_last h3 a{
+	font-size:0.75rem;
+	font-weight: normal;
+	font-style: normal;
+	color:#777;
+	text-transform:uppercase;
+	text-decoration:none;
+	line-height:1.25;
+	margin-top: 0.1rem;
+    margin-bottom: 0.5rem;
+}
+h2.rss_title,
+h2.rss_title a {
+	font-size:2rem;
+	font-weight:900;
+	text-decoration:none;
+	line-height:1.25;
+	background: none;
+	color:#222;
+	margin-bottom: 0.4rem;
+}
+.rss_excerpt p,
+.rss_excerpt_last p{
+	font-size: 1rem;
+	font-weight;400;
+	color: #3d3d3d;
+	line-height: 1.5;
+	margin-bottom: 0.625rem;
+}
+.rss_excerpt .read-more,
+.rss_excerpt .read-more a,
+.rss_excerpt_last .read-more,
+.rss_excerpt_last .read-more a{
+	font-size:13px;
+	font-weight:400;
+	color:#555555;
+	line-height:21px;
+	margin-top:8px;
+	text-align: left;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+a {
+	color:#0c4ca2;
+	text-decoration:none;
+}
+
+.rss_excerpt h3 a:hover,
+.rss_excerpt_last h3 a:hover,
+h2.rss_title a:hover,
+.rss_excerpt .read-more a:hover,
+.rss_excerpt_last .read-more a:hover{
+	text-decoration: underline;
+}
+ .read-more{
+	 display:none;
+ }
+.clearfix {
+	display: inline-block;
+}
+</style>
+	</head>
+<body>
+<div id="excerptDiv"></div>
+</body>
+</html>

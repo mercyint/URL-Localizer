@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Sandbox | story-grid.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="story-grid.js"></script>
+<link rel="stylesheet" href="story-grid.css">
+<link rel="stylesheet" href="http://raceincolorado.lunchbox.pbs.org/s/libs/ace/css/ace.min.css">
+</head>
+<body>
+<script>
+$('document').ready(function(){
+	grid_fieldName = new StoryGrid('grid_fieldName');
+//	grid_fieldName.buildGrid();
+      grid_fieldName.buildGrid('{\u0022stories\u0022:{\u0022story100\u0022:{\u0022pub_div\u0022:\u0022single\u002Dstory\u002Dadmin\u0022,\u0022type\u0022:\u0022test\u0022,\u0022id\u0022:\u0022story100\u0022,\u0022settings\u0022:{\u0022description\u0022:\u0022test description\u0022,\u0022highres\u0022:\u0022test image\u0022,\u0022url\u0022:\u0022test url\u0022},\u0022parent\u0022:\u0022story_grid\u0022}},\u0022id\u0022:\u0022story_grid\u0022,\u0022settings\u0022:{\u0022pub_div\u0022:\u0022story\u002Dgrid\u002Dadmin\u0022}}');
+
+
+	grid_fieldName.renderAdmin();
+	console.log(grid_fieldName);
+	
+//	singleVid = new Video('singleVid');
+//	singleVid.renderAdmin();
+	
+});
+
+</script>
+
+
+
+<tr>
+	<input type="hidden" value="" id="var_grid_fieldName">
+<!--    <input type="hidden" value="" id="var_grid_fieldName"/> -->
+	<div id="story-grid-admin">
+	</div>
+</tr>
+<tr>
+	<input type="hidden" value="" id="var_singleVid">
+<!--    <input type="hidden" value="" id="var_grid_fieldName"/> -->
+	<div id="single-video-admin">
+	</div>
+</tr>
+
+
+</body>
+</html>

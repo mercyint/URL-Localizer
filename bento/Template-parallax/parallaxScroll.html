@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>True Parallax</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<style>
+	
+  /* Header Styles */
+   #header {
+	margin: 0;
+    width: 98%;
+    height:3em;
+    position: fixed;
+    top:0;
+    z-index: 9999;
+    padding:1em;
+    border-bottom: solid rgba(255,255,255,.7) 1px;
+ }
+ #logo {
+	 float:left;
+ }
+ 
+ #header-menu {
+	 float:right;
+ }
+ #mobile-menu{
+	 margin: 0;
+	 padding:0;
+	 width:100%;
+	 position: fixed;
+	 top:5.1em;
+	 z-index: 9999;
+	 max-height:53%;
+	 overflow: scroll;
+ }
+ #mobile-menu > ul.menu,
+ #mobile-menu > ul.menu > li > ul,
+ .mobile-menu-button{
+	 display:none;
+ }
+ 
+ .menu li ul li > a,
+ .menu li > a{
+	 text-decoration: none;
+	 color:#666;
+	-webkit-transition: color 0.2s;
+	-moz-transition: color 0.2s;
+	-ms-transition: color 0.2s;
+	-o-transition: color 0.2s;
+	transition: color 0.2s;
+ }
+ .menu li ul li:hover > a,
+ .menu li:hover > a,
+ .menu li ul li > a:hover,
+ .menu li > a:hover{
+	 color:#000;
+ }
+ 
+ ul.menu{
+	 margin:0;
+ } 
+ ul.menu > li {
+	 display: inline-block;
+	 position:relative;
+	-webkit-transition: background 0.2s;
+	-moz-transition: background 0.2s;
+	-ms-transition: background 0.2s;
+	-o-transition: background 0.2s;
+	transition: background 0.2s;
+ }
+ ul.menu > li > a{
+	 margin:.5em 1em;
+	 display:block;
+	 }
+ #header-menu > ul.menu > li:hover {
+ 	background:rgba(255,255,255,.7);
+ } 
+ #header-menu > ul.menu > li > ul {
+   	background:rgba(255,255,255,.7);
+	 display:none;
+	 position:absolute;
+	 top:2.25em;
+	 left:0;
+	 width:200px;
+	 z-index: 9999;
+	 opacity:0;
+	 margin:0;
+	 padding:0;
+	-webkit-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-ms-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+#header-menu > ul.menu > li > ul:hover,
+#header-menu > ul.menu > li:hover > ul {
+	display:block;
+	opacity:1;
+}
+ul.menu > li > ul > li{
+	display:block;
+	padding:.25em .25em .25em 2em;
+	color:#666;
+}
+.sticky {
+    top: 0;
+    position: fixed;
+}
+
+.bgFadeIn {
+	-webkit-animation-name:bgFadeIn;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1; 
+	-webkit-animation-fill-mode: forwards;
+	animation-name:bgFadeIn;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.bgFadeOut {
+	-webkit-animation-name:bgFadeOut;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1; 
+	-webkit-animation-fill-mode: forwards;
+	animation-name:bgFadeOut;
+	animation-duration: 1s;
+	animation-iteration-count: 1; 
+	animation-fill-mode: forwards;
+}
+
+
+@-webkit-keyframes bgFadeIn {
+	from {background:transparent}
+	to {background:rgba(255,255,255,.80)}
+}
+@keyframes bgFadeIn {
+	from {background:transparent}
+	to {background:rgba(255,255,255,.80)}
+}
+@-webkit-keyframes bgFadeOut {
+	from {background:rgba(255,255,255,.80)}
+	to {background:transparent}
+}
+@keyframes bgFadeOut {
+	from {background:rgba(255,255,255,.80)}
+	to {background:transparent}
+}
+
+@media screen and (max-width: 1100px) {
+//	.columns-3{
+//	-webkit-column-count: 2;
+ //   -moz-column-count: 2;
+  //  column-count: 2;
+
+	}
+	.text{
+		padding:5em;
+	}
+}
+@media screen and (max-width: 800px) {
+	#header-menu{
+		float:none;
+	}
+  ul.menu{
+	  display:none;
+	  background:#666;
+	  color:#fff;
+	  width:auto;
+  }
+  .mobile-menu-button{
+	  display:block;
+	  padding:.5em 2em;
+	  cursor: hand;
+	  float:right;
+  }
+  .mobile-menu-button:hover{
+	  background:#fff;
+  }
+
+  #mobile-menu > ul.menu,
+  ul.menu{
+	 display:block;
+	 float:none;
+	 clear:both;
+	 height:0px;
+	 overflow: hidden;
+	 margin:0;
+	 padding:0;
+
+  }
+ 
+
+  ul.sub-menu.open,
+  ul.menu.open {
+	  height:auto !important;
+	  display:block !important;
+  }
+  ul.menu > li {
+	  display:block;
+  }
+  ul.sub-menu {
+	  display:block;
+	  height:0px;
+	  overflow: hidden;
+	  border-bottom:1px #777 solid;
+	  border-top:1px #777 solid;
+	  background:#555;
+	  padding:0;
+  }
+  .caret:after {
+	  content: '\\\/';
+	  border-left: 1px solid #fff;
+	  float:right;
+	  padding-left:.5em;
+  }
+  .menu li ul li > a,
+  .menu li > a{
+	 color:#FFF;
+   }
+ .menu li ul li:hover > a,
+ .menu li:hover > a,
+ .menu li ul li > a:hover,
+ .menu li > a:hover{
+	 color:#000;
+ }
+ .text{
+	 padding:4em;
+ }
+
+}
+	
+	
+	
+	
+	
+	
+
+  /* Parallax base styles
+  --------------------------------------------- */
+
+  .parallax {
+    height: 500px; /* fallback for older browsers */
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-perspective: 300px;
+    perspective: 300px;
+  }
+
+  .parallax__group {
+    position: relative;
+    height: 500px; /* fallback for older browsers */
+    height: 100vh;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  .parallax__layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .parallax__layer--fore {
+    -webkit-transform: translateZ(90px) scale(.7);
+    transform: translateZ(90px) scale(.7);
+    z-index: 1;
+  }
+
+  .parallax__layer--base {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    z-index: 4;
+  }
+
+  .parallax__layer--back {
+    -webkit-transform: translateZ(-300px) scale(2);
+    transform: translateZ(-300px) scale(2);
+    z-index: 3;
+  }
+
+  .parallax__layer--deep {
+    -webkit-transform: translateZ(-600px) scale(3);
+    transform: translateZ(-600px) scale(3);
+    z-index: 2;
+  }
+
+
+  /* Debugger styles - used to show the effect
+  --------------------------------------------- */
+
+  .debug {
+    position: fixed;
+    top: 0;
+    left: .5em;
+    z-index: 999;
+    background: rgba(0,0,0,.85);
+    color: #fff;
+    padding: .5em;
+    border-radius: 0 0 5px 5px;
+  }
+  .debug-on .parallax__group {
+    -webkit-transform: translate3d(800px, 0, -800px) rotateY(30deg);
+    transform: translate3d(700px, 0, -800px) rotateY(30deg);
+ }
+  .debug-on .parallax__layer {
+    box-shadow: 0 0 0 2px #000;
+    opacity: 0.9;
+  }
+  .parallax__group {
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+  }
+
+
+  /* demo styles
+  --------------------------------------------- */
+
+  body, html {
+    overflow: hidden;
+  }
+
+  body {
+    font: 100% / 1.5 Arial;
+  }
+
+  * {
+    margin:0;
+    padding:0;
+  }
+
+  .parallax {
+    font-size: 200%;
+  }
+
+   /* centre the content in the parallax layers */
+  .title {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+
+
+  /* style the groups
+  --------------------------------------------- */
+
+  #group1 {
+    /*z-index: 5;  slide over group 2 */
+  }
+  #group1 .parallax__layer--base {
+    background: rgb(102,204,102);
+  }
+
+  #group2 {
+   /* z-index: 3;  slide under groups 1 and 3 */
+  }
+  #group2 .parallax__layer--back {
+    background: rgb(123,210,102);
+  }
+
+  #group3 {
+   /* z-index: 4;  slide over group 2 and 4 */
+  }
+  #group3 .parallax__layer--base {
+    background: rgb(153,216,101);
+  }
+
+  #group4 {
+   /* z-index: 2;  slide under group 3 and 5 */
+  }
+  #group4 .parallax__layer--deep {
+    background: rgb(184,223,101);
+  }
+
+  #group5 {
+   /* z-index: 3;  slide over group 4 and 6 */
+  }
+  #group5 .parallax__layer--base {
+    background: rgb(214,229,100);
+  }
+
+  #group6 {
+   /* z-index: 2;  slide under group 5 and 7 */
+  }
+  #group6 .parallax__layer--back {
+    background: rgb(245,235,100);
+  }
+
+  #group7 {
+    /*z-index: 3;  slide over group 7 */
+  }
+  #group7 .parallax__layer--base {
+    background: rgb(255,241,100);
+  }
+
+
+  /* misc
+  --------------------------------------------- */
+  .demo__info {
+    position: absolute;
+    z-index:100;
+    bottom: 1vh;
+    top: auto;
+    font-size:80%;
+    text-align:center;
+    width: 100%;
+  }
+</style>
+
+
+<script>
+	$('document').ready(function(){
+		//Transparent Header 
+		$("#header").css('background','none');
+		var added = false;
+
+		//init scrolling event handler
+		$(window).scroll(function(){
+			var docScroll = $(document).scrollTop();
+			console.log(docScroll); 
+ 
+			//when reach top of boxex then fire
+			if(docScroll > 5 && !added ) {
+				$("#header").addClass('bgFadeIn');
+				$("#header").removeClass('bgFadeOut');
+				added = true;
+	    	} else if (docScroll < 5 && added){
+				$("#header").removeClass('bgFadeIn');
+				$("#header").addClass('bgFadeOut');
+				added = false;
+	    	}
+  		});
+  
+  		$('.mobile-menu-button').click(function(e){
+  			if($('#mobile-menu > ul.menu').hasClass('open')){
+  				$('#mobile-menu > ul.menu').removeClass('open');  
+	  		}else{
+	  			$('#mobile-menu > ul.menu').addClass('open');  
+	  		}
+  		});
+  		
+  		$('.caret').click(function(e){
+  			var sub = $(this).parent().parent().children('.sub-menu');
+  			if(sub.hasClass('open')){
+				sub.removeClass('open');
+			}else{
+		    	sub.addClass('open');
+	    	}
+		});     
+	});
+	
+</script>
+
+
+</head>
+
+<body>
+
+<!--  <div class="debug">
+    <label><input type="checkbox"> Debug</label>
+  </div>-->
+		<div id="header" class="menu sticky">
+			<div id="logo">Race in Colorado</div>
+			<div class="mobile-menu-button">E</div>
+			<div id="header-menu">
+				<ul class="menu">
+					<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+						<ul class="sub-menu">
+							<li><a>Subsection 1</a></li>
+							<li>Subsection 2</li>
+							<li>Subsection 3</li>
+						</ul>
+					</li>
+					<li><a href="#section2">Section 2</a></li>
+					<li><a href="#section3">Section 3</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="mobile-menu">
+			<ul class="menu">
+				<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+					<ul class="sub-menu">
+						<li><a>Subsection 1</a></li>
+						<li>Subsection 2</li>
+						<li>Subsection 3</li>
+					</ul>
+				</li>
+				<li><a href="#section2">Section 2</a></li>
+				<li><a href="#section3">Section 3</a></li>
+
+			</ul>
+		</div>
+
+  <div id="content" class="parallax">
+    <div id="group1" class="parallax__group" style="z-index: 3;">
+      <div class="parallax__layer parallax__layer--fore">
+        <div class="title">Base Layer</div>
+      </div>
+	    <div class="parallax__layer--base" style="background-image: url(http://img10.deviantart.net/21e8/i/2012/364/e/0/unrestricted_mountain_stock___ix_by_md_arts-d5pnr82.jpg);height: 100%;background-position: center center;
+	background-size: cover;"></div>
+    </div>
+    <div id="group2" class="parallax__group" style="z-index: 2;">
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--back">
+        <div class="title">Background Layer</div>
+      </div>
+    </div>
+    <div id="group3" class="parallax__group" style="z-index: 3;">
+      <div class="parallax__layer parallax__layer--fore">
+        <div class="title">Foreground Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+    </div>
+    <div id="group4" class="parallax__group" style="z-index: 2;">
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--back">
+        <div class="title">Background Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--deep">
+        <div class="title">Deep Background Layer</div>
+      </div>
+    </div>
+    <div id="group5" class="parallax__group" style="z-index: 3;">
+      <div class="parallax__layer parallax__layer--fore">
+        <div class="title">Foreground Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+    </div>
+    <div id="group6" class="parallax__group" style="z-index: 2;">
+      <div class="parallax__layer parallax__layer--back">
+        <div class="title">Background Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+    </div>
+    <div id="group7" class="parallax__group" style="z-index: 3;">
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/*    var debugInput = document.querySelector("input");
+    function updateDebugState() {
+        document.body.classList.toggle('debug-on', debugInput.checked);
+    }
+    debugInput.addEventListener("click", updateDebugState);
+    updateDebugState();*/
+  </script>
+
+
+
+</body>
+</html>

@@ -80,13 +80,15 @@ miFeeds.output = "tabs";
 miFeeds.article_count = 10;
 //miFeeds.footer = "miFeeds rock!"
 
-miFeeds.renderFeeds();
+//miFeeds.renderFeeds();
 
-excerptTest = new Feed("INews at RMPBS","http://inewsnetwork.largoproject.org/?feed=bento",'RSS');
+excerptTest = new Feed("INews at RMPBS","http://inewsnetwork.org/?feed=centerpiece",'RSS');
 excerptTest.source_name = 'INews';
+excerptTest.show_source = false;
 excerptTest.title = 'News from INews, the Newsy News Newsers';
 //excerptTest.title_url = "http://mysite.com";
-excerptTest.display = 'excerpt';
+excerptTest.display = 'feature';
+excerptTest.show_archive = true;
 excerptTest.pub_div = 'excerptsDiv';
 excerptTest.title_class="section-header";
 excerptTest.title_style="background: #40324C; color: white";
@@ -94,6 +96,11 @@ excerptTest.box_class = "purple_border";
 excerptTest.item_class = "orange_border";
 excerptTest.default_image = "audio_sm.png";
 excerptTest.renderFeed();
+
+
+
+
+
 
 });
 
@@ -217,5 +224,99 @@ white-space: nowrap;
 
 	<div id="feed-group"></div>
 	<div id="excerptsDiv"></div>
+
+
+
+
+<!--<div class="row-fluid">
+    <div class="span12 box promo-container clearfix one-promo horizontal with-image ">
+       <div class="promo span4 clearfix" style="height: 100%;">
+	   		<a href="http://inewsnetwork.org/2015/05/13/criminal-records-more-likely-than-diplomas-for-colorado-foster-youth/" class="promo-link">
+                <img src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20Blog%20Images/News%20imgs/INEWS103-FosterKids_Black-771x434.jpg" alt="The Consequences of Aging out of Foster Care" width="300" height="127" style="max-height: 104.0625px;">
+            </a>
+            <h3></h3>
+            <h2><a href="http://inewsnetwork.org/2015/05/13/criminal-records-more-likely-than-diplomas-for-colorado-foster-youth/">The Consequences of Aging out of Foster Care</a></h2>
+            <div class="read-more">
+                <a href="http://inewsnetwork.org/2015/05/13/criminal-records-more-likely-than-diplomas-for-colorado-foster-youth/">Read More</a>
+            </div>
+        </div>
+        
+
+        
+        <div class="promo
+            
+                
+                
+                    span4
+                
+            
+            clearfix" style="height: 100%;">
+
+            
+            <a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/" class="promo-link">
+                <img src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20Blog%20Images/News%20imgs/INEWS101-FosterKids_Macklin.jpg" alt="Video: Aging Out of Foster Care in Colorado" width="300" height="127" style="max-height: 104.0625px;">
+                
+            </a>
+            
+
+            
+            <h3></h3>
+            
+
+            <h2><a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/">Video: Aging Out of Foster Care in Colorado</a></h2>
+            
+
+            
+            <div class="read-more">
+                <a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/">Read More</a>
+            </div>
+            
+        </div>
+        
+
+        
+        <div class="promo
+            
+                
+                
+                    span4
+                
+            
+            clearfix" style="height: 100%;">
+
+            
+            <a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/" class="promo-link">
+                <img src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20Blog%20Images/News%20imgs/foster%20court.PNG" alt="Senate Bill Supporting Foster Youth College Defeated" width="300" height="127" style="max-height: 104.0625px;">
+                
+            </a>
+            
+
+            
+            <h3></h3>
+            
+
+            <h2><a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/">Senate Bill Supporting Foster Youth College Defeated</a></h2>
+            
+
+            
+            <div class="read-more">
+                <a href="http://inewsnetwork.org/2015/05/28/colorado-state-senate-bill-fostering-success-faced-tough-road/">Read More</a>
+            </div>
+            
+        </div>
+        
+
+        
+
+        
+        
+    </div>
+</div>-->
+
+
+
+
+
+
 </body>
 </html>

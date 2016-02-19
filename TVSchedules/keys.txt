@@ -1,0 +1,6 @@
+TV Schedules v1/v2 API key:
+krma-debe4e17a8cd681c216f4160e817ec0c656059a32c19687d37cc5dd4
+
+COVE API key:
+ID:  Producer-KRMA-30497d8c-9237-4ecb-9d2a-b8659cfe6134
+Secret:  a3536b9c-b986-4e24-9436-ea65a935702f

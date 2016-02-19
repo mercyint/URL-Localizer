@@ -1,0 +1,616 @@
+<html>
+<head>
+<title>Sandbox | myparallax.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+
+<style>
+html, body, 
+.container,
+.parallax,
+.parallax section { 
+	height: 100%; 
+	margin:0;
+	font-family: "Oxygen",sans-serif;
+
+}
+
+
+.parallax > section {
+	position:relative;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	position:relative;
+	-webkit-perspective: 300px;
+	perspective:300px;
+	-webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+	
+}
+
+.parallax > section > content{
+	position:relative;
+	display:block;
+    padding:30px;
+    margin:0 20%;
+	top:50%;
+	max-height: 80%;
+	border:1px solid white;
+	background:rgba(255,255,255,.75);
+	-webkit-transform: translateY(-50%) translateZ(0);
+	-moz-transform: translateY(-50%) translateZ(0);
+	-ms-transform: translateY(-50%) translateZ(0);
+	transform: translateY(-50%) translateZ(0);
+	overflow:scroll;
+	max-height: 60%;
+	
+}
+
+.parallax > section > content h1{
+	text-align: center;
+	font-weight: 200;
+}
+
+.text {
+	background-color: rgba(255,255,255,.75);
+	padding:10em;
+}
+.columns-3{
+	-webkit-columns: 3 15em;
+    -moz-columns: 3 15em;
+    columns: 3 15em;
+}
+
+ #header {
+	margin: 0;
+    width: 98%;
+    height:3em;
+    position: fixed;
+    top:0;
+    z-index: 9999;
+    padding:1em;
+    border-bottom: solid rgba(255,255,255,.7) 1px;
+ }
+ #logo {
+	 float:left;
+ }
+ 
+ #header-menu {
+	 float:right;
+ }
+ #mobile-menu{
+	 margin: 0;
+	 padding:0;
+	 width:100%;
+	 position: fixed;
+	 top:5.1em;
+	 z-index: 9999;
+	 max-height:53%;
+	 overflow: scroll;
+ }
+ #mobile-menu > ul.menu,
+ #mobile-menu > ul.menu > li > ul,
+ .mobile-menu-button{
+	 display:none;
+ }
+ 
+ .menu li ul li > a,
+ .menu li > a{
+	 text-decoration: none;
+	 color:#666;
+	-webkit-transition: color 0.2s;
+	-moz-transition: color 0.2s;
+	-ms-transition: color 0.2s;
+	-o-transition: color 0.2s;
+	transition: color 0.2s;
+ }
+ .menu li ul li:hover > a,
+ .menu li:hover > a,
+ .menu li ul li > a:hover,
+ .menu li > a:hover{
+	 color:#000;
+ }
+ 
+ ul.menu{
+	 margin:0;
+ } 
+ ul.menu > li {
+	 display: inline-block;
+	 position:relative;
+	-webkit-transition: background 0.2s;
+	-moz-transition: background 0.2s;
+	-ms-transition: background 0.2s;
+	-o-transition: background 0.2s;
+	transition: background 0.2s;
+ }
+ ul.menu > li > a{
+	 margin:.5em 1em;
+	 display:block;
+	 }
+ #header-menu > ul.menu > li:hover {
+ 	background:rgba(255,255,255,.7);
+ } 
+ #header-menu > ul.menu > li > ul {
+   	background:rgba(255,255,255,.7);
+	 display:none;
+	 position:absolute;
+	 top:2.25em;
+	 left:0;
+	 width:200px;
+	 z-index: 9999;
+	 opacity:0;
+	 margin:0;
+	 padding:0;
+	-webkit-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-ms-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+#header-menu > ul.menu > li > ul:hover,
+#header-menu > ul.menu > li:hover > ul {
+	display:block;
+	opacity:1;
+}
+ul.menu > li > ul > li{
+	display:block;
+	padding:.25em .25em .25em 2em;
+	color:#666;
+}
+
+  .parallax_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+.parallax_bg {
+	background-position: center center;
+	background-size: cover;
+	z-index: -1;
+	-webkit-transform: translateZ(-300px) scale(2);
+    transform: translateZ(-300px) scale(2);
+
+}
+
+
+#section1 .parallax_bg{
+	background-color: rgba(238, 167, 179, 0.7);
+/*	background-image: url(http://img10.deviantart.net/21e8/i/2012/364/e/0/unrestricted_mountain_stock___ix_by_md_arts-d5pnr82.jpg);*/
+}
+#section2{
+	background-color: rgba(211, 190, 210, 0.64);
+	background-image: url(http://pre05.deviantart.net/5a79/th/pre/i/2012/180/6/f/mountain_lake_stock_package_by_burtn-d55bgym.jpg);
+	background-position: center center;
+	background-size: cover;
+}
+#section3{
+	background-color: rgba(0, 255, 255, 0.36);
+	background-image: url(http://img08.deviantart.net/1152/i/2011/257/6/2/detailed_mountain_stock_by_burtn-d49tp7a.jpg);
+	background-position: center center;
+	background-size: cover;
+}
+.sticky {
+    top: 0;
+    position: fixed;
+}
+
+.video-container{
+	position:absolute;
+	overflow:hidden;
+	height:100%;
+	width:100%;
+	background:red;
+}
+
+
+.bgFadeIn {
+	-webkit-animation-name:bgFadeIn;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1; 
+	-webkit-animation-fill-mode: forwards;
+	animation-name:bgFadeIn;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.bgFadeOut {
+	-webkit-animation-name:bgFadeOut;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1; 
+	-webkit-animation-fill-mode: forwards;
+	animation-name:bgFadeOut;
+	animation-duration: 1s;
+	animation-iteration-count: 1; 
+	animation-fill-mode: forwards;
+}
+
+
+@-webkit-keyframes bgFadeIn {
+	from {background:transparent}
+	to {background:rgba(255,255,255,.80)}
+}
+@keyframes bgFadeIn {
+	from {background:transparent}
+	to {background:rgba(255,255,255,.80)}
+}
+@-webkit-keyframes bgFadeOut {
+	from {background:rgba(255,255,255,.80)}
+	to {background:transparent}
+}
+@keyframes bgFadeOut {
+	from {background:rgba(255,255,255,.80)}
+	to {background:transparent}
+}
+
+@media screen and (max-width: 1100px) {
+//	.columns-3{
+//	-webkit-column-count: 2;
+ //   -moz-column-count: 2;
+  //  column-count: 2;
+
+	}
+	.text{
+		padding:5em;
+	}
+}
+@media screen and (max-width: 800px) {
+	#header-menu{
+		float:none;
+	}
+  ul.menu{
+	  display:none;
+	  background:#666;
+	  color:#fff;
+	  width:auto;
+  }
+  .mobile-menu-button{
+	  display:block;
+	  padding:.5em 2em;
+	  cursor: hand;
+	  float:right;
+  }
+  .mobile-menu-button:hover{
+	  background:#fff;
+  }
+
+  #mobile-menu > ul.menu,
+  ul.menu{
+	 display:block;
+	 float:none;
+	 clear:both;
+	 height:0px;
+	 overflow: hidden;
+	 margin:0;
+	 padding:0;
+
+  }
+ 
+
+  ul.sub-menu.open,
+  ul.menu.open {
+	  height:auto !important;
+	  display:block !important;
+  }
+  ul.menu > li {
+	  display:block;
+  }
+  ul.sub-menu {
+	  display:block;
+	  height:0px;
+	  overflow: hidden;
+	  border-bottom:1px #777 solid;
+	  border-top:1px #777 solid;
+	  background:#555;
+	  padding:0;
+  }
+  .caret:after {
+	  content: '\\\/';
+	  border-left: 1px solid #fff;
+	  float:right;
+	  padding-left:.5em;
+  }
+  .menu li ul li > a,
+  .menu li > a{
+	 color:#FFF;
+   }
+ .menu li ul li:hover > a,
+ .menu li:hover > a,
+ .menu li ul li > a:hover,
+ .menu li > a:hover{
+	 color:#000;
+ }
+ .text{
+	 padding:4em;
+ }
+
+//.columns-3{
+//	-webkit-column-count: 1;
+//    -moz-column-count: 1;
+//    column-count: 1;
+}
+
+}
+
+</style>
+
+<script>
+
+$('document').ready(function() {
+   
+  //Transparent Header 
+  $("#header").css('background','none');
+  var added = false;
+
+  //init scrolling event heandler
+  $(window).scroll(function(){
+    var docScroll = $(document).scrollTop(); 
+ 
+    //when rich top of boxex than fire
+    if(docScroll > 5 && !added ) {
+      $("#header").addClass('bgFadeIn');
+      $("#header").removeClass('bgFadeOut');
+      added = true;
+    } else if (docScroll < 5 && added){
+      $("#header").removeClass('bgFadeIn');
+      $("#header").addClass('bgFadeOut');
+      added = false;
+    }
+  });
+  
+  $('.mobile-menu-button').click(function(e){
+	  if($('#mobile-menu > ul.menu').hasClass('open')){
+	  	$('#mobile-menu > ul.menu').removeClass('open');  
+	  }else{
+	  	$('#mobile-menu > ul.menu').addClass('open');  
+	  }
+  });
+  $('.caret').click(function(e){
+	  var sub = $(this).parent().parent().children('.sub-menu');
+	  if(sub.hasClass('open')){
+			sub.removeClass('open');
+		}else{
+		    sub.addClass('open');
+	    }
+	});     
+
+
+      // Find all YouTube videos
+var $allVideos = $("iframe[src^='//www.youtube.com']"),
+
+    // The element that is fluid width
+    $fluidEl = $("body");
+
+// Figure out and save aspect ratio for each video
+$allVideos.each(function() {
+
+  $(this)
+    .data('aspectRatio', this.height / this.width)
+
+    // and remove the hard coded width/height
+    .removeAttr('height')
+    .removeAttr('width');
+
+});
+
+// When the window is resized
+$(window).resize(function() {
+	console.log($allVideos);
+
+  var newWidth = $fluidEl.width();
+
+  // Resize all videos according to their own aspect ratio
+  $allVideos.each(function() {
+
+    var $el = $(this);
+    $el
+      .width(newWidth)
+      .height(newWidth * $el.data('aspectRatio'));
+
+  });
+
+// Kick off one resize to fix all videos on page load
+}).resize();
+
+
+
+});
+  
+  
+
+
+
+
+
+
+</script>
+	
+
+</head>
+<body>
+		<div id="header" class="menu sticky">
+			<div id="logo">Gaining Ground</div>
+			<div class="mobile-menu-button">E</div>
+			<div id="header-menu">
+				<ul class="menu">
+					<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+						<ul class="sub-menu">
+							<li><a>Subsection 1</a></li>
+							<li>Subsection 2</li>
+							<li>Subsection 3</li>
+						</ul>
+					</li>
+					<li><a href="#section2">Section 2</a></li>
+					<li><a href="#section3">Section 3</a></li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="mobile-menu">
+			<ul class="menu">
+				<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+					<ul class="sub-menu">
+						<li><a>Subsection 1</a></li>
+						<li>Subsection 2</li>
+						<li>Subsection 3</li>
+					</ul>
+				</li>
+				<li><a href="#section2">Section 2</a></li>
+				<li><a href="#section3">Section 3</a></li>
+
+			</ul>
+		</div>
+	<div id="content" class="parallax">
+<!--		<nav>
+			<a href="#section1" class="fbcurrent">Section 1</a>
+			<a href="#section2">Section 2</a>
+			<a href="#section3">Section 3</a>
+		</nav>-->
+		<section id="section1">
+			<!--<div class="video-container">
+				    <!-- 1. The <iframe> (and video player) will replace this <div> tag.
+    <div id="player"></div>
+
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '815px',
+          width: '1448px',
+          videoId: 'pwoH-IqmeaU',
+          playerVars:{
+	          autohide:1,
+			  autoplay:1,
+			  color:'white',
+			  controls:0,
+			  fs:0,
+			  loop:1,
+			  modestbranding:1,
+			  rel:0,
+			  showinfo:0
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+	      player.mute();
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+/*        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }*/
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }      
+    </script>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<video controls="controls" 
+       class="video-stream" 
+       x-webkit-airplay="allow" 
+       data-youtube-id="N9oxmRT2YWw" 
+       src="http://v20.lscache8.c.youtube.com/videoplayback?sparams=id%2Cexpire%2Cip%2Cipbits%2Citag%2Cratebypass%2Coc%3AU0hPRVRMVV9FSkNOOV9MRllD&amp;itag=43&amp;ipbits=0&amp;signature=D2BCBE2F115E68C5FF97673F1D797F3C3E3BFB99.59252109C7D2B995A8D51A461FF9A6264879948E&amp;sver=3&amp;ratebypass=yes&amp;expire=1300417200&amp;key=yt1&amp;ip=0.0.0.0&amp;id=37da319914f6616c"></video>
+			</div>-->
+			<content class="parallax_layer">
+			  <h1>Section 1</h1>
+			  <p>The coolest section there is
+			  </p>
+			</content>
+			<div class="parallax_layer parallax_bg"><img src="http://img10.deviantart.net/21e8/i/2012/364/e/0/unrestricted_mountain_stock___ix_by_md_arts-d5pnr82.jpg"/></div>
+		</section>
+		
+		
+		
+		
+		
+		<div class="text columns-3">
+						  <p>
+				  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus vitae nibh at vulputate. Ut eget sagittis sapien. Nulla ullamcorper eros vel sapien dictum, in faucibus velit molestie. Etiam elementum arcu ante, nec iaculis urna efficitur nec. Nunc faucibus tincidunt congue. Ut quis ornare orci. Ut vitae eleifend nibh. Morbi id elit elit. Mauris suscipit lectus et laoreet interdum. Nunc molestie purus nec eleifend imperdiet. Ut pretium, nibh non finibus viverra, erat nulla sagittis lectus, at tincidunt ligula massa eu dui. Nunc finibus pretium leo ac eleifend. Aliquam nec lacus quis lorem lacinia commodo fermentum id massa.
+			  </p><p>
+Donec quis odio condimentum orci volutpat sollicitudin vitae eget velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam feugiat turpis vel dui consectetur, in feugiat lacus cursus. Vivamus eu velit at felis vehicula volutpat sed ac augue. Maecenas ut hendrerit nibh, id imperdiet nisl. Duis sed orci aliquet, blandit enim ac, fermentum lorem. Nulla facilisi. Sed at odio molestie nulla condimentum pulvinar sit amet in nulla. Praesent sed efficitur diam, id egestas enim.
+			  </p><p>
+Suspendisse pretium quam quam, vel ornare elit viverra porttitor. Sed sit amet ligula dictum, molestie magna sed, sodales odio. Praesent eget vehicula dolor. Phasellus dapibus ultrices ex, id congue neque vehicula at. Nullam eget euismod enim, vitae congue quam. Cras viverra massa fermentum, dignissim odio eget, ornare turpis. Curabitur facilisis orci vitae mattis consequat. Etiam interdum, lectus at suscipit dignissim, purus tortor maximus massa, sit amet cursus nisl velit eu est. Aliquam ultrices mauris orci, non bibendum massa ornare at. Sed gravida iaculis egestas. Morbi fermentum ipsum eu diam dictum faucibus. Nulla facilisi.
+			  </p><p>
+Aliquam scelerisque molestie justo, non accumsan enim pharetra nec. Cras tincidunt sagittis tortor, a cursus felis consequat vel. Vestibulum ultrices massa ac risus fermentum laoreet. Fusce non efficitur ligula. Morbi vitae tellus quis nibh elementum vulputate ut eleifend ipsum. Fusce ac varius risus, volutpat blandit ex. Aliquam vel semper erat. Nunc hendrerit purus justo. Mauris ligula felis, eleifend in pharetra ut, faucibus et massa. Morbi eget felis sed erat fringilla ullamcorper. Aenean nec libero non ex facilisis mollis. Donec non sollicitudin tortor, a porta nisi.
+			  </p><p>
+Maecenas sit amet hendrerit est. Ut ultricies iaculis justo non ullamcorper. Phasellus sed pretium est. Cras id nibh a quam molestie volutpat et pretium ligula. Mauris nisl urna, vulputate eget nisi pretium, tristique placerat purus. Morbi sem sem, mollis nec laoreet sed, cursus non libero. Vestibulum pharetra rhoncus mi, interdum viverra dui rhoncus at. Quisque arcu ex, eleifend a dui et, posuere auctor dui. Pellentesque scelerisque metus vel ante finibus ultrices. Sed nibh arcu, vehicula ut lectus at, gravida pretium ex. Etiam ut vehicula augue. Praesent magna ligula, blandit ut euismod feugiat, efficitur sed justo. Integer massa risus, posuere ut dui et, porttitor lobortis eros. Vestibulum fermentum dolor et eleifend mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget cursus massa
+			  </p>
+
+			
+		</div>
+		<section id="section2">
+			<content>
+			  <h1>Section 2</h1>
+			  <p>The mediocre-ist section there is.</p>
+			  <p>
+				  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus vitae nibh at vulputate. Ut eget sagittis sapien. Nulla ullamcorper eros vel sapien dictum, in faucibus velit molestie. Etiam elementum arcu ante, nec iaculis urna efficitur nec. Nunc faucibus tincidunt congue. Ut quis ornare orci. Ut vitae eleifend nibh. Morbi id elit elit. Mauris suscipit lectus et laoreet interdum. Nunc molestie purus nec eleifend imperdiet. Ut pretium, nibh non finibus viverra, erat nulla sagittis lectus, at tincidunt ligula massa eu dui. Nunc finibus pretium leo ac eleifend. Aliquam nec lacus quis lorem lacinia commodo fermentum id massa.
+			  </p><p>
+Donec quis odio condimentum orci volutpat sollicitudin vitae eget velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam feugiat turpis vel dui consectetur, in feugiat lacus cursus. Vivamus eu velit at felis vehicula volutpat sed ac augue. Maecenas ut hendrerit nibh, id imperdiet nisl. Duis sed orci aliquet, blandit enim ac, fermentum lorem. Nulla facilisi. Sed at odio molestie nulla condimentum pulvinar sit amet in nulla. Praesent sed efficitur diam, id egestas enim.
+			  </p><p>
+Suspendisse pretium quam quam, vel ornare elit viverra porttitor. Sed sit amet ligula dictum, molestie magna sed, sodales odio. Praesent eget vehicula dolor. Phasellus dapibus ultrices ex, id congue neque vehicula at. Nullam eget euismod enim, vitae congue quam. Cras viverra massa fermentum, dignissim odio eget, ornare turpis. Curabitur facilisis orci vitae mattis consequat. Etiam interdum, lectus at suscipit dignissim, purus tortor maximus massa, sit amet cursus nisl velit eu est. Aliquam ultrices mauris orci, non bibendum massa ornare at. Sed gravida iaculis egestas. Morbi fermentum ipsum eu diam dictum faucibus. Nulla facilisi.
+			  </p><p>
+Aliquam scelerisque molestie justo, non accumsan enim pharetra nec. Cras tincidunt sagittis tortor, a cursus felis consequat vel. Vestibulum ultrices massa ac risus fermentum laoreet. Fusce non efficitur ligula. Morbi vitae tellus quis nibh elementum vulputate ut eleifend ipsum. Fusce ac varius risus, volutpat blandit ex. Aliquam vel semper erat. Nunc hendrerit purus justo. Mauris ligula felis, eleifend in pharetra ut, faucibus et massa. Morbi eget felis sed erat fringilla ullamcorper. Aenean nec libero non ex facilisis mollis. Donec non sollicitudin tortor, a porta nisi.
+			  </p><p>
+Maecenas sit amet hendrerit est. Ut ultricies iaculis justo non ullamcorper. Phasellus sed pretium est. Cras id nibh a quam molestie volutpat et pretium ligula. Mauris nisl urna, vulputate eget nisi pretium, tristique placerat purus. Morbi sem sem, mollis nec laoreet sed, cursus non libero. Vestibulum pharetra rhoncus mi, interdum viverra dui rhoncus at. Quisque arcu ex, eleifend a dui et, posuere auctor dui. Pellentesque scelerisque metus vel ante finibus ultrices. Sed nibh arcu, vehicula ut lectus at, gravida pretium ex. Etiam ut vehicula augue. Praesent magna ligula, blandit ut euismod feugiat, efficitur sed justo. Integer massa risus, posuere ut dui et, porttitor lobortis eros. Vestibulum fermentum dolor et eleifend mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget cursus massa
+			  </p>
+			  <p>
+				  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In finibus vitae nibh at vulputate. Ut eget sagittis sapien. Nulla ullamcorper eros vel sapien dictum, in faucibus velit molestie. Etiam elementum arcu ante, nec iaculis urna efficitur nec. Nunc faucibus tincidunt congue. Ut quis ornare orci. Ut vitae eleifend nibh. Morbi id elit elit. Mauris suscipit lectus et laoreet interdum. Nunc molestie purus nec eleifend imperdiet. Ut pretium, nibh non finibus viverra, erat nulla sagittis lectus, at tincidunt ligula massa eu dui. Nunc finibus pretium leo ac eleifend. Aliquam nec lacus quis lorem lacinia commodo fermentum id massa.
+			  </p><p>
+Donec quis odio condimentum orci volutpat sollicitudin vitae eget velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam feugiat turpis vel dui consectetur, in feugiat lacus cursus. Vivamus eu velit at felis vehicula volutpat sed ac augue. Maecenas ut hendrerit nibh, id imperdiet nisl. Duis sed orci aliquet, blandit enim ac, fermentum lorem. Nulla facilisi. Sed at odio molestie nulla condimentum pulvinar sit amet in nulla. Praesent sed efficitur diam, id egestas enim.
+			  </p><p>
+Suspendisse pretium quam quam, vel ornare elit viverra porttitor. Sed sit amet ligula dictum, molestie magna sed, sodales odio. Praesent eget vehicula dolor. Phasellus dapibus ultrices ex, id congue neque vehicula at. Nullam eget euismod enim, vitae congue quam. Cras viverra massa fermentum, dignissim odio eget, ornare turpis. Curabitur facilisis orci vitae mattis consequat. Etiam interdum, lectus at suscipit dignissim, purus tortor maximus massa, sit amet cursus nisl velit eu est. Aliquam ultrices mauris orci, non bibendum massa ornare at. Sed gravida iaculis egestas. Morbi fermentum ipsum eu diam dictum faucibus. Nulla facilisi.
+			  </p><p>
+Aliquam scelerisque molestie justo, non accumsan enim pharetra nec. Cras tincidunt sagittis tortor, a cursus felis consequat vel. Vestibulum ultrices massa ac risus fermentum laoreet. Fusce non efficitur ligula. Morbi vitae tellus quis nibh elementum vulputate ut eleifend ipsum. Fusce ac varius risus, volutpat blandit ex. Aliquam vel semper erat. Nunc hendrerit purus justo. Mauris ligula felis, eleifend in pharetra ut, faucibus et massa. Morbi eget felis sed erat fringilla ullamcorper. Aenean nec libero non ex facilisis mollis. Donec non sollicitudin tortor, a porta nisi.
+			  </p><p>
+Maecenas sit amet hendrerit est. Ut ultricies iaculis justo non ullamcorper. Phasellus sed pretium est. Cras id nibh a quam molestie volutpat et pretium ligula. Mauris nisl urna, vulputate eget nisi pretium, tristique placerat purus. Morbi sem sem, mollis nec laoreet sed, cursus non libero. Vestibulum pharetra rhoncus mi, interdum viverra dui rhoncus at. Quisque arcu ex, eleifend a dui et, posuere auctor dui. Pellentesque scelerisque metus vel ante finibus ultrices. Sed nibh arcu, vehicula ut lectus at, gravida pretium ex. Etiam ut vehicula augue. Praesent magna ligula, blandit ut euismod feugiat, efficitur sed justo. Integer massa risus, posuere ut dui et, porttitor lobortis eros. Vestibulum fermentum dolor et eleifend mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget cursus massa
+			  </p>
+			</content>
+
+		</section>
+		<section id="section3">
+			<content>
+			  <h1>Section 3</h1>
+			  <p>The crappiest section there is.</p>
+			</content>
+		</section>
+	</div>
+	
+	
+	
+</body>
+</html>
