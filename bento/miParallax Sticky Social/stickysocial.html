@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>Sandbox | stickysocial.html</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<style>
+	.sticky-social{
+		position:fixed;
+		right:-122px;
+		z-index: 99999;
+		top:130px;
+		width: 200px;
+	}
+	
+	.sticky-social > ul > li {
+		color:#fff;
+		background:#333;
+		width:200px;
+		-webkit-transition:all 0.25s ease-in-out;
+		-moz-transition:all 0.25s ease-in-out;
+		-o-transition:all 0.25s ease-in-out;
+		transition:all 0.25s ease-in-out;
+		margin:0;
+		padding:0;
+		list-style-type: none;
+		height:42px;
+	}
+
+	.sticky-social > ul > li:hover {
+		margin-left:-120px;
+	}
+	
+	.sticky-social > ul > li > i {
+		padding:5px;
+		color:#ccc;
+		float:left;
+	}
+	.sticky-social > ul > li:hover > i {
+		color:#fff;
+	}
+	.sticky-social > ul > li > p {
+		line-height: 40px;
+		padding:0;
+		margin:0;
+	}
+	
+	.sticky-social > ul > li > p > a,
+	.sticky-social iframe{
+		margin-top:8px !important;
+		margin-left:20px !important;
+	}
+	
+	iframe#twitter-widget-0.twitter-share-button.twitter-share-button-rendered.twitter-tweet-button{
+		margin-top:6px;
+		margin-left:20px;
+	}
+	
+</style>
+<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1531543427161677',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   
+   function fbShare(){
+	   FB.ui({
+	   	method: 'share_open_graph',
+	   	action_type: 'og.likes',
+	   	action_properties: JSON.stringify({
+	   	object:'https://developers.facebook.com/docs/',
+  		})
+		}, function(response){
+			// Debug response (optional)
+			console.log(response);
+		});
+   }
+   
+   
+</script>
+
+
+
+</head>
+<body>
+	<div class="sticky-social">
+		<ul>
+			<li><i class="fa fa-facebook-square fa-2x"></i><p><a onclick="fbShare();">Share</a></p></li>
+			<li><i class="fa fa-twitter-square fa-2x"></i><p><a class="twitter-share-button"
+					href="https://twitter.com/share"
+					data-size="large"
+					data-url="http://race.rmpbs.org"
+					data-via="dayngermows"
+					data-related="weresound"
+					data-hashtags="rsnd15"
+					data-text="I think this is really cool">Tweet</a></p>
+			</li>
+			<li><i class="fa fa-pinterest-square fa-2x"></i><p><a data-pin-height="28" data-pin-config="beside" href="https://www.pinterest.com/pin/create/button/">
+    <img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" />
+</a></p></li>
+			<li><i class="fa fa-google-plus-square fa-2x"></i><p><g:plusone></g:plusone></p></li>
+		</ul>
+	</div>
+	
+	
+</body>
+</html>

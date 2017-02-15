@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Sandbox | fbalbum.html</title>
+<script src="//connect.facebook.net/en_US/all.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+<script>
+/*$('document').ready(function(){
+	$.ajax({
+		url:'https://graph.facebook.com/10153588335122279/photos',
+		success:function(data){
+			console.log(data);
+		}
+	});
+});
+
+$(document).ready(function() {
+  $.ajaxSetup({ cache: true });
+  $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+    FB.init({
+      appId: '1495193027474517',
+      version: 'v2.5' // or v2.0, v2.1, v2.2, v2.3
+    });     
+    $('#loginbutton,#feedbutton').removeAttr('disabled');
+    FB.getLoginStatus(updateStatusCallback);
+    
+    function updateStatusCallback(data){
+	    console.log(data);
+    }
+    
+    FB.getAuthResponse(function(data){
+	    console.log(data);
+    });
+    
+    
+  });
+});
+*/
+</script>
+
+</head>
+<body>
+	<div id="fb-root"></div>
+<script>
+
+ window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1495193027474517', // Set YOUR APP ID
+      //channelUrl : 'http://localhost/sandbox/bento/MI-Facebook%20Album/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+ 
+    FB.Event.subscribe('auth.authResponseChange', function(response) 
+    {
+     if (response.status === 'connected') 
+    {
+        document.getElementById("message").innerHTML +=  "<br>Connected to Facebook";
+        //SUCCESS
+ 
+    }    
+    else if (response.status === 'not_authorized') 
+    {
+        document.getElementById("message").innerHTML +=  "<br>Failed to Connect";
+ 
+        //FAILED
+    } else 
+    {
+        document.getElementById("message").innerHTML +=  "<br>Logged Out";
+ 
+        //UNKNOWN ERROR
+    }
+    }); 
+ 
+    };
+ 
+    function Login()
+    {
+ 
+        FB.login(function(response) {
+           if ("Login response: "+response.authResponse) 
+           {
+                getUserInfo();
+            } else 
+            {
+             console.log('User cancelled login or did not fully authorize.');
+            }
+         },{scope: 'email,user_photos,user_videos'});
+ 
+    }
+ 
+  function getUserInfo() {
+        FB.api('/me', function(response) {
+ 
+      var str="<b>Name</b> : "+response.name+"<br>";
+          str +="<b>Link: </b>"+response.link+"<br>";
+          str +="<b>Username:</b> "+response.username+"<br>";
+          str +="<b>id: </b>"+response.id+"<br>";
+          str +="<b>Email:</b> "+response.email+"<br>";
+          str +="<input type='button' value='Get Photo' onclick='getPhoto();'/>";
+          str +="<input type='button' value='Logout' onclick='Logout();'/>";
+          document.getElementById("status").innerHTML=str;
+ 
+    });
+    }
+    function getPhoto()
+    {
+      FB.api('/me/picture?type=normal', function(response) {
+ 
+          var str="<br/><b>Pic</b> : <img src='"+response.data.url+"'/>";
+          document.getElementById("status").innerHTML+=str;
+ 
+    });
+ 
+    }
+    function Logout()
+    {
+        FB.logout(function(){document.location.reload();});
+    }
+ 
+  // Load the SDK asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+ 
+ 
+ window.fbAsyncInit();
+ 
+</script>
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+<a href="" onclick="Login()">Login</a>
+
+
+</body>
+</html>

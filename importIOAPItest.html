@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+    
+  
+  // Make an AJAX call to Google Script
+    
+    var url = "https://script.google.com/macros/s/AKfycbyPZXAg4u2BjKiVpIgQB2AQm6rZU2ndtSiKU2pyHokbCNg9BdI/exec?callback=ctrlq&name=";
+    var name = "Amit Agarwal";
+ 
+    var request = jQuery.ajax({
+      crossDomain: true,
+      url: url + encodeURIComponent(name),
+      method: "GET",
+      dataType: "jsonp",
+      cache:false
+    });
+ 
+ 
+  // print the returned data
+  function ctrlq(e) {
+    console.log(e)
+  }
+  
+  
+</script>
+
+
+</head>
+<body>
+    <div id="results"></div>
+</body>
+</html>

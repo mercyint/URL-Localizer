@@ -65,16 +65,21 @@ var selected_cals = '';
 			});
 			event_title = $j('<h1 />').text(consolidated_cals[i].data.summary);
 			date_diff = Math.floor((parseGoogleDate(consolidated_cals[i].end.dateTime) - parseGoogleDate(consolidated_cals[i].start.dateTime)) / (1000*60*60*24));
+    			console.log(date_diff)
 			if (date_diff > 0){
-				event_date = $j('<h2 />').html(stringifyDate(parseGoogleDate(consolidated_cals[i].start.dateTime))+' - '+stringifyDate(parseGoogleDate(consolidated_cals[i].end.dateTime)));				
+    			console.log("days long")
+				event_date = $j('<h2 />').html(stringifyDate(parseGoogleDate(consolidated_cals[i].start.dateTime))+' - '+stringifyDate(parseGoogleDate(consolidated_cals[i].end.dateTime)));	
 			}else{
+    			console.log("hours long")
 				event_date = $j('<h2 />').html(stringifyDate(parseGoogleDate(consolidated_cals[i].start.dateTime)));				
 			}
+			event_time = $j('<p></p>').html(stringifyTime(parseGoogleDate(consolidated_cals[i].start.dateTime)) + ' - '+ stringifyTime(parseGoogleDate(consolidated_cals[i].end.dateTime)));
 			event_description = $j('<div />').html(consolidated_cals[i].data.description);
 			
 			
 			event_div.append(event_title);
 			event_div.append(event_date);
+			event_div.append(event_time);
 			event_div.append(event_description);
 			
 			
@@ -150,6 +155,7 @@ var selected_cals = '';
 			url: 'https://www.googleapis.com/calendar/v3/calendars/'+cal+'@group.calendar.google.com/events?key=AIzaSyC1-f9xoUqgXXsx6vUwZTP1un619MXJ8CI&singleEvents=True&timeMin='+start_date+'&timeMax='+end_date+'&orderBy=startTime',
 			dataType: 'json',
 			success: function(data){
+    			console.log(data);
 				events = data.items;
 				for(var j = 0 ; j < events.length ; j++){
 					agg_cal.push({
@@ -285,6 +291,28 @@ function stringifyDate(d,d2){
 	
 	return date_string;
 
+}
+
+function stringifyTime(t){
+    hours = t.getHours();
+    minutes = t.getMinutes();
+    ampm = "AM";
+    
+    if (minutes < 10){
+        minutes = "0"+minutes;
+    }
+    if(hours >=12){
+        ampm = "PM";
+    }
+    if(hours > 12){
+        hours = hours -12;
+    }
+    if(hours == 0){
+        hours = 12;
+    }
+    
+    
+    return hours + ":" + minutes +" " +ampm;
 }
 
 </script>

@@ -1,0 +1,21 @@
+<!-- SmartSnippets Variables
+national_url = TextField
+local_url = TextField
+-->
+{% load sekizai_tags %}
+
+{% addtoblock 'js' %}
+
+<script>
+$('document').ready(function(){
+	jQuery('a').each(function(){
+		if(this.href && this.href.indexOf("{{ national_url }}")){
+			this.href = this.href.replace("{{ national_url }}", "{{ local_url }}");
+			if(this.href.indexOf("www.")){
+				this.href = this.href.replace("www.", "");
+			}
+		}
+	});
+});
+</script>
+{% endaddtoblock %}

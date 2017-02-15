@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+$('document').ready(function(){
+	var this_link = "https://www.facebook.com/media/set/?set=a.10151702141911082.1073741826.196732681081&type=1&l=a5a3cce810";
+	var album_id = this_link.match(/a\.[^\.]*/);
+	var album_id = album_id[0].replace(/[^0-9]/g,"");
+	console.log(album_id);
+	
+	var fb_frame = $('<iframe />').attr({
+		'src':"//embedsocial.com/facebook_album/album_photos/"+album_id,
+		'width':"100%",
+		'height':"1450",
+		'frameborder':"0",
+		'scrolling':"no",
+		'marginheight':"0",
+		'marginwidth':"0"
+	});
+	
+	$('#fb-album-wrapper').append(fb_frame);
+});
+
+</script>
+
+</head>
+<body>
+	<div id="fb-album-wrapper" style="width:500px;">
+		<div id="photos"></div>
+			
+	</div>
+	
+</body>
+</html>

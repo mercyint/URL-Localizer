@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://bento.cdn.pbs.org/hostedbento-prod/filer_public/Template%20Resources/parallax/js/FitVids/jquery.fitvids.js"></script>
+</head>
+<body>
+
+
+    <div id="embed_httpssoundcloudcomcokestudioafreen-afreen" class="vid_container"></div>
+    <div id="embed_httpswwwflickrcomphotoswedupbssets72157648165845602"></div>
+
+
+<script>
+    var this_url = "https://twitter.com/_RandiWilliams/status/597778647777300480"
+    this_url.replace(":","%3A");
+    if(this_url.indexOf('twitter') > -1){
+        //Twitter Embed
+        var url = "https://publish.twitter.com/oembed?url="+this_url+"&omit_script=true&jsoncallback=embedify&align=center";
+        var format = 'jsonp';
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        dataType:format,
+    	        success:function(response){embedify(response)}
+        });
+    }else if(this_url.indexOf("flickr") > -1 || this_url.indexOf("flic.kr") > -1){
+        var url = "https://www.flickr.com/services/oembed/?url="+this_url+"&format=json&jsoncallback=embedify";
+        var format = 'jsonp';
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        dataType:format    	       
+        });
+    }else if(this_url.indexOf("vimeo") > -1){
+        var url = "https://vimeo.com/api/oembed.json?url="+this_url+"&callback=embedify";
+        var format = 'jsonp';
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        dataType:format,
+    	        success:function(response){embedify(response)}
+        });
+    }else if (this_url.indexOf("soundcloud") > -1){
+        var url = "http://soundcloud.com/oembed?url="+this_url+"&format=json"
+        var format = "jsonp"
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        success:function(response){embedify(response)}
+        });
+    }else if (this_url.indexOf("facebook") > -1){
+        if(this_url.indexOf("video") > -1){
+            var type="video";
+        }else{
+            var type="post";            
+        }
+        var url = "https://www.facebook.com/plugins/"+type+"/oembed.json/?url="+this_url+"&callback=embedify";
+        var format = "jsonp"
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        success:function(response){embedify(response)}
+        });
+        
+    }
+        
+    
+/*    var this_url = "https://www.facebook.com/MyReDream/videos/1690573637826739/"
+    this_url.replace(":","%3A");
+    if(this_url.indexOf('twitter') > -1){
+        //Twitter Embed
+        var url = "https://publish.twitter.com/oembed?url="+this_url+"&omit_script=true&jsoncallback=embedify";
+        var format = 'jsonp';
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        dataType:format,
+    	        success:function(response){embedify(response)}
+        });
+    }else if(this_url.indexOf("flickr") > -1 || this_url.indexOf("flic.kr") > -1){
+        var url = "https://www.flickr.com/services/oembed/?url="+this_url+"&format=json&jsoncallback=embedify";
+        var format = 'jsonp';
+    	$.ajax({type: "GET",
+    	        url:url,
+    	        dataType:format    	       
+        });
+    }*/
+    
+    if(typeof embedify != "function"){
+    
+        window.embedify = function (response){
+            console.log(typeof response);
+            console.log(response);
+            if(response.provider_name == "Twitter"){
+                console.log(slug(response.url));
+    	        $("#embed_"+slug(response.url)).html(response.html);
+                window.twttr = (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0],
+                    t = window.twttr || {};
+                  if (d.getElementById(id)) return t;
+                  js = d.createElement(s);
+                  js.id = id;
+                  js.src = "https://platform.twitter.com/widgets.js";
+                  fjs.parentNode.insertBefore(js, fjs);
+                 
+                  t._e = [];
+                  t.ready = function(f) {
+                    t._e.push(f);
+                  };
+                 
+                  return t;
+                }(document, "script", "twitter-wjs"));
+            }else if (response.provider_name == "Flickr"){
+    	        
+    	        $("#embed_"+slug(response.web_page)).html(response.html);
+            }else if (response.provider_name == "Vimeo"){
+    	        $('[id*='+response.video_id+']').html(response.html);
+    	        $('[id*='+response.video_id+']').fitVids();
+            }else if (response.provider_name == "SoundCloud"){
+                var author = response.author_name.toLowerCase();
+    	        $('[id*='+response.author_name.toLowerCase()+']').html(response.html);
+                
+            }
+        }
+    }
+
+    if(typeof slug != "function"){
+        window.slug = function(str) {
+            var $slug = '';
+            var trimmed = $.trim(str);
+            $slug = trimmed.replace(/[^a-z0-9-_]/gi, '').
+            replace(/-+/g, '-').
+            replace(/^-|-$/g, '');
+            return $slug.toLowerCase();
+        }
+    }
+    
+</script>
+</body>
+</html>

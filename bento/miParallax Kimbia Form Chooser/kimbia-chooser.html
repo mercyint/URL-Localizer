@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Sandbox | kimbia-chooser.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$('document').ready(function(){
+	$('#kimbia-chooser').unbind('change').bind('change',function(){
+		var this_id = $(this).attr('id');
+		var this_val = $('#'+this_id+' option:selected').val();
+		var form_parent = $('#kimbia-form-chooser');
+		form_parent.children().each(function(){
+			$(this).addClass('hidden');
+		});
+		var this_form = $('#kfc-'+this_val).removeClass('hidden');
+		
+
+	});
+});
+
+</script>
+<style>
+	.kimbia-form{
+		display:block;
+		height:auto;
+	}
+	.hidden{
+		display:none;
+		height:0px;
+	}
+	
+</style>
+</head>
+<body>
+	<div style="max-width:635px">
+<div id="kimbia-chooser-wrapper">
+	<select id="kimbia-chooser">
+		<option value="3KIPIO6">Category 1</option>
+		<option value="4ZHKKY8">Category 2</option>
+	</select>
+	<div id="kimbia-form-chooser">
+		<div id="kfc-3KIPIO6" class="kimbia-form hidden">
+			<script src="https://widgets.kimbia.com/widgets/formChooser.js?id=3KIPIO6"></script>
+		</div>
+		<div id="kfc-4ZHKKY8" class="kimbia-form hidden">
+			<script src="https://widgets.kimbia.com/widgets/formChooser.js?id=4ZHKKY8"></script>
+		</div>
+		
+	</div>
+</div>
+	</div>
+	
+	
+</body>
+</html>

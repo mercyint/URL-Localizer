@@ -1,0 +1,355 @@
+<html>
+<head>
+<title>Sandbox | menu.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<style>
+	.wide-menu {
+		width: auto;
+		margin:0;
+		padding:0;
+	}
+	.wide-menu > li {
+		display: inline-block;
+		padding: 1em;
+		position: relative;
+		width: auto;
+	}
+	.wide-menu > li:hover,
+	.wide-menu > li.over{
+		background: black;
+		color: white;
+	}
+	/* Standard dropdowns (not wide format) */
+	.wide-menu > li > ul {
+		display:none;
+		position: absolute;
+		top:3.1em;
+		left:0;
+		width: auto;
+		color:black;
+		background: transparent;
+		list-style: none;
+		border:1px black solid;
+	}
+	.wide-menu > li:hover > ul {
+		display:block;
+		white-space: nowrap;
+	}
+	.wide-menu > li:hover > ul > li {
+		display: block;
+	}
+	/*END Standard Dropdowns */
+	
+	/* Wide format dropdowns */
+	.wide-menu > li.wide-parent > ul,
+	.wide-menu > li.wide-parent:hover > ul {
+		display:none;
+	}
+	
+	
+	.wide-sub {
+		display:none;
+		top:-1px;
+	}
+	.wide-sub.open,
+	.wide-sub.open:hover{
+		display:block;
+		border: 1px solid black;
+	}
+	.wide-sub-col{
+		width: 45%;
+		margin:0;
+		padding:1em;
+		orphans: auto;
+		vertical-align: top;
+		float: left;
+	}
+	.wide-sub-col > ul{
+		margin:0;
+		padding:0;
+		list-style: none;
+	}
+	.wide-sub-col > ul > li{
+		-webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        font-weight: bold;
+	}
+	.wide-sub-col > ul > li > ul{
+		list-style: none;
+		padding-left:1em;
+		font-weight: 100;
+	}
+	
+	/* END Wide format dropdowns */
+	
+	/*  Mobile Menu */
+	 #mobile-menu > ul.menu,
+	 #mobile-menu > ul.menu > li > ul,
+	 .mobile-menu-button{
+	 	display:none;
+	 }
+	 @media screen and (max-width: 800px) {
+	 	#header-menu{
+			float:none;
+			display:none;
+		}
+		ul.menu{
+		  display:none;
+		  background:#666;
+		  color:#fff;
+		  width:auto;
+		}
+		.mobile-menu-button{
+		  display:block;
+		  padding:.5em 2em;
+		  cursor: hand;
+		  float:right;
+		}
+		.mobile-menu-button:hover{
+		  background:#fff;
+		}
+	
+		#mobile-menu > ul.menu,
+		ul.menu{
+		 display:block;
+		 float:none;
+		 clear:both;
+		 height:0px;
+		 overflow: hidden;
+		 margin:0;
+		 padding:0;
+		}
+	 
+	
+		ul.sub-menu.open,
+		ul.menu.open {
+		  height:auto !important;
+		  display:block !important;
+		}
+		ul.menu > li {
+		  display:block;
+		}
+		ul.sub-menu {
+		  display:block;
+		  height:0px;
+		  overflow: hidden;
+		  border-bottom:1px #777 solid;
+		  border-top:1px #777 solid;
+		  background:#555;
+		  padding:0;
+	  	}
+	  	.caret:after {
+		  content: '\\\/';
+		  border-left: 1px solid #fff;
+		  float:right;
+		  padding-left:.5em;
+	  	}
+	  	.menu li ul li > a,
+	  	.menu li > span > a,
+	  	.menu li > a{
+		 color:#FFF;
+		 text-decoration: none;
+	   	}
+	   	.menu li ul li:hover > a,
+	   	.menu li:hover > a,
+	   	.menu li ul li > a:hover,
+	   	.menu li > a:hover{
+		 color:#000;
+		}	
+	}
+
+	/*  END Mobile Menu */
+	
+	
+	
+	
+	
+	.columnize{
+		-webkit-column-width: 15em;
+		-moz-column-width: 15em;
+		column-width: 15em;
+	}
+	@media (max-width:600px){
+		.wide-menu{
+			//display:none;
+		}
+		.wide-menu > li {
+			display: block;
+		}
+	}
+	.clearfix:after {
+		content: ".";
+		display: block;
+		clear: both;
+		visibility: hidden;
+		line-height: 0;
+		height: 0;
+	}
+	 
+	.clearfix {
+		display: inline-block;
+	}
+</style>
+<script>
+var mobile = false;
+var head = document.getElementsByTagName('head')[0];
+var js = document.createElement("script");
+
+js.type = "text/javascript";
+
+if (screen.width <= 600)
+{
+    js.src = "http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js";
+    mobile = true
+}
+
+head.appendChild(js);	
+	
+	
+	
+	$('document').ready(function(){
+		$('.wide-parent').each(function(){
+			var id = $(this).attr('id');
+			var insub = false;
+			if(mobile){
+				$(this).on('tap',function(){
+					var sub = $('#'+id+'-sub');
+					if(sub.hasClass('open')){
+						sub.removeClass('open');
+						sub.removeClass('clearfix');
+					}else{
+						sub.addClass('open');
+						sub.addClass('clearfix');
+		    		}
+				});
+			}else{
+				$(this).mouseenter(function(){
+					var parent = $(this);
+					var sub = $('#'+id+'-sub');
+					sub.addClass('open');
+					sub.addClass('clearfix');
+					
+					sub.mouseenter(function(){
+						parent.addClass('over');
+						$(this).addClass('open');
+						$(this).addClass('clearfix');
+						insub=true;						
+					});
+					sub.mouseleave(function(){
+						$(this).removeClass('open');
+						$(this).removeClass('clearfix');
+						parent.removeClass('over');
+						insub=false;
+					});
+				});
+				$(this).mouseleave(function(){
+					if (!insub){
+						$(this).removeClass('over');
+						$('#'+$(this).attr('id')+'-sub').removeClass('open');
+						$('#'+$(this).attr('id')+'-sub').removeClass('clearfix');
+					}
+				});
+			}
+		});
+		$('.mobile-menu-button').click(function(e){
+			console.log('click');
+			if($('#mobile-menu > ul.menu').hasClass('open')){
+				$('#mobile-menu > ul.menu').removeClass('open');  
+			}else{
+				$('#mobile-menu > ul.menu').addClass('open');  
+			}
+		});
+		$('.caret').click(function(e){
+			var sub = $(this).parent().parent().children('.sub-menu');
+			if(sub.hasClass('open')){
+				sub.removeClass('open');
+			}else{
+		    	sub.addClass('open');
+	    	}
+		});     
+
+	});
+	
+</script>
+
+</head>
+<body>
+	<div id="header">
+	<div class="mobile-menu-button">E</div>
+	<div id="header-menu">
+	<ul class="wide-menu">
+		<li id="option-1" class="wide-parent">Option 1
+		 	<ul>
+			 	<li>Suboption 1</li>
+			 	<li>Suboption 2</li>
+			 	<li>Suboption 3</li>
+		 	</ul>
+		</li>
+		<li>Option 2
+		 	<ul>
+			 	<li>Suboption 1</li>
+			 	<li>Suboption 2</li>
+			 	<li>Suboption 3</li>
+		 	</ul>
+		</li>
+		<li>Option 3</li>
+	</ul>
+	</div>
+	<div id="mobile-menu">
+	<ul class="menu">
+		<li id="option-1"><span><a href="#">Option 1</a><span class="caret"></span></span>
+		 	<ul class="sub-menu">
+			 	<li>Suboption 1</li>
+			 	<li>Suboption 2</li>
+			 	<li>Suboption 3</li>
+		 	</ul>
+		</li>
+		<li>Option 2<span class="caret"></span>
+		 	<ul class="sub-menu">
+			 	<li>Suboption 1</li>
+			 	<li>Suboption 2</li>
+			 	<li>Suboption 3</li>
+		 	</ul>
+		</li>
+		<li>Option 3</li>
+	</ul>
+	</div>
+	<div id="wide-sub-container  clearfix">
+			<div id="option-1-sub" class="wide-sub">
+				<div class="wide-sub-col columnize">
+					<ul>
+					<li>Suboption 1
+						<ul>
+							<li>subsub 1</li>
+							<li>subsub 2</li>
+							<li>subsub 3</li>
+						</ul>
+					</li>
+					<li>Suboption 2
+						<ul>
+							<li>subsub 1</li>
+							<li>subsub 2</li>
+							<li>subsub 3</li>
+						</ul>
+					</li>
+					<li>Suboption 3
+						<ul>
+							<li>subsub 1</li>
+							<li>subsub 2</li>
+							<li>subsub 3</li>
+						</ul>
+					</li>
+				</ul>
+				
+				</div>
+				<div class="wide-sub-col">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+			</div>
+		
+	</div>
+	</div>
+</body>
+</html>

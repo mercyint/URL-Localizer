@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Sandbox | Untitled.php</title>
+<script>
+	// ID of the script to call. Acquire this from the Apps Script editor,
+// under Publish > Deploy as API executable.
+var scriptId = "McmZykHoRkeAYxazoLM4UCMY9yADMPl_w";
+
+// Initialize parameters for function call.
+var url = "http://inewsnetwork.org/?feed=bento";
+
+// Create execution request.
+var request = {
+    'function': 'parseXML',
+    'parameters': [url],
+};
+
+// Make the request.
+var op = gapi.client.request({
+    'root': 'https://script.googleapis.com',
+    'path': 'v1/scripts/' + scriptId + ':run',
+    'method': 'POST',
+    'body': request
+});
+
+// Log the results of the request.
+op.execute(function(resp) {
+  if (resp.error && resp.error.status) {
+    // The API encountered a problem before the script started executing.
+    console.log('Error calling API: ' + JSON.stringify(resp, null, 2));
+  } else if (resp.error) {
+    // The API executed, but the script returned an error.
+    var error = resp.error.details[0];
+    console.log('Script error! Message: ' + error.errorMessage);
+  } else {
+    // Here, the function returns an array of strings.
+    var xml = resp.response.result;
+    console.log('JSON returned:');
+    console.log(xml);
+  }
+});
+</script>
+
+
+</head>
+<body>
+</body>
+</html>
+
+
+

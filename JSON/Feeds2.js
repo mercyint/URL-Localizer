@@ -425,7 +425,7 @@ function Feed(title,url,type,parent){
 
 			}else{
 				articles = feed.data.responseData.feed.entries;
-				//console.log(articles);
+				console.log(articles);
 				if(count == -1 || count > articles.length){count = articles.length;}
 					if(display == "video-grid"){
 						if(feed.show_title == true){

@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Sandbox | dndupload.html</title>
+<script>
+    function drop(e){
+        e.preventDefault();
+        console.log("Drop it like it's hot!");
+        var files = e.target.files || e.dataTransfer.files;
+        console.log(files);
+    }
+    
+    function allowDrop(e){
+        e.preventDefault();
+    }
+    
+    function openTheHood(e,el){
+        console.log(e);
+        var obj = document.getElementById(el.id);
+        console.log(obj.value);
+    }
+    
+</script>
+<style>
+    #upload_target{
+        height:300px;
+        width:300px;
+        background-color:lime;
+        border: 3px dashed green;
+    }
+</style>
+</head>
+<body>
+    <h1>Drag and Drop Uploader</h1>
+    <form>
+        <input class="hidden" id="myfiles" type="file" multiple onchange="openTheHood(event,this);">
+    <div id="upload_target" ondrop="drop(event)" ondragover="allowDrop(event)">Drag Files here</div>
+    </form>
+    
+    
+</body>
+</html>

@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>BitNova | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$('document').ready(function(){
+    $(".equipment-select").each(function(){
+        console.log($(this))
+        $(this).on('change',function(){
+            markMapped();
+        });
+    });
+	
+	function markMapped(){
+    	var selected_options = new Array();
+    	
+    	//Identify option classes where at least one is selected.
+    	$('.equipment-select > option').each(function(){
+          if($(this).is(':selected') && typeof $(this).attr('class') != 'undefined'){
+              selected_options.push($(this).attr('class'));
+          }
+    	});
+    	
+    	//Mark the selected
+    	for(var i = 0 ; i < selected_options.length; i++){
+        	$('.'+selected_options[i]).each(function(){
+            	if($(this).text().search('mapped') == -1){
+                    $(this).append(' (mapped)');
+            	}
+            });
+    	}
+    	
+    	//Unmark unselected
+    	$('.equipment-select > option').each(function(){
+        	if(selected_options.indexOf($(this).attr('class')) == -1){
+            	$(this).text($(this).text().split(' (mapped)').join(""));
+        	}
+    	});
+    	
+    	
+    	
+	}
+	
+});
+
+</script>
+
+</head>
+<body>
+    <form>
+        <select class="equipment-select">
+            <option>Choose</option>
+            <option class="first">First Option</option>
+            <option class="second">Second Option</option>
+            <option class="third">Third Option</option>
+        </select>
+        <select class="equipment-select">
+            <option>Choose</option>
+            <option class="first">First Option</option>
+            <option class="second">Second Option</option>
+            <option class="third">Third Option</option>
+        </select>
+        <select class="equipment-select">
+            <option>Choose</option>
+            <option class="first">First Option</option>
+            <option class="second">Second Option</option>
+            <option class="third">Third Option</option>
+        </select>
+        <select class="equipment-select">
+            <option>Choose</option>
+            <option class="first">First Option</option>
+            <option class="second">Second Option</option>
+            <option class="third">Third Option</option>
+        </select>
+</body>
+</html>

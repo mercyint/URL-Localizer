@@ -1,0 +1,240 @@
+<html>
+<head>
+<title>Sandbox | basic-menu.html</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+    $('document').ready(function(){
+    	  $('.mi-mobile-menu-button').click(function(e){
+	  if($('#mi-basic-mobile-menu > ul.mi-menu').hasClass('open')){
+	  	$('#mi-basic-mobile-menu > ul.mi-menu').removeClass('open');  
+	  }else{
+	  	$('#mi-basic-mobile-menu > ul.mi-menu').addClass('open');  
+	  }
+  });
+  $('.mi-caret').click(function(e){
+	  var sub = $(this).parent().parent().children('.mi-sub-menu');
+	  if(sub.hasClass('open')){
+			sub.removeClass('open');
+		}else{
+		    sub.addClass('open');
+	    }
+	});     
+
+
+    });
+    
+</script>
+
+<style>
+ #mi-basic-menu .mi-caret{
+	 display:none;
+ }
+ 
+ .mi-caret{
+    float: right;
+    padding-right: .25em;
+ }
+ 
+ #mi-basic-mobile-menu{
+	 margin: 0;
+	 padding:0;
+	 width:100%;
+	 position: fixed;
+	 top:5.1em;
+	 z-index: 9999;
+	 max-height:53%;
+	 overflow: auto;
+ }
+ #mi-basic-mobile-menu > ul.mi-menu,
+ #mi-basic-mobile-menu > ul.mi-menu > li > ul,
+ .mi-mobile-menu-button{
+	 display:none;
+ }
+ 
+ .mi-menu li ul li  a,
+ .mi-menu li  a{
+	 text-decoration: none;
+ }
+ 
+ #mi-basic-menu .mi-menu > li > span > a {
+	 color:#fff;
+ }
+ 
+ .mi-menu li ul li:hover > a,
+ .mi-menu li:hover > span > a,
+ .mi-menu li ul li > a:hover,
+ .mi-menu li > span > a:hover{
+	 color:#000;
+ }
+ 
+ ul.mi-menu{
+	 margin:0;
+ } 
+ ul.mi-menu > li {
+	 display: inline-block;
+	 position:relative;
+	 padding:0 .5em;
+ }
+ ul.mi-menu > li > span > a{
+	 margin:.5em 1em;
+	 display:block;
+	 }
+
+/* #mi-basic-menu > ul.mi-menu > li > ul.mi-sub-menu {
+	 display:none;
+	 opacity:0;
+	 position:absolute;
+	 min-width:200px;
+	 z-index: 9999;
+	 margin:0;
+	 padding:0;
+	-webkit-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-ms-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+#mi-basic-menu > ul.mi-menu > li > ul.mi-sub-menu:hover,
+#mi-basic-menu > ul.mi-menu > li:hover > ul.mi-sub-menu {
+	display:block;
+	opacity:1;
+}*/
+ul.mi-menu > li > ul > li{
+	display:block;
+	padding:.25em;
+}
+
+
+ #mi-basic-menu  > ul.mi-menu > li:hover {
+ 	background:rgba(182, 120, 120, 0.7);
+ } 
+ #mi-basic-menu  > ul.mi-menu > li > ul {
+   	background:rgba(182, 120, 120, 0.7);
+	 display:none;
+	 position:absolute;
+	 min-width:200px;
+	 z-index: 9999;
+	 opacity:0;
+	 margin:0;
+	 padding:0;
+	-webkit-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	-ms-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+#mi-basic-menu  > ul.mi-menu > li > ul:hover,
+#mi-basic-menu > ul.mi-menu > li:hover > ul {
+	display:block;
+	opacity:1;
+}
+
+@media screen and (max-width: 800px) {
+  ul.mi-menu{
+	  display:none;
+	  background:#666;
+	  color:#fff;
+	  width:auto;
+  }
+  .mi-mobile-menu-button{
+		display:block;
+		padding:.5em .5em .4em .5em;
+		cursor: pointer;
+		float:right;
+		background:#666;
+		border-radius: 5px;
+  }
+  .mi-mobile-menu-button:active,
+  .mi-mobile-menu-button:hover{
+	  background:#333;
+  }
+
+  #mi-basic-mobile-menu > ul.mi-menu,
+  ul.mi-menu{
+	 display:block;
+	 float:none;
+	 clear:both;
+	 height:0px;
+	 overflow: hidden;
+	 margin:0;
+	 padding:0;
+
+  }
+ 
+
+  ul.mi-sub-menu.open,
+  ul.mi-menu.open {
+	  height:auto !important;
+	  display:block !important;
+  }
+  ul.mi-menu > li {
+	  display:block;
+  }
+  ul.mi-menu > li > span{
+	  padding:0 1em;
+	  line-height: 2em;
+  }
+   ul.mi-menu > li > span > a{
+	 margin:0 1em;
+	 display:inline-block;
+	 }
+  
+  ul.mi-sub-menu {
+	  display:block;
+	  height:0px;
+	  overflow: hidden;
+	  border-bottom:1px #777 solid;
+	  border-top:1px #777 solid;
+	  background:#555;
+	  padding:0;
+  }
+  .mi-caret {
+	  border-left: 1px solid #fff;
+	  float:right;
+	  padding-left:.5em;
+	  width:1em;
+  }
+  .mi-menu li ul li a,
+  .mi-menu li a{
+	 color:#FFF;
+	 text-decoration:none;
+   }
+}
+</style>
+</head>
+<body>
+    <div class="mi-mobile-menu-button"><i class="fa fa-bars" aria-hidden="true"></i></div>
+    <div id="mi-basic-menu">
+    <ul class="mi-menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+        <li><a href="#">Test 3<span class="mi-caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+            <ul class="mi-sub-menu">
+                <li><a href="#">Sub-test 1</a></li>
+                <li><a href="#">Sub-test 2</a></li>
+                <li><a href="#">Sub-test 3</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Test 4</a></li>
+        
+    </ul>
+    </div>
+    <div id="mi-basic-mobile-menu">
+    <ul class="mi-menu">
+        <li><a href="#">Test 1</a></li>
+        <li><a href="#">Test 2</a></li>
+        <li><a href="#">Test 3<span class="mi-caret"><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+            <ul class="mi-sub-menu">
+                <li><a href="#">Sub-test 1</a></li>
+                <li><a href="#">Sub-test 2</a></li>
+                <li><a href="#">Sub-test 3</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Test 4</a></li>
+        
+    </ul>
+    </div>
+</body>
+</html>

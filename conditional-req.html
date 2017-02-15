@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Sandbox | Untitled.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+$(function() {
+    $("input[type='text'][data-conditional-validate]").bind('blur',function(){
+        var fields = $(this).data('conditional-validate').split(" ");
+        for(var i = 0 ; i < fields.length; i++){
+            if($(this).val() != ''){
+                if(!$("#"+fields[i]).hasClass("required")){
+                    $("#"+fields[i]).addClass("required");
+                    $("#"+fields[i]).after("<span class='req-span'>*</span>");
+                    $("#"+fields[i]).on('blur',function(){
+                        if($(this).val() == '' || $(this).val() == $(this).data("default")){
+                            $(this).next().append("This field is required");
+                        }else{
+                            $(this).next().empty().append('*');
+                        }
+                    });
+                    
+                }
+            }else{
+                if($("#"+fields[i]).hasClass("required")){
+                    $("#"+fields[i]).removeClass("required");
+                    $("#"+fields[i]).next().remove();
+                }
+            }
+        }
+    });
+    $("input[type='checkbox'][data-conditional-validate]").on('click',function(){
+        console.log($(this).attr("type"));
+        var fields = $(this).data('conditional-validate').split(" ");
+        for(var i = 0 ; i < fields.length; i++){
+            if($(this).is(':checked')){
+                if(!$("#"+fields[i]).hasClass("required")){
+                    $("#"+fields[i]).addClass("required");
+                    $("#"+fields[i]).after("<span class='req-span'>*</span>");
+                    $("#"+fields[i]).on('blur',function(){
+                        if($(this).val() == '' || $(this).val() == $(this).data("default")){
+                            $(this).next().append("This field is required");
+                        }else{
+                            $(this).next().empty().append('*');
+                        }
+                    });
+                    
+                }
+            }else{
+            $("#"+fields[i]).removeClass("required");
+            $("#"+fields[i]).next().remove();
+            }
+        }
+    });
+
+    
+    
+});
+
+</script>
+<style>
+</style>
+
+</head>
+<body>
+    <form>
+       Text 1 <input type="text" data-conditional-validate="text2"><br/>
+       Text 2 <input type="text" id="text2" name="text2"><br/>
+        <br/>
+       Check 1 <input type="checkbox" data-conditional-validate="text3"><br/>
+       Text 3 <input type="text" id="text3" name="text3">
+        
+    </form>
+    
+    
+</body>
+</html>

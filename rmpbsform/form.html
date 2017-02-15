@@ -1,0 +1,510 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Dropzone/dropzone-4.3.0/dist/dropzone.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="http://pbs.bento.storage.s3.amazonaws.com/hostedbento-prod/filer_public/RMPBS%20ALL%20FILES/Scripts/Dropzone/dropzone-4.3.0/dist/dropzone.css">
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+var tab_count;    
+
+$(function() {
+    $( ".tabs" ).tabs();
+    $( ".tabs" ).tabs('disable',1);
+    $( ".tabs" ).tabs('disable',2);
+    $( ".tabs" ).tabs('disable',3);
+    $( ".tabs" ).tabs('disable',4);
+    $( ".tabs" ).tabs('disable',5);
+    $( ".tabs" ).tabs('disable',6);
+
+
+    $(".form-section").on('click','.next-button',function(){
+      $('.tabs .ui-tabs-nav li').each(function(){
+       if(!$(this).hasClass('ui-state-disabled')){
+         if($(this).index() > $(".tabs").tabs('option','active')){
+           $('.tabs').tabs("option","active", $(this).index());
+           return false;
+         }         
+       }
+     }
+     );
+
+    });
+        
+    $( ".datepicker" ).datepicker();
+    $(".spinner").spinner();
+    
+ //   var myDropzone = new Dropzone("div.dz-uploader", { url: runUploader});
+    
+    function runUploader(){
+      console.log("running uploader");
+    }
+    
+    
+    $("input[data-default]").unbind().bind('blur',function(){
+      if($(this).val() == '' || $(this).val() == $(this).data('default')){
+        $(this).removeClass('value-entered');
+        $(this).val($(this).data('default'));
+      }else{
+        $(this).unbind('click');
+      }
+    }).bind('click',function(){
+     $(this).val('');
+     $(this).addClass('value-entered');
+    });
+    
+    $("input[data-validate]").bind('blur',function(){
+      var methods = $(this).data('validate').split(" ");
+      var valid = true;
+      var error="";
+      for(i in methods)
+	      if(methods[i] == 'email'){
+	        console.log('validating e-mail');
+	        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	        var email = re.test($(this).val());
+	        if(!email){
+	          valid = false;
+	          error = error + " Invalid e-mail";
+	        }
+	      }
+	      if(methods[i] == 'required'){
+		    if(($(this).data('default') && $(this).val() == $(this).data('default')) || $(this).val() == '' ){
+	          valid = false;
+	          error = error + " Required field";
+			}
+	      }
+      
+      if(!valid){
+        $(this).addClass('invalid-data');
+        $(this).next("span.error-msg").text(error);
+      }else{
+        $(this).removeClass('invalid-data');
+        $(this).next("span.error-msg").text('');
+      }
+      
+    });
+    
+    $('.services').on('click', function(){
+      var s_type = $(this).data('service-type');
+      if($(this).is(':checked')){
+        $('.tabs').tabs("enable", $("#"+s_type+"_info").index()-1);
+      }else{
+        $('.tabs').tabs("disable", $("#"+s_type+"_info").index()-1);
+      }
+      $('.tabs').tabs('enable',6);
+    });
+    
+    $('.content-reveal').on('click',function(){
+      var content = $(this).data('content');
+      if($(this).is(':checked')){
+        $("#"+content).removeClass('hidden');
+      }else{
+        $("#"+content).addClass('hidden');
+      }
+    });
+    $('.content-hide').on('click',function(){
+      var content = $(this).data('content');
+      if($(this).is(':checked')){
+        $("#"+content).addClass('hidden');
+      }else{
+        $("#"+content).removeClass('hidden');
+      }
+    });
+   $("#department").on('change',function(){
+	   var supervisor = $("#department option:selected").data('default-supervisor');
+	   $("#supervisor").val(supervisor).addClass('value-entered');
+   });
+   $("#submit").on('click',function(){
+     var form = document.getElementById("request_form");
+     console.log(form);
+     google.script.run.createRequest(form);
+   });
+
+
+
+
+var $form = $('.p_form');
+      $form.addClass('has-advanced-upload');
+    if (isAdvancedUpload) {
+      $form.addClass('has-advanced-upload');
+    }
+    
+    
+    
+  });
+  
+  var isAdvancedUpload = function() {
+  var div = document.createElement('div');
+  return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+}();
+  
+</script>
+
+<style>
+
+html,body{
+  font-family:Arimo,san-serif;
+}
+
+input.title {
+  border:none;
+  font-size:1.5em;
+}
+
+input[data-default]{
+  font-style:italic;
+  color:#999;
+}
+input[data-default].value-entered{
+  font-style:normal;
+  color:#000;
+}
+
+input.invalid-data{
+  background-color:pink;
+}
+
+.error-msg{
+  color:#900;
+  font-size:.75em;
+  font-style: italic;
+}
+
+h2{
+  color:rgb(88, 63, 111);
+  font-weight:400;
+}
+
+h3{
+  font-weight:400;
+  margin-left:-.5em;
+}
+
+.form-section{
+	margin:.25em;
+}
+
+.form-subsection{
+  margin:.25em auto;
+  padding:.25em .25em .25em 2em;
+  border:1px solid #ccc;
+}
+
+.form-subsection input[type=text]{
+  width:40%;
+}
+.form-subsection input[type=text].datepicker{
+  margin-left:auto;
+  width:auto;
+}
+
+.form-subsection label{
+  font-size:.8em;
+  color:#666;
+}
+
+.form-subsection textarea{
+  width:95%;
+}
+
+.check-grid{
+ margin-left:2em;
+ white-space:nowrap;
+ min-width:25%;
+ display:block;
+ float:left;
+}
+.check-grid ::after{
+  clear:both;
+}
+
+.ui-tabs .ui-state-disabled { 
+    display: none; /* disabled tabs don't show up */ 
+} 
+.hidden{
+  display:none;
+  }
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+.has-advanced-upload .uploader {
+  background-color: rgb(250, 230, 255);
+  outline: 2px dashed rgb(88, 63, 111);
+  outline-offset: -5px;
+  padding:1.5em;
+  margin:1em;
+}
+.has-advanced-upload .box__dragndrop {
+  display: inline;
+}
+
+.spinner{
+	text-align: center;
+}
+
+</style>
+<form class="p_form" id="request_form">
+    <div>
+      <input type="text" id="p_name" class="title" value="Untitled Project" data-default="Untitled Project">
+    </div>
+<div class="tabs">
+  <ul>
+    <li><a href="#project_info">Project Information</a></li>
+    <li id="event_tab"><a href="#event_info">Event</a></li>
+    <li id="tv_tab"><a href="#tv_info">TV</a></li>
+    <li id="digital_tab"><a href="#digital_info">Digital</a></li>
+    <li id="print_tab"><a href="#print_info">Print</a></li>
+    <li id="radio_tab"><a href="#radio_info">Radio</a></li>
+    <li id="submit_tab"><a href="#submit_info">Submit</a></li>
+
+
+  </ul>
+  <div id="project_info" class="form-section">
+    <h2>Project Information</h2>
+    <div class="form-subsection">
+    <h3>Contact & Billing</h3>
+    <input type="text" name="submitter" id="submitter" value="Submitted by" data-default="Submitted by" data-validate="required"><span class="error-msg"></span><br/>
+    <input type="text" name="submitter_email" id="submitter_email" value="Email Address" data-default="Email Address" data-validate="email required" data-error="Invalid E-mail Address"><span class="error-msg"></span><br/>
+    <input type="text" name="submitter_phone" id="submitter_phone" value="Phone Number/Ext." data-default="Phone Number/Ext." /><br/><br/>
+    <select id="department" name="department">
+	    <option>Choose a Department</option>
+	    <option data-default-supervisor="Julie Turken">Underwriting</option>
+	    <option data-default-supervisor="Dan Stencel">Membership</option>
+	    <option data-default-supervisor="Mark Montour-Larson">Production</option>
+	    <option data-default-supervisor="Alexa Corcoran">Marketing</option>
+	    <option data-default-supervisor="Sydney Sullivan">Traffic</option>
+	    <option data-default-supervisor="Elizabeth Mayer">Community Engagement</option>
+    </select><br/>
+    <input type="text" name="supervisor" id="supervisor" value="Supervisor Name" data-default="Supervisor Name" ><br/>
+    <input type="text" name="billing_num" id="billing_num" value="Billing Number" data-default="Billing Number"><br/>
+    </div>
+    <div class="form-subsection">
+      <h3>About the Project</h3>
+      <label for="p_start">Start Date:</label><input type="text" name="p_start" id="p_start" class="datepicker">
+      <label for="p_end">End Date:</label><input type="text" name="p_start" id="p_end" class="datepicker"><br/>
+      <label for="p_description">Project Description</label><br/>
+      <textarea name="p_description" id="p_description"></textarea>
+      <label for="p_audience">Target Audience</label><br/>
+      <textarea name="p_audience" id="p_audience"></textarea>
+      <label for="p_sponsors">Sponsor Logos to include</label><br/>
+      <div class="dz-uploader"><div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+    </div>
+    <div class="form-subsection">
+      <h3>Requested Services</h3>
+      <span class="check-grid"><input name="services" value="event" type="checkbox" class="services" data-service-type="event"> Event Support</span>
+      <span class="check-grid"><input name="services" value="tv" type="checkbox" class="services" data-service-type="tv"> Television</span>
+      <span class="check-grid"><input name="services" value="digital" type="checkbox" class="services" data-service-type="digital"> Digital</span>
+      <span class="check-grid"><input name="services" value="print" type="checkbox" class="services" data-service-type="print"> Print Materials</span>
+      <span class="check-grid"><input name="services" value="radio" type="checkbox" class="services" data-service-type="radio"> Radio</span>
+    </div>
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="event_info" class="form-section">
+  <h2>Event Requirements</h2>
+    <div class="form-subsection">
+      <label for="event_date">Event Date:</label><input type="text" name="event_date" id="event_date" class="datepicker"><br/>
+      <label for="event_description">Event Description:</label><br/>
+      <textarea id="event_description" name="event_description"></textarea>
+    </div>
+    <div class="form-subsection">
+      <h3>Location</h3>
+      <input type="text" name="event_location" id="event_location" value="Event Location" data-default="Event Location"><br />
+      <input type="text" name="event_location_lead" id="event_location_lead" value="Logistics Lead Name" data-default="Logistics Lead Name"><br />
+      <input type="text" name="event_location_lead_email" id="event_location_lead_email" value="Logistics Lead E-mail" data-default="Logistics Lead E-mail" data-validate="email" data-error="Invalid E-mail Address"><span class="error-msg"></span><br />
+    </div>
+    <input type="checkbox" class="content-reveal" data-content="contest"> Contest or Giveaway<br />
+    <div class="form-subsection hidden" id="contest">
+      <h3>Contest/Giveaway Details </h3>
+      <input type="text" name="event_prize_value" id="event_prize_value" value="Prize Value" data-default="Prize Value"><br />
+      <input type="text" name="event_prize_quantity" id="event_prize_quantity" value="Prize Quantity" data-default="Prize Quantity"><br />
+      <label for="event_prize_description">Prize Description:</label><br/>
+      <textarea name="event_prize_description" id="event_prize_description"></textarea>
+    </div>
+    <input type="checkbox" class="content-reveal" data-content="event_rsvp"> RSVP Needed<br />
+    <div class="form-subsection hidden" id="event_rsvp">
+      <h3>RSVP Details </h3>
+      <input type="checkbox" name="event_rsvp_webpage" id="event_rsvp_webpage"> RSVP Webpage 
+      <input type="checkbox" name="event_rsvp_confirmation" id="event_rsvp_confirmation"> RSVP Confirmation for Attendees
+      <p>Online RSVP forms will collect the following data:
+        <ul>
+          <li>Name
+          <li>E-mail
+          <li>Phone
+          <li>Number of Attendees and/or Tickets needed
+        </ul>
+        Any additional data points to be collected should be noted below.
+      
+      <label for="event_addl_data">Additional Data Points:</label><br />
+      <textarea name="event_addl_data" id="event_addl_data"></textarea>
+    </div>
+    <input type="checkbox" class="content-reveal" data-content="speaker_coordinator" name="event_speaker_check"> Speaker or Panel <input type="text" class="hidden" name="speaker_coordinator" id="speaker_coordinator" value="Speaker Coordinator" data-default="Speaker Coordinator"><br />
+    <input type="checkbox" class="content-reveal" data-content="volunteer_coordinator" name="event_volunteer_check"> Volunteers Needed <input type="text" class="hidden" name="volunteer_coordinator" id="volunteer_coordinator" value="Volunteer Coordinator" data-default="Volunteer Coordinator"><br />
+    <input type="checkbox" class="content-reveal" data-content="event_writer" name="talking_points_check"> Talking points written <input type="text" class="hidden" name="event_writer" id="event_writer" value="Writer" data-default="Writer"><br />
+    <input type="checkbox" class="content-reveal" data-content="video_provider" name="event_video_check"> Video needed <input type="text" class="hidden" name="video_provider" id="video_provider" value="Video Provider" data-default="Video Provider"><br />
+    <input type="checkbox" name="event_lightbox" id="event_lightbox"> Lightbox <br />
+    <input type="checkbox" class="content-reveal" data-content="event_catering_coordinator" name="event_catering_check"> Catering Needed <input type="text" class="hidden" name="event_catering_coordinator" id="event_catering_coordinator" value="Catering Coordinator" data-default="Catering Coordinator"><br />
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="tv_info" class="form-section">
+  <h2>Television Requirements</h2>
+    <div class="form-subsection">
+      <label for="tv_concept">Creative Concept:</label><br/>
+      <textarea name="tv_concept" id="tv_concept"></textarea><br />
+      <input type="checkbox" class="content-reveal" data-content="tv_script_writer" name="tv_script_check"> Script Written <input type="text" class="hidden" name="tv_script_writer" id="tv_script_writer" value="Script Writer" data-default="Script Writer"><br />
+      <h4>Production Team needs</h4>
+      <input type="checkbox" nam="tv_writer_producer" id="tv_writer_producer"> Writer/Producer <br />
+      <input type="checkbox" name="tv_photographer" id="tv_photographer"> Photographer <br />
+      <input type="checkbox" name="tv_editor"id="tv_editor"> Editor <br />
+    </div>
+    <div class="form-subsection">
+      <h3>Traffic Requests</h3>
+      Desired Spots:<br/>
+      :30 <input name="tv_spot_30" id="tv_spot_30" class="spinner" size="2"><br/>
+      :15 <input name="tv_spot_15" id="tv_spot_15" class="spinner" size="2"><br/>
+      :10 <input name="tv_spot_10"id="tv_spot_10" class="spinner" size="2"><br/>
+      IDs <input name="tv_spot_ID" id="tv_spot_ID" class="spinner" size="2"><br/>
+      Other <input name="tv_spot_other" id="tv_spot_other" class="spinner" size="2"><input type="text" name="tv_spot_other_text" id="tv_spot_other_text">
+      <h4>Requested Stations</h4>
+      <span class="check-grid"><input name="tv_stations" type="checkbox" class="stations" value="KRMA"> KRMA</span>
+      <span class="check-grid"><input name="tv_stations" type="checkbox" class="stations" value="KRMJ"> KRMJ</span>
+      <span class="check-grid"><input name="tv_stations" type="checkbox" class="stations" value="KTSC"> KTSC</span>
+      <span class="check-grid"><input name="tv_stations" type="checkbox" class="stations" value="Create"> Create</span>
+      <span class="check-grid"><input name="tv_stations" type="checkbox" class="stations" value="V-Me"> V-Me</span>
+    </div>
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="digital_info" class="form-section">
+  <h2>Digital Requirements</h2>
+      <label for="digital_concept">Creative Concept:</label><br/>
+      <textarea name="digital_concept" id="digital_concept"></textarea><br />
+      <label for="digital_launch_date">Preferred Digital Launch Date: </label><input type="text" name="digital_launch_date" id="digital_launch_date" class="datepicker"><br/>
+      
+      <input type="checkbox" class="content-reveal" data-content="web_content"> Web Content<br/>
+      <div class="form-subsection hidden" id="web_content">
+	      <h3>Web Requirements</h3>
+	      <input type="checkbox" class="content-reveal" data-content="rmpbs_web_url"> RMPBS Web Page<br/>
+	      <div id="rmpbs_web_url" class="hidden">
+		      <input type="radio" id="digital_web_base_url" name="digital_web_base_url" value="rmpbs"> rmpbs.org/<input type="text" id="digital_web_rmpbs_url"><br/>
+		      <input type="radio" id="digital_web_base_url" name="digital_web_base_url" value="other"> Other:<input type="text" id="digital_web_other_url">
+		  </div>
+	      <input type="checkbox" id="digital_kuvo_webpage" name="digital_kuvo_webpage"> KUVO Web Page<br/>
+		  <input type="checkbox" name=="digital_web_tile" id="digital_web_tile" class="content-reveal" data-content="digital_web_tile_platform">Tile/Ad<span id="digital_web_tile_platform" class="hidden"><input type="checkbox" name="digital_ad_for" id="digital_ad_for" value="rmpbs"> rmpbs.org <input type="checkbox" name="digital_ad_for" id="digital_ad_for" value="kuvo"> kuvo.org</span><br/>
+      </div>
+      <input type="checkbox" class="content-reveal" data-content="social_content"> Social Media / Text<br/>
+      <div class="form-subsection hidden" id="social_content">
+	      <h3>Social Media</h3>
+	      Desired Platforms:<br/>
+	      <span class="check-grid"><input type="checkbox" name="social_platforms" id="social_facebook" value="facebook"> Facebook</span>
+	      <span class="check-grid"><input type="checkbox" name="social_platforms" id="social_twiiter" value="twitter"> Twitter</span>
+	      <span class="check-grid"><input type="checkbox" name="social_platforms" id="social_pinterest" value="pinterest"> Pinterest</span>
+	      <span class="check-grid"><input type="checkbox" name="social_platforms" id="social_google" value="google"> Google+</span>
+	      <span class="check-grid"><input type="checkbox" name="social_platforms" id="social_other" value="other" class="content-reveal" data-content="social_other_text"> Other <input type="text" name="social_other_text" id="social_other_text" class="hidden"></span><br>
+	      Number of Posts: <input type="text" name="social_post_count" id="social_post_count" class="spinner" size="2"><br/>
+          <label for="social_campaign_dates">Requested Dates:</label><br/>
+          <textarea name="social_campaign_dates" id="social_campaign_dates"></textarea><br />
+	      <h3>Text Campaign</h3>
+		  <input type="checkbox" class="content-reveal" data-content="text_campaign"> Text Campaign <br/>
+		  <div id="text_campaign" class="hidden"> 
+          <label for="text_campaign_dates">Requested Dates:</label><br/>
+          <textarea name="text_campaign_dates" id="text_campaign_dates"></textarea><br />
+          <label for="text_campaign_keywords">Keywords:</label><br/>
+          <textarea name="text_campaign_keywords" id="text_campaign_keywords"></textarea><br />
+		  </div>
+      </div>
+      <input type="checkbox" class="content-reveal" data-content="email_content"> E-mail Campaign<br/>
+      <div class="form-subsection hidden" id="email_content">
+	      <h3>RMPBS E-News</h3>
+		  <input type="checkbox" name="digital_enews_banner" id="digital_enews_banner">RMPBS E-news Banner<br/>
+		  <input type="checkbox" name="digital_enews_piece" id="digital_enews_piece" class="content-reveal" data-content="enews">RMPBS E-news Piece<br/>
+		  <div id="enews" class="hidden">
+          <label for="text_enews_dates">Requested Dates:</label><br/>
+          <textarea name="text_enews_dates" id="text_enews_dates"></textarea><br />
+		  </div>
+		  <input type="checkbox" name="digital_eblast" id="digital_eblast" class="content-reveal" data-content="eblast">RMPBS Dedicated E-blast <br/>
+		  <div id="eblast" class="hidden">
+          <label for="text_eblast_dates">Requested Dates:</label><br/>
+          <textarea name="text_eblast_dates" id="text_eblast_dates"></textarea><br />
+		  </div>
+
+	      <h3>KUVO E-Newsletter</h3>
+		  <input type="checkbox" name="digital_kuvo_ad" id="digital_kuvo_ad">KUVO E-newsletter Ad<br/>
+		  <input type="checkbox" name="digital_kuvo_banner" id="digital_kuvo_banner">KUVO E-newsletter Banner<br/>
+		  <input type="checkbox" name="digital_kuvo_piece" id="digital_kuvo_piece" class="content-reveal" data-content="kuvo_piece">KUVO E-newsletter Content<br/>
+		  <div id="kuvo_piece" class="hidden">
+          <label for="digital_kuvo_piece_dates">Requested Dates:</label><br/>
+          <textarea name="digital_kuvo_piece_dates" id="digital_kuvo_piece_dates"></textarea><br />
+		  </div>
+
+      </div>
+      Is digital content written? <input type="radio" id="digital_content_written" name="digital_content_written" value="yes" class="content-hide" data-content="digital_content_writer_span"> Yes <input type="radio" id="digital_content_written" name="digital_content_written" value="no" class="content-reveal" data-content="digital_content_writer_span"> No <span id="digital_content_writer_span" class="hidden">Who will write content? <input type="text" name="digital_content_writer" id="digital_content_writer"></span><br/>
+          <input type="checkbox" class="content-reveal" data-content="digital_video_provider" name="digital_video_check"> Video requested <input type="text" class="hidden" name="digital_video_provider" id="digital_video_provider" value="Video Provider" data-default="Video Provider"><br />
+          <input type="checkbox" class="content-reveal" data-content="digital_photo_provider" name="digital_photo_check"> Photography requested <input type="text" class="hidden" name="digital_photo_provider" id="digital_photo_provider" value="Photography Provider" data-default="Photography Provider"><br />
+      <label for="digital_comments">Additional Requests:</label><br/>
+      <textarea name="digital_comments" id="digital_comments"></textarea><br /> 
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="print_info" class="form-section">
+  <h2>Print Requirements</h2>
+    <div class="form-subsection">
+	    <h3>Formats</h3>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="flyer" id="print_flyer"> Flyer</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="poster" id="print_poster"> Poster</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="invitation" id="print_invitation"> Invitation</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="advertisement" id="print_advertisement"> Advertisement</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="postcard" id="print_postcard"> Postcard</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="one sheet" id="print_onesheet"> One Sheet</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="banner" id="print_banner"> Banner</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="sales sheet" id="print_salesheet"> Sales Sheet</span>
+	    <span class="check-grid"><input type="checkbox" name="print_format" value="program" id="print_program"> Program</span><br/>
+        <input type="checkbox" class="content-reveal" name="print_format" value="signage" id="print_signage" data-content="print_signage_text"> Signage <input type="text" class="hidden" name="print_signage_text" id="print_signage_text" value="Specify Signage Needs" data-default="Specify Signage Needs"><br />
+        <input type="checkbox" class="content-reveal" name="print_format" value="press release" id="print_pressrelease" data-content="print_pressrelease_text"> Press Release <input type="text" class="hidden" name="print_pressrelease_text" id="print_pressrelease_text" value="Target Media" data-default="Target Media"><br />
+        <input type="checkbox" class="content-reveal" name="print_format" value="other" id="print_other" data-content="print_other_text"> Other: <input type="text" class="hidden" name"print_other_text" id="print_other_text"><br />
+    </div>
+    <div class="form-subsection">
+	    <h3>Logistics</h3>
+	    First Draft Due: <input type="text" name="print_first_draft_due" id="print_first_draft_due" class="datepicker"> Final Draft Due: <input type="text" name="print_final_draft_due" id="print_final_draft_due" class="datepicker"><br/>
+      Is print content written? <input type="radio" id="print_content_written" name="print_content_written" value="yes" class="content-hide" data-content="print_content_writer_span"> Yes <input type="radio" id="print_content_written" name="print_content_written" value="no" class="content-reveal" data-content="print_content_writer_span"> No <span id="print_content_writer_span" class="hidden">Who will write content? <input type="text" name="print_content_writer" id="print_content_writer"></span><br/>
+      	<h4>Printing</h4><br/>
+		<input type="radio" id="print_printer" name="print_printer" value="in_house"> Will print internally<br/>
+		<input type="radio" id="print_printer" name="print_printer" value="outsource"> Need Marketing to coordinate printing<br/>
+    </div>
+    <label for="print_comments">Additional Information:</label><br/>
+    <textarea name="print_comments" id="print_comments"></textarea><br /> 
+    
+    UPLOADER HERE "Additional Logos"?
+
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="radio_info" class="form-section">
+  <h2>Radio Requirements</h2>
+    Event description as related to KUVO<br/>
+    <textarea id="radio_description"></textarea><br /> 
+    <div class="form-subsection">
+	    <h3>Radio Requests</h3>
+        <input type="checkbox" class="content-reveal" id="radio_interview" name="radio_interview" data-content="radio_int_date"> Interview <span id="radio_int_date" class="hidden">Requested Date:<input type="text" class="datepicker" id="radio_interview_date" name="radio_interview_date"></span><br />
+        <input type="checkbox" class="content-reveal" id="radio_promo_spot" data-content="radio_promo_length"> Promotional Spot <span id="radio_promo_len" class="hidden">Requested Length:<input type="text" id="radio_promo_length"></span><br />
+      Is script written? <input type="radio" id="radio_script_written" name="radio_script_written" value="yes" class="content-hide" data-content="radio_script_writer_span"> Yes <input type="radio" id="radio_script_written" name="radio_script_written" value="no" class="content-reveal" data-content="radio_script_writer_span"> No <span id="radio_script_writer_span" class="hidden">Who will write content? <input type="text" id="radio_script_writer" name="radio_script_writer"></span><br/>
+	    
+    </div>
+    <div class="form-subsection">
+      <h3>Traffic Requests</h3>
+      <label for="radio_due_date">Requested Air / Due Date: </label><input type="text" id="radio_due_date" name="radio_due_date" class="datepicker"><br/> 
+      <label for="radio_air_date">Air Date: </label><input type="text" id="radio_air_date" name="radio_air_date" class="datepicker"><br/> 
+      <label for="radio_kill_date">Kill Date: </label><input type="text" id="radio_kill_date" name="radio_kill_date" class="datepicker"> <br/>
+      <label for="radio_kill_date">Requested Frequency: </label><input type="text" id="radio_frequency"> 
+    </div>
+
+    <input type="button" class="next-button" value="Next >"/>
+  </div>
+  <div id="submit_info" class="form-section">
+  <h2>Submit Your Request</h2>
+    <p>You're all done! If you need to make changes to this submission, you can 
+    revisit the tabs above, otherwise, click "Submit" and we'll send this along 
+    to the appropriate parties.</p>
+    <input type="button" class="submit" id="submit" value="Submit"/>
+  </div>
+
+</div>
+</form>

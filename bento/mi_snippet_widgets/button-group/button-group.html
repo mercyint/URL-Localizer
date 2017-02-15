@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Sandbox | story-grid.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="button-group.js"></script>
+<link rel="stylesheet" href="button-group.css">
+<link rel="stylesheet" href="http://raceincolorado.lunchbox.pbs.org/s/libs/ace/css/ace.min.css">
+</head>
+<body>
+<script>
+$('document').ready(function(){
+	group_fieldName = new ButtonGroup('group_fieldName');
+//	group_fieldName.buildGroup();
+      group_fieldName.buildGroup('{"buttons":{"button100":{"pub_div":"single-button-admin","type":"test","id":"button100","settings":{"label":"TEst 1","url":"#","style":"primary","size":"sm","target":true},"parent":"group_fieldName"},"button101":{"pub_div":"single-button-admin","type":"test","id":"button101","settings":{"label":"test 2","url":"#"},"parent":"group_fieldName"}},"id":"group_fieldName","settings":{"pub_div":"button-group-admin","display":"group"}}');
+
+
+	group_fieldName.renderGroup('button-group-admin');
+	console.log(group_fieldName);
+	
+//	singleVid = new Video('singleVid');
+//	singleVid.renderAdmin();
+	
+});
+
+</script>
+
+
+
+<tr>
+	<input type="hidden" value="" id="var_group_fieldName">
+<!--    <input type="hidden" value="" id="var_grid_fieldName"/> -->
+	<div id="button-group-admin">
+	</div>
+</tr>
+
+
+</body>
+</html>

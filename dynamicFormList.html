@@ -1,0 +1,173 @@
+<html>
+<head>
+<title>Sandbox | dynamicFormList.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script>
+var print_count = 0;
+var print_requests = [];    
+    $('document').ready(function(){
+    	$('#print_format').on('change',function(){
+            var data_points = $("#print_format option:selected").data('data-points');
+            var target = $('#more_data');
+            var labels = {};
+            labels["pub"] = "Publication";
+            labels["qty"] = "Quantity";
+            labels["size"] = "Size";
+            labels["due"] = "Deadline";
+            target.empty();
+            if(data_points){
+                var points = data_points.split(" ");
+                for(var i = 0 ; i < points.length; i++){
+                    var point = points[i];
+                	
+                	if(point == "offline"){
+                    	target.append('Concept and design will be discussed offline in creative services meeting');
+                	}else{
+                        var label = $('<label/>').attr({
+                            'for':point
+                        }).text(labels[point]+':');
+                        var input = $('<input />').attr({
+                            'id':point
+                        });
+                    target.append(label);
+                    target.append(input);
+                	}
+                }
+                
+            }
+    	});
+    });
+
+    function addPrintRequest(){
+        
+    	var data_div = $('#print_request_form');
+    	var p_request = {};
+    	p_request["id"] = 'pr_'+print_count;
+    	p_request["format"] = $("#print_format option:selected").text();
+    	
+    	if(p_request["format"] != "Choose Print Format"){
+    	
+        	var data_points = $('#more_data > input').each(function(){
+            	p_request[$(this).attr('id')] = $(this).val();
+        	});
+        	
+        	
+        	print_requests.push(p_request);
+        	
+        	print_count++;
+        	
+        	
+        	updatePRList();
+        	resetPRForm();
+    	}
+    }
+    
+    function updatePRList(){
+    	$('#print_requests').val(JSON.stringify(print_requests));
+        var list = $('#print_request_list');
+        list.empty();
+        for(var i = 0 ; i < print_requests.length; i++){
+            var li = $('<li/>').attr({
+                'id':print_requests[i]["id"]
+            });
+            
+            var del = $('<i/>').attr({
+                'data-delete':print_requests[i]["id"],
+                'class':'fa fa-minus-circle'
+            }).on('click',deletePR);
+            
+            li.append(del);
+            
+            var format = $('<span/>').text(print_requests[i]["format"]);
+            if(print_requests[i]["pub"]){
+                var span = $('<span/>').text(print_requests[i]["pub"]);
+                format.append(span);
+            }
+            li.append(format);
+
+            if(print_requests[i]["size"]){
+                var span = $('<span/>').text(print_requests[i]["size"]);
+                li.append(span);
+            }
+            if(print_requests[i]["qty"]){
+                var span = $('<span/>').text(print_requests[i]["qty"]);
+                li.append(span);
+            }
+            if(print_requests[i]["due"]){
+                var span = $('<span/>').text(print_requests[i]["due"]);
+                li.append(span);
+            }
+        list.append(li);	
+        }
+        
+        
+    }
+    
+    function deletePR(e){
+        console.log("DELETE!")
+        var target = e.target.dataset.delete;
+        
+        for(var i = 0 ; i < print_requests.length; i++){
+            console.log(print_requests[i]["id"]);
+            console.log(target);
+        	if(print_requests[i]["id"] == target){
+            	print_requests.splice(i, 1);
+        	}
+        	updatePRList();
+        }
+    }
+
+    function resetPRForm(){
+        $('#more_data').empty();
+        $("select#print_format").val('Choose Print Format');
+        
+    }
+    
+</script>
+
+<style>
+    #print_request_list > li {
+        list-style: none;
+    }
+    #print_request_list > li > span{
+        width:9em;
+        display:inline-block;
+        padding-left:1em;
+    }
+    #print_request_list > li > i{
+        color:#999;
+    }
+    #print_request_list > li > i:hover{
+        color:#900;
+        cursor: hand;
+    }
+</style>
+
+</head>
+<body>
+    <input type="hidden" id="print_requests">
+    <ul id="print_request_list" name="print_request_list">
+    </ul>
+    <div id="print_request_form">
+        <select id="print_format" name="print_format">
+            <option>Choose Print Format</option>
+            <option data-data-points="pub size qty due">Advertisement</option>
+            <option data-data-points="offline">Banner</option>
+            <option data-data-points="size qty due">Flyer</option>
+            <option>Invitation</option>
+            <option>One Sheet</option>
+            <option data-data-points="size qty due">Postcard</option>
+            <option data-data-points="size qty due">Poster</option>
+            <option>Press Release</option>
+            <option>Program</option>
+            <option>Sales Sheet</option>
+            <option data-data-points="offline">Signage</option>
+        </select>
+        <div id="more_data"></div>
+        <input type="button" value="Add" onclick="addPrintRequest()">
+    </div>
+    
+</body>
+</html>

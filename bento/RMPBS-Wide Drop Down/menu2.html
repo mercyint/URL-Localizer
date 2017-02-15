@@ -1,0 +1,310 @@
+<html>
+<head>
+<title>Sandbox | menu2.html</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<style>
+	/*test styles*/
+#header{
+	width:960px;
+	margin:auto;
+	background:#aaa;
+}
+/*end test styles*/
+	 #mobile-menu{
+		 margin: 0;
+		 padding:0;
+		 width:100%;
+		 position: fixed;
+		 top:5.1em;
+		 z-index: 9999;
+		 max-height:53%;
+		 overflow: scroll;
+	 }
+	 #mobile-menu > ul.menu,
+	 #mobile-menu > ul.menu > li > ul,
+	 #mobile-menu > ul.menu > li > div,
+	 .mobile-menu-button{
+		 display:none;
+	 }
+	 
+	 .menu li ul li > a,
+	 .menu li > a{
+		 text-decoration: none;
+		 color:#666;
+		-webkit-transition: color 0.2s;
+		-moz-transition: color 0.2s;
+		-ms-transition: color 0.2s;
+		-o-transition: color 0.2s;
+		transition: color 0.2s;
+	 }
+	 .menu li ul li:hover > a,
+	 .menu li:hover > a,
+	 .menu li ul li > a:hover,
+	 .menu li > a:hover{
+		 color:#000;
+	 }
+	 
+	 ul.menu{
+		 margin:0;
+	 } 
+	 ul.menu > li {
+		 display: inline-block;
+		 position:relative;
+		-webkit-transition: background 0.2s;
+		-moz-transition: background 0.2s;
+		-ms-transition: background 0.2s;
+		-o-transition: background 0.2s;
+		transition: background 0.2s;
+	 }
+	 ul.menu > li > a{
+		 margin:.5em 1em;
+		 display:block;
+		 }
+	 #header-menu > ul.menu > li:hover {
+	 	background:rgba(255,255,255,.7);
+	 } 
+	 #header-menu > ul.menu > li > div,
+	 #header-menu > ul.menu > li > ul {
+	   	background:rgba(255,255,255,.7);
+		 display:none;
+		 position:absolute;
+		 top:2.25em;
+		 left:0;
+		 min-width:200px;
+		 z-index: 9999;
+		 opacity:0;
+		 margin:0;
+		 padding:0;
+		-webkit-transition: opacity 0.2s;
+		-moz-transition: opacity 0.2s;
+		-ms-transition: opacity 0.2s;
+		-o-transition: opacity 0.2s;
+		transition: opacity 0.2s;
+	}
+	#header-menu > ul.menu > li > div:hover,
+	#header-menu > ul.menu > li:hover > div,
+	#header-menu > ul.menu > li > ul:hover,
+	#header-menu > ul.menu > li:hover > ul {
+		display:block;
+		opacity:1;
+	}
+	ul.menu > li > ul > li{
+		display:block;
+		padding:.25em .25em .25em 2em;
+		color:#666;
+	}
+	.wide-sub{
+		display:table-row !important;
+		border:1px solid black;
+	}
+	.wide-sub-col{
+		display:table-cell !important;
+		margin:0;
+		padding:.5em;
+		white-space: nowrap;
+		list-style: none;
+	}
+
+@media screen and (max-width: 800px) {
+	#header-menu{
+		float:none;
+	}
+	ul.menu{
+	  display:none;
+	  background:#666;
+	  color:#fff;
+	  width:auto;
+  	}
+  .mobile-menu-button{
+	  display:block;
+	  padding:.5em 2em;
+	  cursor: hand;
+	  float:right;
+  }
+  .mobile-menu-button:hover{
+	  background:#fff;
+  }
+
+  #mobile-menu > ul.menu,
+  ul.menu{
+	 display:block;
+	 float:none;
+	 clear:both;
+	 height:0px;
+	 overflow: hidden;
+	 margin:0;
+	 padding:0;
+
+  }
+ 
+ .wide-sub-col{
+	 display:block;
+  }
+
+  div.wide-sub.open,
+  ul.wide-sub.open,
+  ul.sub-menu.open,
+  ul.menu.open {
+	  height:auto !important;
+	  display:block !important;
+  }
+  ul.menu > li {
+	  display:block;
+  }
+  div.wide-sub,
+  ul.wide-sub,
+  ul.sub-menu {
+	  display:block;
+	  height:0px;
+	  overflow: hidden;
+	  border-bottom:1px #777 solid;
+	  border-top:1px #777 solid;
+	  background:#555;
+	  padding:0;
+  }
+  .caret:after {
+	  content: '\\\/';
+	  border-left: 1px solid #fff;
+	  float:right;
+	  padding-left:.5em;
+  }
+  .menu li ul li > a,
+  .menu li > a{
+	 color:#FFF;
+   }
+ .menu li ul li:hover > a,
+ .menu li:hover > a,
+ .menu li ul li > a:hover,
+ .menu li > a:hover{
+	 color:#000;
+ }
+ .text{
+	 padding:4em;
+ }
+
+}
+
+}
+
+
+</style>
+
+
+<script>
+	$('document').ready(function(){
+		$('.mobile-menu-button').click(function(e){
+			if($('#mobile-menu > ul.menu').hasClass('open')){
+				$('#mobile-menu > ul.menu').removeClass('open');  
+	  		}else{
+	  			$('#mobile-menu > ul.menu').addClass('open');  
+	  		}
+	  	});
+		
+		$('.caret').click(function(e){
+			var sub = $(this).parent().parent().children('.sub-menu');
+			if(sub.hasClass('open')){
+				sub.removeClass('open');
+			}else{
+		    	sub.addClass('open');
+	    	}
+		});     
+
+	});
+	
+</script>
+</head>
+<body>
+	
+
+		<div id="header" class="menu sticky">
+			<div class="mobile-menu-button">E</div>
+			<div id="header-menu">
+				<ul class="menu">
+					<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+						<ul class="sub-menu">
+							<li><a>Subsection 1</a><span class="caret"></span></li>
+							<li>Subsection 2<span class="caret"></span></li>
+							<li>Subsection 3</li>
+						</ul>
+					</li>
+					<li><a href="#section2">Section 2<span class="caret"></span></a>
+						<div class="wide-sub">
+							<ul class="wide-sub-col">
+								<li>Suboption 1</li>
+								<li>Suboption 2</li>
+								<li>Suboption 3</li>
+							</ul>
+							<ul class="wide-sub-col">
+								<li>Suboption 1</li>
+								<li>Suboption 2</li>
+								<li>Suboption 3</li>
+							</ul>
+							<div class="wide-sub-col">
+								Random HTML could go here.
+							</div>
+						</div>
+						</li>
+					<li><a href="#section3">Section 3<span class="caret"></span></a>
+						<ul class="wide-sub">
+							<li class="wide-sub-col"><a href="#">Subsection 1<span class="caret"></span></a>
+							   <ul>
+								   <li>Topic 1</li>
+								   <li>Topic 2</li>
+								   <li>Topic 3</li>
+							   </ul>
+							</li>
+							<li class="wide-sub-col"><a href="#">Subsection 2<span class="caret"></span></a>
+							   <ul>
+								   <li>Topic 1</li>
+								   <li>Topic 2</li>
+								   <li>Topic 3</li>
+							   </ul>
+							</li>
+							<li class="wide-sub-col"><a href="#">Subsection 3<span class="caret"></span></a>
+							   <ul>
+								   <li>Topic 1</li>
+								   <li>Topic 2</li>
+								   <li>Topic 3</li>
+							   </ul>
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div id="mobile-menu">
+			<ul class="menu">
+				<li><a href="#section1" class="fbcurrent">Section 1<span class="caret"></span></a>
+					<ul class="sub-menu">
+						<li><a>Subsection 1</a></li>
+						<li>Subsection 2</li>
+						<li>Subsection 3</li>
+					</ul>
+				</li>
+				<li><a href="#section2">Section 2<span class="caret"></span></a>
+					<div class="sub-menu wide-sub">
+						<ul class="wide-sub-col">
+							<li>Suboption 1</li>
+							<li>Suboption 2</li>
+							<li>Suboption 3</li>
+						</ul>
+						<ul class="wide-sub-col">
+							<li>Suboption 1</li>
+							<li>Suboption 2</li>
+							<li>Suboption 3</li>
+						</ul>
+						<div class="wide-sub-col">
+							Random HTML could go here.
+						</div>
+					</div>
+				</li>
+				<li><a href="#section3">Section 3</a></li>
+
+			</ul>
+		</div>
+
+		
+	
+</body>
+</html>
